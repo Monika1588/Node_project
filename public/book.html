@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Book Appointment</title>
+<style>
+  body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: #eef2ff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+
+  .container {
+    background: white;
+    padding: 40px 35px;
+    border-radius: 20px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+    width: 100%;
+    max-width: 450px;
+    position: relative;
+    animation: fadeInUp 0.8s ease;
+  }
+
+  h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 28px;
+    color: #333;
+  }
+
+  p a {
+    text-decoration: none;
+    color: #2575fc;
+    font-weight: 600;
+    margin-bottom: 20px;
+    display: inline-block;
+  }
+
+  label {
+    font-weight: 600;
+    margin-top: 10px;
+    display: block;
+    color: #555;
+  }
+
+  #docName {
+    font-weight: bold;
+    color: #2575fc;
+  }
+
+  input, textarea {
+    width: 100%;
+    padding: 12px 15px;
+    margin-top: 8px;
+    border-radius: 12px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+    transition: 0.3s;
+    outline: none;
+  }
+
+  input:focus, textarea:focus {
+    border-color: #2575fc;
+    box-shadow: 0 0 8px rgba(37,117,252,0.3);
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+
+  button {
+    width: 100%;
+    padding: 14px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 15px;
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(37,117,252,0.4);
+  }
+
+  #msg {
+    margin-top: 15px;
+    text-align: center;
+    font-weight: 600;
+    color: #dc3545;
+  }
+
+  /* Floating doctor icon */
+  .doctor-icon {
+    position: absolute;
+    top: -40px;
+    right: -40px;
+    width: 100px;
+    height: 100px;
+    background: url('https://cdn-icons-png.flaticon.com/512/387/387561.png') no-repeat center/contain;
+    opacity: 0.15;
+    transform: rotate(-15deg);
+  }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="doctor-icon"></div>
+
+  <h2>📅 Book Appointment</h2>
+  <p><a href="/patient-dashboard.html">← Back to Dashboard</a></p>
+
+  <form id="bookForm">
+    <label>Doctor: <span id="docName"></span></label>
+    <input type="date" name="date" required>
+    <input type="time" name="time" required>
+    <textarea name="reason" placeholder="Reason (optional)"></textarea>
+    <button type="submit">Request Appointment</button>
+  </form>
+
+  <div id="msg"></div>
+</div>
+
+<script>
+const docId = localStorage.getItem('book_doctorId');
+const docName = localStorage.getItem('book_doctorName');
+document.getElementById('docName').innerText = docName || 'Please select from dashboard';
+
+document.getElementById('bookForm').onsubmit = async e => {
+  e.preventDefault();
+  if (!docId) { 
+    document.getElementById('msg').innerText = 'No doctor selected'; 
+    return; 
+  }
+  const fd = new FormData(e.target);
+  const body = Object.fromEntries(fd.entries());
+  body.doctorId = docId;
+
+  const res = await fetch('/api/appointments', { 
+    method:'POST', 
+    headers:{ 'Content-Type':'application/json'}, 
+    body: JSON.stringify(body) 
+  });
+
+  const js = await res.json();
+  document.getElementById('msg').innerText = js.message || JSON.stringify(js);
+  if (res.ok) window.location.href = '/history.html';
+};
+</script>
+
+</body>
+</html>

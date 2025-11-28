@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>My Profile</title>
+
+<style>
+    body {
+        font-family: Poppins, sans-serif;
+        background: linear-gradient(135deg, #6a11cb, #2575fc);
+        height: 100vh;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .card {
+        width: 420px;
+        padding: 30px;
+        background: rgba(255,255,255,0.15);
+        border-radius: 20px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        backdrop-filter: blur(12px);
+        color: white;
+        animation: fadeIn 0.8s ease;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        font-weight: 600;
+    }
+
+    input, select {
+        width: 100%;
+        padding: 12px;
+        margin: 10px 0;
+        border-radius: 10px;
+        border: none;
+        outline: none;
+        font-size: 14px;
+    }
+
+    button {
+        width: 100%;
+        padding: 12px;
+        margin-top: 15px;
+        background: #00ff9d;
+        border: none;
+        color: #222;
+        font-size: 16px;
+        border-radius: 10px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: 0.3s;
+    }
+
+    button:hover {
+        background: #00e68c;
+        transform: translateY(-2px);
+    }
+
+    #msg {
+        margin-top: 15px;
+        text-align: center;
+        font-size: 15px;
+        font-weight: bold;
+        display: none;
+    }
+
+    .success { color: #00ff9d; }
+    .error { color: #ff4d4d; }
+</style>
+</head>
+
+<body>
+
+<div class="card">
+    <h2>My Profile</h2>
+
+    <form id="profileForm">
+
+        <input type="text" name="name" placeholder="Full Name" required>
+        <input type="email" name="email" placeholder="Email" required>
+
+        <input type="text" name="phone" placeholder="Phone Number">
+        <input type="number" name="age" placeholder="Age">
+
+        <select name="gender">
+            <option value="">Select Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+        </select>
+
+        <input type="text" name="specialization" placeholder="Specialization (Doctors Only)">
+
+        <h3 style="margin-top:15px; font-size:16px;">Change Password</h3>
+
+        <input type="password" name="oldPassword" placeholder="Old Password">
+        <input type="password" name="newPassword" placeholder="New Password">
+        <input type="password" name="confirmPassword" placeholder="Confirm New Password">
+
+        <button type="submit">Update Profile</button>
+    </form>
+
+    <div id="msg"></div>
+</div>
+
+
+<!-- JS Code -->
+<script>
+// Load profile data
+async function loadProfile() {
+    const res = await fetch('/api/profile/me');
+    const js = await res.json();
+
+    if (!js.user) return;
+
+    const f = document.getElementById('profileForm');
+
+    f.name.value = js.user.name || '';
+    f.email.value = js.user.email || '';
+    f.phone.value = js.user.phone || '';
+    f.specialization.value = js.user.specialization || '';
+    f.age.value = js.user.age || '';
+    f.gender.value = js.user.gender || '';
+}
+loadProfile();
+
+// Submit form
+document.getElementById('profileForm').onsubmit = async e => {
+    e.preventDefault();
+
+    const f = e.target;
+    const formData = new FormData(f);
+    const body = Object.fromEntries(formData.entries());
+
+    // Password validation
+    if (body.newPassword || body.confirmPassword || body.oldPassword) {
+
+        if (!body.oldPassword) {
+            return showMsg("Please enter old password!", false);
+        }
+
+        if (!body.newPassword || !body.confirmPassword) {
+            return showMsg("Please enter new password & confirm it!", false);
+        }
+
+        if (body.newPassword !== body.confirmPassword) {
+            return showMsg("New password & confirm password do not match!", false);
+        }
+    }
+
+    const res = await fetch('/api/profile/update', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+    });
+
+    const js = await res.json();
+
+    if (js.success) {
+        showMsg("✔ Profile Updated Successfully!", true);
+    } else {
+        showMsg("✖ " + js.message, false);
+    }
+};
+
+function showMsg(text, success) {
+    const msg = document.getElementById('msg');
+    msg.style.display = "block";
+    msg.className = success ? "success" : "error";
+    msg.innerText = text;
+
+    setTimeout(() => msg.style.display = "none", 2500);
+}
+</script>
+
+</body>
+</html>

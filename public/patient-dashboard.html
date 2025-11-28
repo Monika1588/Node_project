@@ -1,0 +1,537 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Patient Dashboard</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+/* ----------------------------------------
+   BEAUTIFUL ANIMATED DASHBOARD THEME
+-----------------------------------------*/
+:root{
+  --accent: #2575fc;
+  --accent2: #6a11cb;
+  --bg: #eef3ff;
+  --card: #ffffff;
+  --muted: #6b7280;
+  --sidebar: #1e2a47;
+}
+
+/* smooth transitions everywhere */
+*{
+  box-sizing:border-box;
+  transition: all 0.25s ease;
+}
+
+body{
+  margin:0;
+  font-family:"Poppins",sans-serif;
+  color:#111827;
+
+  /* 🔥 ANIMATED GRADIENT BACKGROUND */
+  background: linear-gradient(-45deg, #e3ebff, #d4e2ff, #eaf1ff, #cddaff);
+  background-size: 400% 400%;
+  animation: gradientMove 15s infinite ease alternate;
+}
+
+@keyframes gradientMove{
+  0%{ background-position: 0% 50%; }
+  100%{ background-position: 100% 50%; }
+}
+
+.wrapper{
+  display:flex;
+  min-height:100vh;
+
+  /* fade in page */
+  animation: fadeIn 0.8s ease;
+}
+@keyframes fadeIn{
+  from{opacity:0; transform:translateY(10px);}
+  to{opacity:1; transform:translateY(0);}
+}
+
+/* ----------------------------------------
+   SIDEBAR + ANIMATION
+-----------------------------------------*/
+.sidebar{
+  width:240px;
+  background:var(--sidebar);
+  color:white;
+  padding:22px;
+  position:fixed;
+  top:0; left:0; bottom:0;
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+  box-shadow:4px 0 18px rgba(0,0,0,0.12);
+
+  /* 🔥 slide-in effect */
+  transform: translateX(-50px);
+  opacity:0;
+  animation: sidebarSlide 0.9s ease forwards;
+}
+
+@keyframes sidebarSlide{
+  from{ opacity:0; transform:translateX(-50px); }
+  to{ opacity:1; transform:translateX(0); }
+}
+
+.brand{
+  font-size:22px;
+  font-weight:600;
+  text-align:center;
+  margin-bottom:8px;
+  letter-spacing: 0.5px;
+}
+
+.profile{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:8px;
+  padding:12px;
+  border-radius:10px;
+  background:rgba(255,255,255,0.05);
+
+  /* subtle pop animation */
+  animation: popIn 0.8s ease forwards;
+}
+@keyframes popIn{
+  from{ transform: scale(0.95); opacity:0; }
+  to{ transform: scale(1); opacity:1; }
+}
+
+.profile img{
+  width:72px;height:72px;
+  border-radius:50%;
+  object-fit:cover;
+  border:2px solid rgba(255,255,255,0.12);
+  transition: transform .3s;
+}
+
+.profile img:hover{
+  transform: scale(1.07);
+}
+
+/* ----------------------------------------
+   NAV
+-----------------------------------------*/
+.nav{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  margin-top:6px;
+}
+
+.nav a{
+  color:white;
+  text-decoration:none;
+  padding:10px;
+  border-radius:8px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-weight:500;
+  background:transparent;
+  transition:0.3s;
+  position:relative;
+}
+
+.nav a:hover{
+  background:rgba(255,255,255,0.1);
+  transform:translateX(8px);
+}
+
+.logoutBtn{
+  margin-top:auto;
+  background:#ff4b5c;
+  border:none;
+  color:white;
+  padding:10px;
+  border-radius:8px;
+  cursor:pointer;
+  font-weight:600;
+}
+.logoutBtn:hover{
+  filter:brightness(.92);
+  transform:scale(1.03);
+}
+
+/* ----------------------------------------
+   MAIN CONTENT
+-----------------------------------------*/
+.content{
+  margin-left:260px;
+  padding:28px;
+  flex:1;
+}
+
+.welcome{
+  background:var(--card);
+  padding:22px;
+  border-radius:14px;
+  box-shadow:0 8px 20px rgba(2,6,23,0.08);
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+
+  /* fade-in from top */
+  animation: fadeDown 0.8s ease;
+}
+@keyframes fadeDown{
+  from{opacity:0; transform:translateY(-15px);}
+  to{opacity:1; transform:translateY(0);}
+}
+
+/* ----------------------------------------
+   FILTER BAR
+-----------------------------------------*/
+.filters{
+  display:flex;
+  gap:12px;
+  margin-top:18px;
+  flex-wrap:wrap;
+
+  animation: fadeIn 1s ease;
+}
+
+.filters input,
+.filters select{
+  padding:10px 12px;
+  border-radius:10px;
+  border:1px solid #d1d5db;
+  background:white;
+  font-size:14px;
+  min-width:160px;
+
+  /* glowing focus */
+  outline:none;
+}
+.filters input:focus,
+.filters select:focus{
+  border-color:var(--accent);
+  box-shadow:0 0 8px rgba(37,117,252,0.4);
+}
+
+/* ----------------------------------------
+   DOCTOR CARDS
+-----------------------------------------*/
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:16px;
+  margin-top:20px;
+
+  animation: fadeIn 1.2s ease;
+}
+
+.card{
+  background:var(--card);
+  padding:18px;
+  border-radius:12px;
+  box-shadow:0 8px 18px rgba(2,6,23,0.06);
+  text-align:center;
+
+  /* hover animation */
+  transition: transform .25s, box-shadow .25s;
+}
+
+.card:hover{
+  transform:translateY(-6px) scale(1.02);
+  box-shadow:0 10px 24px rgba(2,6,23,0.12);
+}
+
+.card img{
+  width:84px; height:84px;
+  border-radius:50%;
+  object-fit:cover;
+  border:3px solid var(--accent);
+  transition: transform .3s;
+}
+
+.card img:hover{
+  transform: scale(1.08) rotate(2deg);
+}
+
+.card button{
+  margin-top:12px;
+  background:var(--accent);
+  color:white;
+  padding:8px 12px;
+  border-radius:8px;
+  border:none;
+  cursor:pointer;
+  font-weight:600;
+  transition:0.3s;
+}
+
+.card button:hover{
+  background:#1b5ed1;
+  transform:scale(1.05);
+}
+
+.center{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:30px;
+  color:var(--muted);
+}
+
+/* MOBILE */
+@media (max-width:800px){
+  .sidebar{display:none;}
+  .content{margin-left:0;padding:16px;}
+}
+
+
+</style>
+</head>
+<body>
+
+<div class="wrapper">
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">🏥 HealthCare+</div>
+
+    <div class="profile">
+      <img id="userPhoto" src="https://cdn-icons-png.flaticon.com/512/147/147144.png" alt="user">
+      <h4 id="userName">Loading...</h4>
+      <p id="userEmail">—</p>
+    </div>
+
+    <nav class="nav">
+      <a href="/patient.html">Dashboard</a>
+      <a href="/book.html">📅 Book Appointment</a>
+      <a href="/history.html">📝 My Appointments</a>
+      <a href="/profile.html">👤 My Profile</a>
+    </nav>
+
+    <button class="logoutBtn" id="logoutBtn">🚪 Logout</button>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="content">
+    <div class="welcome">
+      <div class="left">
+        <h2 id="welcomeText">Welcome, Patient 👋</h2>
+        <p id="welcomeSub">Your dashboard for appointments & health services.</p>
+      </div>
+      <div class="right note" id="statusNote"></div>
+    </div>
+
+    <!-- filters -->
+    <div class="filters" style="margin-top:16px">
+      <input id="searchName" type="text" placeholder="Search doctor by name">
+      <select id="filterSpecialization"><option value="">All Specializations</option></select>
+      <select id="filterSlot"><option value="">Any Slot</option><option value="morning">Morning</option><option value="afternoon">Afternoon</option><option value="evening">Evening</option></select>
+      <input id="searchSymptom" type="text" placeholder="Symptom (e.g., fever)">
+    </div>
+
+    <!-- doctors -->
+    <h3 style="margin-top:18px">Available Doctors</h3>
+    <div id="doctorGrid" class="grid"></div>
+    <div id="emptyMsg" class="center" style="display:none">No doctors found.</div>
+
+  </main>
+</div>
+
+<script>
+/*
+  Key fixes in this file:
+  - All fetch calls use credentials: 'include'
+  - /api/auth/me used to populate sidebar
+  - Symptom filter handles arrays and comma/semicolon strings robustly
+  - Specialization dropdown is cleared and populated safely
+  - If not authenticated, user redirected to /login.html
+*/
+
+const doctorGrid = document.getElementById('doctorGrid');
+const emptyMsg = document.getElementById('emptyMsg');
+let doctorsData = [];
+
+/* --- Load session user --- */
+async function loadUser(){
+  try{
+    const res = await fetch('/api/auth/me', { credentials: 'include' });
+    if (!res.ok) {
+      // not authenticated -> redirect to login
+      window.location.href = '/login.html';
+      return;
+    }
+    const js = await res.json();
+    const user = js.user;
+    if (user) {
+      document.getElementById('userName').innerText = user.name || 'Patient';
+      document.getElementById('userEmail').innerText = user.email || '';
+      document.getElementById('welcomeText').innerText = `Welcome, ${user.name || 'Patient'} 👋`;
+      if (user.photo) document.getElementById('userPhoto').src = user.photo;
+    }
+  } catch(err){
+    console.error('loadUser error', err);
+    window.location.href = '/login.html';
+  }
+}
+
+/* --- Load doctors list --- */
+async function loadDoctors(){
+  try{
+    const res = await fetch('/api/appointments/doctors', { credentials: 'include' });
+    if (!res.ok) {
+      document.getElementById('statusNote').innerText = 'Error loading doctors (not authenticated?)';
+      return;
+    }
+    const js = await res.json();
+    doctorsData = js.doctors || [];
+    populateSpecializations();
+    renderDoctors(doctorsData);
+  } catch(err){
+    console.error('loadDoctors error', err);
+    document.getElementById('statusNote').innerText = 'Failed to load doctors.';
+  }
+}
+
+/* --- Populate specialization select (clear first) --- */
+function populateSpecializations(){
+  const select = document.getElementById('filterSpecialization');
+  // clear existing (keep first default)
+  select.innerHTML = '<option value="">All Specializations</option>';
+  const specs = doctorsData
+    .map(d => d.specialization)
+    .filter(Boolean)
+    .map(s => s.trim())
+    .filter((v,i,a)=> a.indexOf(v) === i); // unique
+  specs.forEach(s => {
+    const o = document.createElement('option');
+    o.value = s;
+    o.innerText = s;
+    select.appendChild(o);
+  });
+}
+
+/* --- Render doctors --- */
+function renderDoctors(list){
+  doctorGrid.innerHTML = '';
+  if(!Array.isArray(list) || list.length === 0){
+    emptyMsg.style.display = 'block';
+    return;
+  }
+  emptyMsg.style.display = 'none';
+
+  list.forEach(d => {
+    const photo = d.photo || 'https://cdn-icons-png.flaticon.com/512/3774/3774299.png';
+    const specialization = d.specialization || 'General';
+    const docCard = document.createElement('div');
+    docCard.className = 'card';
+    docCard.innerHTML = `
+      <img src="${photo}" alt="${escapeHtml(d.name)}" style="width:84px;height:84px;border-radius:50%;object-fit:cover;border:3px solid ${'#2575fc'}">
+      <h3>${escapeHtml(d.name)}</h3>
+      <p>Specialization: ${escapeHtml(specialization)}</p>
+      <button data-id="${d._id}" data-name="${escapeHtml(d.name)}">Book Appointment</button>
+      
+      
+    `;
+    // book button handler
+    docCard.querySelector('button').addEventListener('click', e => {
+      const id = e.currentTarget.dataset.id;
+      const name = e.currentTarget.dataset.name;
+      localStorage.setItem('book_doctorId', id);
+      localStorage.setItem('book_doctorName', name);
+      // navigate to booking form (booking request must use credentials include)
+      window.location.href = '/book.html';
+    });
+    doctorGrid.appendChild(docCard);
+  });
+}
+
+/* --- Helper: normalize symptoms into array of lowercase strings --- */
+function normalizeSymptomsField(field){
+  if (!field) return [];
+  if (Array.isArray(field)) return field.map(s => String(s).toLowerCase().trim()).filter(Boolean);
+  // if string, split on comma or semicolon or pipe
+  if (typeof field === 'string'){
+    return field.split(/[,;|]/).map(s => s.toLowerCase().trim()).filter(Boolean);
+  }
+  // fallback
+  return [String(field).toLowerCase().trim()];
+}
+
+/* --- Filtering --- */
+function filterDoctors(){
+  const name = document.getElementById('searchName').value.trim().toLowerCase();
+  const spec = document.getElementById('filterSpecialization').value;
+  const slot = document.getElementById('filterSlot').value;
+  const symptomInput = document.getElementById('searchSymptom').value.trim().toLowerCase();
+
+  const filtered = doctorsData.filter(d => {
+    if (name && !(d.name || '').toLowerCase().includes(name)) return false;
+    if (spec && (d.specialization || '') !== spec) return false;
+    if (slot) {
+      // guard: availableSlots could be undefined, array, or string
+      const slots = Array.isArray(d.availableSlots) ? d.availableSlots : ((d.availableSlots || '').toString()).split(/[,;|]/).map(s=>s.trim());
+      if (!slots.some(s => s.toLowerCase() === slot)) return false;
+    }
+    if (symptomInput) {
+      const docSymptoms = normalizeSymptomsField(d.symptoms);
+      // Also check specialization & reason fields? for now symptoms only
+      if (!docSymptoms.some(s => s.includes(symptomInput))) return false;
+    }
+    return true;
+  });
+
+  renderDoctors(filtered);
+}
+
+/* --- small helper to escape text in html injection points --- */
+function escapeHtml(text){
+  if (text === undefined || text === null) return '';
+  return String(text)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;')
+    .replace(/'/g,'&#039;');
+}
+
+/* --- logout --- */
+document.getElementById('logoutBtn').addEventListener('click', async () => {
+  try {
+    await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
+  } catch(e){ /* ignore */ }
+  window.location.href = '/';
+});
+
+/* --- attach filter listeners --- */
+['searchName','filterSpecialization','filterSlot','searchSymptom'].forEach(id=>{
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.addEventListener('input', debounce(filterDoctors, 180));
+});
+
+/* --- debounce util --- */
+function debounce(fn, wait){
+  let t;
+  return function(...args){
+    clearTimeout(t);
+    t = setTimeout(()=>fn.apply(this,args), wait);
+  };
+}
+
+/* --- Initialize --- */
+(async function init(){
+  await loadUser();
+  await loadDoctors();
+})();
+
+
+
+
+</script>
+</body>
+</html>
+
