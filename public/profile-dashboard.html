@@ -6,25 +6,51 @@
 
 <style>
     body {
-        font-family: Poppins, sans-serif;
-        background: linear-gradient(135deg, #6a11cb, #2575fc);
-        height: 100vh;
         margin: 0;
+        height: 100vh;
         display: flex;
         justify-content: center;
         align-items: center;
+        font-family: "Poppins", sans-serif;
+        overflow: hidden;
+        background: #1b1b2f;
     }
 
+    /* BUBBLY BACKGROUND */
+    .bubble {
+        position: absolute;
+        bottom: -100px;
+        background: rgba(255, 255, 255, 0.25);
+        border-radius: 50%;
+        animation: rise 12s infinite ease-in;
+        filter: blur(1px);
+    }
+
+    @keyframes rise {
+        0% { transform: translateY(0) scale(1); opacity: 0.6; }
+        100% { transform: translateY(-120vh) scale(1.6); opacity: 0; }
+    }
+
+    /* Random bubble sizes + positions */
+    .bubble:nth-child(1) { width: 60px; height: 60px; left: 10%; animation-duration: 9s; }
+    .bubble:nth-child(2) { width: 35px; height: 35px; left: 25%; animation-duration: 6s; }
+    .bubble:nth-child(3) { width: 50px; height: 50px; left: 40%; animation-duration: 10s; }
+    .bubble:nth-child(4) { width: 30px; height: 30px; left: 55%; animation-duration: 7s; }
+    .bubble:nth-child(5) { width: 70px; height: 70px; left: 70%; animation-duration: 12s; }
+    .bubble:nth-child(6) { width: 45px; height: 45px; left: 85%; animation-duration: 8s; }
+
+    /* PROFILE CARD */
     .card {
         width: 420px;
         padding: 30px;
-        background: rgba(255,255,255,0.15);
-        border-radius: 20px;
-        box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-        backdrop-filter: blur(12px);
-        color: white;
+        border-radius: 25px;
+        background: rgba(255, 255, 255, 0.12);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+        backdrop-filter: blur(15px);
         text-align: center;
-        animation: fadeIn 0.7s ease;
+        color: #fff;
+        z-index: 10;
+        animation: fadeIn 1s ease;
     }
 
     @keyframes fadeIn {
@@ -33,36 +59,43 @@
     }
 
     .profile-photo {
-        width: 120px;
-        height: 120px;
+        width: 130px;
+        height: 130px;
         border-radius: 50%;
-        border: 3px solid #00ff9d;
         object-fit: cover;
+        border: 4px solid #00eaff;
         margin-bottom: 15px;
+        box-shadow: 0 0 20px rgba(0, 238, 255, 0.5);
     }
 
     .info {
-        font-size: 16px;
-        margin: 8px 0;
+        font-size: 17px;
+        margin: 10px 0;
         font-weight: 500;
+        color: #e8e8e8;
+    }
+
+    .label {
+        font-weight: 600;
+        color: #00f7ff;
     }
 
     button {
-        margin-top: 15px;
+        margin-top: 18px;
         padding: 12px;
         width: 100%;
-        background: #00ff9d;
+        background: #00eaff;
         border: none;
-        color: #222;
+        color: #1b1b2f;
         font-size: 16px;
-        border-radius: 10px;
+        font-weight: 700;
+        border-radius: 12px;
         cursor: pointer;
         transition: 0.3s;
-        font-weight: 600;
     }
 
     button:hover {
-        background: #00e68c;
+        background: #00d6e0;
         transform: translateY(-2px);
     }
 </style>
@@ -70,22 +103,33 @@
 
 <body>
 
+<!-- BUBBLES -->
+<div class="bubble"></div>
+<div class="bubble"></div>
+<div class="bubble"></div>
+<div class="bubble"></div>
+<div class="bubble"></div>
+<div class="bubble"></div>
+
+<!-- PROFILE CARD -->
 <div class="card">
     <img id="photo" class="profile-photo"
          src="https://cdn-icons-png.flaticon.com/512/147/147144.png">
 
     <h2 id="name">Loading...</h2>
 
-    <div class="info" id="email"></div>
-    <div class="info" id="phone"></div>
-    <div class="info" id="age"></div>
-    <div class="info" id="gender"></div>
-    <div class="info" id="specialization"></div>
+    <div class="info"><span class="label">Email:</span> <span id="email"></span></div>
+    <div class="info"><span class="label">Phone:</span> <span id="phone"></span></div>
+    <div class="info"><span class="label">Age:</span> <span id="age"></span></div>
+    <div class="info"><span class="label">Gender:</span> <span id="gender"></span></div>
+    <div class="info" id="specializationBox" style="display:none;">
+        <span class="label">Specialization:</span> 
+        <span id="specialization"></span>
+    </div>
 
-    <button onclick="window.location.href='profile.html'">
-        Update Profile
-    </button>
+    <button onclick="window.location.href='update_profile.html'">Update Profile</button>
 </div>
+
 
 <script>
 async function loadProfile() {
@@ -97,17 +141,20 @@ async function loadProfile() {
     const u = js.user;
 
     document.getElementById("name").innerText = u.name || '';
-    document.getElementById("email").innerText = "Email: " + u.email;
-    document.getElementById("phone").innerText = "Phone: " + (u.phone || 'N/A');
-    document.getElementById("age").innerText = "Age: " + (u.age || 'N/A');
-    document.getElementById("gender").innerText = "Gender: " + (u.gender || 'N/A');
 
-    if (u.specialization)
-        document.getElementById("specialization").innerText =
-            "Specialization: " + u.specialization;
+    document.getElementById("email").innerText = u.email || 'N/A';
+    document.getElementById("phone").innerText = u.phone || 'N/A';
+    document.getElementById("age").innerText = u.age || 'N/A';
+    document.getElementById("gender").innerText = u.gender || 'N/A';
 
-    if (u.photo)
+    if (u.specialization) {
+        document.getElementById("specializationBox").style.display = "block";
+        document.getElementById("specialization").innerText = u.specialization;
+    }
+
+    if (u.photo) {
         document.getElementById("photo").src = u.photo;
+    }
 }
 
 loadProfile();

@@ -9,22 +9,22 @@ router.get("/", async (req, res) => {
 
         let filter = { role: "doctor" };
 
-        // 🔍 Search by doctor name
+        //Search by doctor name
         if (name) {
             filter.name = { $regex: name, $options: "i" };
         }
 
-        // 🩺 Filter by specialization
+        // Filter by specialization
         if (spec) {
             filter.specialization = spec;
         }
 
-        // 🧠 Symptoms search
+        //Symptoms search
         if (symptoms) {
-            filter.symptoms = { $regex: symptoms, $options: "i" }; 
+            filter.symptoms = { $regex: symptoms, $options: "i" };
         }
 
-        // 🕒 Availability filter
+        //Availability filter
         if (availability === "today") {
             filter.availableDays = { $in: ["today"] };
         }
@@ -32,7 +32,7 @@ router.get("/", async (req, res) => {
             filter.availableDays = { $in: ["tomorrow"] };
         }
 
-        // 🌙 Time slot filter
+        //Time slot filter
         if (time) {
             filter.availableSlots = { $in: [time] };
         }

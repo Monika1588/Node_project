@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>My Profile</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+    body {
+        margin: 0;
+        height: 100vh;
+        font-family: "Poppins", sans-serif;
+        overflow-y: auto;
+        overflow-x: hidden;
+        background: #1b1b2f;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        padding-top: 40px;
+    }
+
+    /*BUBBLY BACKGROUND */
+    .bubble {
+        position: absolute;
+        bottom: -120px;
+        background: rgba(255, 255, 255, 0.25);
+        border-radius: 50%;
+        animation: rise 12s infinite ease-in;
+        filter: blur(1px);
+        z-index: 1;
+    }
+
+    @keyframes rise {
+        0% { transform: translateY(0) scale(1); opacity: 0.7; }
+        100% { transform: translateY(-140vh) scale(1.7); opacity: 0; }
+    }
+
+    .bubble:nth-child(1) { width: 70px; height: 70px; left: 10%; animation-duration: 10s; }
+    .bubble:nth-child(2) { width: 40px; height: 40px; left: 30%; animation-duration: 7s; }
+    .bubble:nth-child(3) { width: 55px; height: 55px; left: 50%; animation-duration: 9s; }
+    .bubble:nth-child(4) { width: 30px; height: 30px; left: 65%; animation-duration: 6s; }
+    .bubble:nth-child(5) { width: 75px; height: 75px; left: 80%; animation-duration: 11s; }
+    .bubble:nth-child(6) { width: 50px; height: 50px; left: 90%; animation-duration: 8s; }
+
+
+    .profile-container {
+        width: 100%;
+        max-width: 550px;
+        background: rgba(255, 255, 255, 0.12);
+        padding: 30px;
+        border-radius: 25px;
+        backdrop-filter: blur(15px);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+        color: #fff;
+        z-index: 10;
+        animation: fadeIn 1s ease;
+        position: relative;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(40px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    h2 {
+        text-align: center;
+        font-weight: 600;
+        margin-bottom: 25px;
+        color: #00f7ff;
+        letter-spacing: 1px;
+    }
+
+    .photo-box {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    #profilePhoto {
+        width: 130px;
+        height: 130px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 4px solid #00eaff;
+        box-shadow: 0 0 25px rgba(0, 238, 255, 0.6);
+    }
+
+    .input-group {
+        margin-bottom: 18px;
+    }
+
+    .input-group label {
+        font-size: 14px;
+        font-weight: 600;
+        display: block;
+        margin-bottom: 6px;
+        color: #00f7ff;
+    }
+
+    .input-group input,
+    .input-group select {
+        width: 100%;
+        padding: 12px;
+        border-radius: 12px;
+        border: none;
+        outline: none;
+        font-size: 14px;
+        background: rgba(255, 255, 255, 0.25);
+        color: #fff;
+        box-shadow: 0 0 8px rgba(0, 238, 255, 0.2);
+    }
+
+    select {
+        appearance: none;
+        background-image: url("https://cdn-icons-png.flaticon.com/512/2985/2985150.png");
+        background-size: 18px;
+        background-position: 95% center;
+        background-repeat: no-repeat;
+    }
+
+    button {
+        width: 100%;
+        padding: 12px;
+        border-radius: 12px;
+        font-size: 15px;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+        transition: 0.3s;
+        margin-top: 10px;
+    }
+
+    #uploadPhotoBtn {
+        background: #00eaff;
+        color: #1b1b2f;
+        font-weight: 700;
+    }
+    #uploadPhotoBtn:hover { background: #00d0e0; }
+
+    #removePhotoBtn {
+        background: #ff4d4d;
+        color: white;
+    }
+    #removePhotoBtn:hover { background: #ff1a1a; }
+
+    #submitBtn {
+        background: #00eaff;
+        color: #1b1b2f;
+        margin-top: 25px;
+        font-weight: 700;
+        box-shadow: 0 0 10px rgba(0, 238, 255, 0.4);
+    }
+    #submitBtn:hover { background: #00d6e0; }
+
+    #msg {
+        margin-top: 15px;
+        text-align: center;
+        font-weight: 600;
+        display: none;
+        font-size: 16px;
+    }
+    .success { color: #00ffcc; }
+    .error { color: #ff4d4d; }
+
+    #successPopup {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.55);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        visibility: hidden;
+        opacity: 0;
+        transition: 0.4s ease;
+        z-index: 9999;
+    }
+    #successPopup.show {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .popup-content {
+        background: #ffffff10;
+        backdrop-filter: blur(25px);
+        padding: 40px 60px;
+        border-radius: 25px;
+        text-align: center;
+        box-shadow: 0 0 25px rgba(0,255,255,0.4);
+        color: white;
+        animation: popUp 0.4s ease-out;
+    }
+
+    @keyframes popUp {
+        0% { transform: scale(0.5); opacity: 0; }
+        100% { transform: scale(1); opacity: 1; }
+    }
+
+    .checkmark-circle {
+        width: 85px;
+        height: 85px;
+        position: relative;
+        display: inline-block;
+        margin-bottom: 15px;
+    }
+
+    .checkmark-circle .background {
+        width: 85px;
+        height: 85px;
+        border-radius: 50%;
+        background: rgba(0,255,200,0.3);
+    }
+
+    .checkmark {
+        position: absolute;
+        width: 25px;
+        height: 50px;
+        border-right: 6px solid #00ffe7;
+        border-bottom: 6px solid #00ffe7;
+        transform: rotate(45deg);
+        top: 15px;
+        left: 26px;
+        animation: checkmark 0.8s ease forwards;
+    }
+
+    @keyframes checkmark {
+        0% { width: 0; height: 0; }
+        50% { width: 25px; height: 0; }
+        100% { width: 25px; height: 50px; }
+    }
+</style>
+</head>
+
+<body>
+
+<!-- BUBBLES -->
+<div class="bubble"></div>
+<div class="bubble"></div>
+<div class="bubble"></div>
+<div class="bubble"></div>
+<div class="bubble"></div>
+<div class="bubble"></div>
+
+<!-- SUCCESS POPUP -->
+<div id="successPopup">
+    <div class="popup-content">
+        <div class="checkmark-circle">
+            <div class="background"></div>
+            <div class="checkmark"></div>
+        </div>
+        <h3>Profile Updated Successfully!</h3>
+    </div>
+</div>
+
+<div class="profile-container">
+
+    <h2>My Profile</h2>
+
+    <div class="photo-box">
+        <img id="profilePhoto" src="https://cdn-icons-png.flaticon.com/512/147/147144.png" />
+    </div>
+
+    <input type="file" id="photoInput" accept="image/*">
+    <button id="uploadPhotoBtn">Upload New Photo</button>
+    <button id="removePhotoBtn">Remove Photo</button>
+
+    <form id="profileForm">
+        <div class="input-group">
+            <label>Full Name</label>
+            <input type="text" name="name" required>
+        </div>
+
+        <div class="input-group">
+            <label>Email</label>
+            <input type="email" name="email" required>
+        </div>
+
+        <div class="input-group">
+            <label>Phone Number</label>
+            <input type="text" name="phone">
+        </div>
+
+        <div class="input-group">
+            <label>Age</label>
+            <input type="number" name="age">
+        </div>
+
+        <div class="input-group">
+            <label>Gender</label>
+            <select name="gender">
+                <option value="">Select Gender</option>
+                <option>Male</option>
+                <option>Female</option>
+                <option>Other</option>
+            </select>
+        </div>
+
+        <div class="input-group">
+            <label>Specialization (Doctors Only)</label>
+            <input type="text" name="specialization">
+        </div>
+
+        <h3 style="color:#00eaff;margin-top:25px;">Change Password</h3>
+
+        <div class="input-group">
+            <label>Old Password</label>
+            <input type="password" name="oldPassword">
+        </div>
+
+        <div class="input-group">
+            <label>New Password</label>
+            <input type="password" name="newPassword">
+        </div>
+
+        <div class="input-group">
+            <label>Confirm New Password</label>
+            <input type="password" name="confirmPassword">
+        </div>
+
+        <button id="submitBtn" type="submit">Update Profile</button>
+    </form>
+
+    <div id="msg"></div>
+
+</div>
+
+<script>
+    let originalData = {}; // store original values to detect changes
+    
+    // LOAD PROFILE
+    async function loadProfile() {
+        const res = await fetch("/api/profile/me", { credentials: "include" });
+        const js = await res.json();
+        if (!js.user) return;
+    
+        const f = document.getElementById("profileForm");
+    
+        // Fill inputs
+        f.name.value = js.user.name || "";
+        f.email.value = js.user.email || "";
+        f.phone.value = js.user.phone || "";
+        f.age.value = js.user.age || "";
+        f.gender.value = js.user.gender || "";
+        f.specialization.value = js.user.specialization || "";
+    
+        if (js.user.photo) {
+            document.getElementById("profilePhoto").src = js.user.photo;
+        }
+    
+        // Save original values for change detection
+        originalData = {
+            name: f.name.value,
+            email: f.email.value,
+            phone: f.phone.value,
+            age: f.age.value,
+            gender: f.gender.value,
+            specialization: f.specialization.value
+        };
+    }
+    loadProfile();
+    
+    
+    // FORM SUBMIT
+    document.getElementById("profileForm").onsubmit = async e => {
+        e.preventDefault();
+        const f = e.target;
+    
+        const body = Object.fromEntries(new FormData(f).entries());
+    
+        // Password mismatch
+        if (body.newPassword && body.newPassword !== body.confirmPassword) {
+            return showMsg("Passwords do not match!", false);
+        }
+    
+        //Detect if profile values actually changed
+        let changed = false;
+        for (let key in originalData) {
+            if (body[key] !== originalData[key]) {
+                changed = true;
+                break;
+            }
+        }
+    
+        // If no password change AND no profile field changed
+        if (!changed && !body.newPassword) {
+            return showMsg("No changes detected.", false);
+        }
+    
+        //Send update request
+        const res = await fetch("/api/profile/update", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body),
+            credentials: "include"
+        });
+    
+        const js = await res.json();
+    
+        if (js.success) {
+            // update original data after successful save
+            for (let key in originalData) {
+                originalData[key] = body[key];
+            }
+        }
+    
+        showMsg(js.success ? "✔ Profile Updated!" : js.message, js.success);
+    };
+    
+    
+    // UPLOAD PHOTO
+    document.getElementById("uploadPhotoBtn").onclick = async () => {
+        const input = document.getElementById("photoInput");
+        if (!input.files.length) return showMsg("Select a photo first!", false);
+    
+        const fd = new FormData();
+        fd.append("photo", input.files[0]);
+    
+        const res = await fetch("/api/profile/photo", {
+            method: "POST",
+            body: fd,
+            credentials: "include"
+        });
+    
+        const js = await res.json();
+        if (js.success) {
+            document.getElementById("profilePhoto").src =
+                js.photo + "?" + Date.now();
+            showMsg("✔ Photo updated!", true);
+        }
+    };
+    
+    
+    //REMOVE PHOTO
+    document.getElementById("removePhotoBtn").onclick = async () => {
+        const res = await fetch("/api/profile/photo/remove", {
+            method: "DELETE",
+            credentials: "include"
+        });
+    
+        const js = await res.json();
+    
+        if (js.success) {
+            document.getElementById("profilePhoto").src =
+                "https://cdn-icons-png.flaticon.com/512/147/147144.png";
+            showMsg("✔ Photo removed.", true);
+        }
+    };
+    
+    
+    // MESSAGE and POPUP HANDLING
+    function showMsg(text, success) {
+        const box = document.getElementById("msg");
+    
+        if (success) {
+            // Show popup for success
+            const popup = document.getElementById("successPopup");
+            popup.classList.add("show");
+            setTimeout(() => popup.classList.remove("show"), 1800);
+    
+            box.style.display = "none"; // hide text errors on success
+        } else {
+            // Show small text message for errors & "no changes"
+            box.style.display = "block";
+            box.className = "error";
+            box.innerText = text;
+            setTimeout(() => (box.style.display = "none"), 3000);
+        }
+    }
+    </script>
+    
+
+</body>
+</html>

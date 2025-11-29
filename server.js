@@ -4,81 +4,88 @@ const session = require("express-session");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const path = require("path");
-const multer = require("multer"); // For profile photo uploads
+const multer = require("multer");
+const fs = require("fs");
 
 // Routes
 const authRoutes = require("./routes/auth");
 const apptRoutes = require("./routes/appointments");
-const profileRoutes = require("./routes/profile"); // Profile management
+const profileRoutes = require("./routes/profile");
 
-// Local MongoDB URL
+// MongoDB
 const MONGO_URL = "mongodb://127.0.0.1:27017/hospitalDB";
 
 async function startServer() {
   try {
-    // CONNECT DATABASE
     await mongoose.connect(MONGO_URL);
     console.log("✅ MongoDB Connected");
 
     const app = express();
 
-    // MIDDLEWARES
+    // Middlewares
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: true }));
     app.use(cookieParser());
 
-    // SESSION (simple authentication)
     app.use(
       session({
         secret: "supersecretkey",
         resave: false,
         saveUninitialized: false,
-        cookie: {
-          httpOnly: true,
-          maxAge: 24 * 60 * 60 * 1000, // 1 day
-        },
+        cookie: { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 },
       })
     );
 
-    // CORS (optional, useful if frontend hosted separately)
+    // CORS
     app.use((req, res, next) => {
       res.header("Access-Control-Allow-Origin", "*");
       res.header(
         "Access-Control-Allow-Headers",
         "Origin, X-Requested-With, Content-Type, Accept"
       );
-      res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+      res.header(
+        "Access-Control-Allow-Methods",
+        "GET, POST, PUT, DELETE, OPTIONS"
+      );
       next();
     });
 
-    // ----------------------
-    // MULTER CONFIG (profile photo uploads)
-    // ----------------------
+
+    // MULTER CONFIG
     const storage = multer.diskStorage({
       destination: function (req, file, cb) {
-        cb(null, path.join(__dirname, "uploads")); // uploads folder
+        cb(null, path.join(__dirname, "uploads"));
       },
       filename: function (req, file, cb) {
         const ext = path.extname(file.originalname);
-        // use userId (assumes req.session.userId is set after login)
-        cb(null, `${req.session.userId || Date.now()}${ext}`);
+        cb(null, `${req.session.userId}_${Date.now()}${ext}`);
       },
     });
-    const upload = multer({ storage: storage });
 
-    // Serve uploads folder publicly
+    const upload = multer({ storage });
+
+    // Serve uploads folder
     app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-    // ----------------------
-    // PROFILE PHOTO UPLOAD ROUTE
-    // ----------------------
+    const User = require("./models/User");
+
+    // UPLOAD PROFILE PHOTO
     app.post("/api/profile/photo", upload.single("photo"), async (req, res) => {
       try {
-        if (!req.session.userId) return res.status(401).json({ success: false, message: "Not logged in" });
-        
-        const User = require("./models/User"); // Your user model
+        if (!req.session.userId)
+          return res
+            .status(401)
+            .json({ success: false, message: "Not logged in" });
+
         const user = await User.findById(req.session.userId);
-        if (!user) return res.status(404).json({ success: false, message: "User not found" });
+        if (!user)
+          return res.json({ success: false, message: "User not found" });
+
+        // Delete old photo if exists
+        if (user.photo) {
+          const oldPath = path.join(__dirname, user.photo);
+          if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath);
+        }
 
         user.photo = `/uploads/${req.file.filename}`;
         await user.save();
@@ -86,26 +93,51 @@ async function startServer() {
         res.json({ success: true, photo: user.photo });
       } catch (err) {
         console.error(err);
-        res.status(500).json({ success: false, message: "Upload failed" });
+        res.json({ success: false, message: "Upload failed" });
       }
     });
 
-    // ----------------------
-    // ROUTES
-    // ----------------------
-    app.use("/api/auth", authRoutes);          // Register/Login
-    app.use("/api/appointments", apptRoutes);  // Appointment CRUD
-    app.use("/api/profile", profileRoutes);    // Profile management
+    // REMOVE PROFILE PHOTO
+    app.delete("/api/profile/photo/remove", async (req, res) => {
+      try {
+        if (!req.session.userId)
+          return res
+            .status(401)
+            .json({ success: false, message: "Not logged in" });
 
-    // STATIC FRONTEND
+        const user = await User.findById(req.session.userId);
+        if (!user)
+          return res.json({ success: false, message: "User not found" });
+
+        // Delete file
+        if (user.photo) {
+          const filePath = path.join(__dirname, user.photo);
+          if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
+        }
+
+        user.photo = null;
+        await user.save();
+
+        res.json({ success: true, message: "Photo removed" });
+      } catch (err) {
+        console.error(err);
+        res.json({ success: false, message: "Failed to remove photo" });
+      }
+    });
+
+    // ROUTES
+    app.use("/api/auth", authRoutes);
+    app.use("/api/appointments", apptRoutes);
+    app.use("/api/profile", profileRoutes);
+
+    // Frontend
     app.use(express.static(path.join(__dirname, "public")));
 
-    // DEFAULT ROUTE
     app.get("/", (req, res) => {
       res.sendFile(path.join(__dirname, "public", "index.html"));
     });
 
-    // 404 HANDLER
+    // 404
     app.use((req, res) => {
       res.status(404).send("404: Page not found");
     });
@@ -116,12 +148,11 @@ async function startServer() {
       res.status(500).json({ message: "Internal Server Error" });
     });
 
-    // START SERVER
+    // Start server
     const PORT = process.env.PORT || 5000;
-    app.listen(PORT, () => {
-      console.log(`🚀 Server running at http://localhost:${PORT}`);
-    });
-
+    app.listen(PORT, () =>
+      console.log(`🚀 Server running at http://localhost:${PORT}`)
+    );
   } catch (err) {
     console.error("❌ Server failed to start", err);
   }

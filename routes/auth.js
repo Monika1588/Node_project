@@ -3,9 +3,7 @@ const bcrypt = require('bcrypt');
 const User = require('../models/User');
 const router = express.Router();
 
-// ===============================
 // REGISTER
-// ===============================
 router.post('/register', async (req, res) => {
   try {
     const { name, email, password, role, specialization, phone } = req.body;
@@ -15,7 +13,7 @@ router.post('/register', async (req, res) => {
     }
 
     const existing = await User.findOne({ email });
-    if (existing) { 
+    if (existing) {
       return res.status(400).json({ message: 'Email already used' });
     }
 
@@ -47,9 +45,7 @@ router.post('/register', async (req, res) => {
   }
 });
 
-// ===============================
 // LOGIN
-// ===============================
 router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -83,9 +79,7 @@ router.post('/login', async (req, res) => {
   }
 });
 
-// ===============================
 // LOGOUT
-// ===============================
 router.post('/logout', (req, res) => {
   req.session.destroy(err => {
     if (err) console.error(err);
@@ -93,9 +87,7 @@ router.post('/logout', (req, res) => {
   });
 });
 
-// ===============================
 // GET CURRENT AUTHENTICATED USER
-// ===============================
 router.get('/me', async (req, res) => {
   try {
     if (!req.session.userId) {

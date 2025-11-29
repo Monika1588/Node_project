@@ -7,9 +7,7 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 
-// -----------------------------
 // Middleware to require login
-// -----------------------------
 function requireAuth(req, res, next) {
   if (!req.session || !req.session.userId) {
     return res.status(401).json({ message: 'Not authenticated' });
@@ -17,9 +15,7 @@ function requireAuth(req, res, next) {
   next();
 }
 
-// -----------------------------
 // Multer config for photo upload
-// -----------------------------
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     const dir = path.join(__dirname, '../public/uploads/');
@@ -44,9 +40,8 @@ const upload = multer({
   }
 });
 
-// ============================
+
 // GET CURRENT USER PROFILE
-// ============================
 router.get('/me', requireAuth, async (req, res) => {
   try {
     const user = await User.findById(req.session.userId)
@@ -58,9 +53,7 @@ router.get('/me', requireAuth, async (req, res) => {
   }
 });
 
-// ============================
 // UPDATE PROFILE + PASSWORD
-// ============================
 router.post('/update', requireAuth, async (req, res) => {
   try {
     const {
@@ -114,9 +107,7 @@ router.post('/update', requireAuth, async (req, res) => {
   }
 });
 
-// ============================
 // UPLOAD PROFILE PHOTO
-// ============================
 router.post('/photo', requireAuth, upload.single('photo'), async (req, res) => {
   try {
     const user = await User.findById(req.session.userId);
@@ -140,9 +131,7 @@ router.post('/photo', requireAuth, upload.single('photo'), async (req, res) => {
   }
 });
 
-// ============================
 // REMOVE PROFILE PHOTO
-// ============================
 router.delete('/photo/remove', requireAuth, async (req, res) => {
   try {
     const user = await User.findById(req.session.userId);
@@ -163,6 +152,7 @@ router.delete('/photo/remove', requireAuth, async (req, res) => {
     user.photo = null;
     await user.save();
 
+    
     res.json({ success: true, message: "Photo removed successfully" });
 
   } catch (err) {

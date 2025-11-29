@@ -1,201 +1,187 @@
 <!doctype html>
 <html lang="en">
+
 <head>
-<meta charset="utf-8"/>
-<title>Doctor Dashboard</title>
+  <meta charset="utf-8" />
+  <title>Doctor Dashboard</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Poppins", sans-serif;
+      background: #eef2ff;
+      overflow-x: hidden;
+    }
+    .shape { position: absolute; border-radius: 50%; filter: blur(8px); opacity: 0.4; animation: float 7s infinite ease-in-out; }
+    .s1 { width: 180px; height: 180px; background: #6a11cb; top: 10%; left: -50px; }
+    .s2 { width: 220px; height: 220px; background: #2575fc; top: 60%; right: -70px; animation-delay: 2s; }
+    @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-40px); } 100% { transform: translateY(0); } }
 
-<style>
-  body {
-    margin: 0;
-    font-family: "Poppins", sans-serif;
-    background: #eef2ff;
-    overflow-x: hidden;
-  }
+    header {
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      padding: 25px 45px; color: white; display: flex; justify-content: space-between; align-items: center; position: relative; overflow: hidden;
+    }
+    header h2 { margin: 0; font-size: 30px; font-weight: 600; }
+    header button { background: white; color: #2575fc; border: none; padding: 10px 20px; border-radius: 12px; cursor: pointer; font-weight: bold; box-shadow: 0 5px 12px rgba(0, 0, 0, 0.15); transition: 0.3s ease; }
+    header button:hover { transform: scale(1.07); }
 
-  .shape { position: absolute; border-radius: 50%; filter: blur(8px); opacity: 0.4; animation: float 7s infinite ease-in-out; }
-  .s1 { width: 180px; height: 180px; background: #6a11cb; top: 10%; left: -50px; }
-  .s2 { width: 220px; height: 220px; background: #2575fc; top: 60%; right: -70px; animation-delay: 2s; }
-  @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-40px); } 100% { transform: translateY(0); } }
-
-  header { background: linear-gradient(135deg, #6a11cb, #2575fc); padding: 25px 45px; color: white; display: flex; justify-content: space-between; align-items: center; position: relative; overflow: hidden; }
-  header::after { content: ""; position: absolute; bottom: -20px; left: 0; height: 40px; width: 100%; background: url('https://i.imgur.com/e4Z9Z9Y.png'); background-size: cover; animation: waveMove 6s linear infinite; opacity: 0.35; }
-  @keyframes waveMove { from { background-position-x: 0; } to { background-position-x: 1000px; } }
-
-  header h2 { margin: 0; font-size: 30px; font-weight: 600; animation: fadeInDown 0.8s ease; }
-  header button { background: white; color: #2575fc; border: none; padding: 10px 20px; border-radius: 12px; cursor: pointer; font-weight: bold; box-shadow: 0 5px 12px rgba(0,0,0,0.15); transition: 0.3s ease; }
-  header button:hover { transform: scale(1.07); }
-
-  .dashboard { max-width: 1100px; margin: 50px auto; position: relative; z-index: 2; }
-  .summary-box { background: white; padding: 30px; border-radius: 25px; box-shadow: 0 12px 30px rgba(0,0,0,0.15); text-align: center; animation: fadeInUp 0.9s ease; position: relative; }
-  .summary-box::after { content: ""; position: absolute; top: -30px; right: 20px; width: 120px; height: 120px; background: url('https://cdn-icons-png.flaticon.com/512/387/387561.png'); background-size: contain; opacity: 0.3; }
-
-  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-top: 25px; }
-  .card { background: white; padding: 22px; border-radius: 18px; box-shadow: 0 8px 25px rgba(0,0,0,0.12); animation: cardPop 0.6s ease; position: relative; overflow: hidden; transition: 0.3s ease; }
-  .card::before { content: ""; position: absolute; top: 0; left: -150%; width: 120%; height: 100%; background: linear-gradient(120deg, transparent, rgba(255,255,255,0.5), transparent); transform: skewX(-20deg); transition: 0.6s; }
-  .card:hover::before { left: 150%; }
-  .card:hover { transform: translateY(-6px); }
-  .card h4 { font-size: 22px; margin: 0 0 10px; font-weight: 600; }
-  .item { font-size: 15px; color: #444; margin: 6px 0; }
-  .badge { padding: 7px 14px; border-radius: 30px; display: inline-block; font-weight: bold; margin-top: 8px; }
-  .approved { background: #d4ffe2; color: #137a21; }
-  .rejected { background: #ffd4d4; color: #a10000; }
-  .pending  { background: #fff0c2; color: #8c6500; }
-  .completed { background: #dce4ff; color: #003087; }
-  .card button { margin-top: 10px; margin-right: 6px; padding: 8px 16px; border: none; border-radius: 8px; color: white; font-weight: bold; cursor: pointer; transition: 0.3s ease; }
-  .approve { background: #28a745; }
-  .reject { background: #dc3545; }
-  .complete { background: #007bff; }
-  .card button:hover { transform: scale(1.1); }
-
-  .popup-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: none; justify-content: center; align-items: center; z-index: 999; }
-  .popup { background: white; width: 360px; padding: 25px; border-radius: 16px; animation: popFade 0.3s ease; }
-  textarea { width: 100%; padding: 10px; border-radius: 8px; margin-top: 10px; display: none; }
-  .popup-buttons { margin-top: 12px; display: flex; justify-content: flex-end; gap: 10px; }
-  .cancel { background: #ccc; }
-  .confirm { background: #2575fc; color: white; }
-
-  @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
-  @keyframes fadeInUp { from { opacity: 0; transform: translateY(25px); } to { opacity: 1; transform: translateY(0); } }
-  @keyframes cardPop { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
-  @keyframes popFade { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
-</style>
-
+    .dashboard { max-width: 1100px; margin: 50px auto; position: relative; z-index: 2; }
+    .summary-box { background: white; padding: 30px; border-radius: 25px; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15); text-align: center; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-top: 25px; }
+    .card { background: white; padding: 22px; border-radius: 18px; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12); position: relative; transition: 0.3s ease; }
+    .card:hover { transform: translateY(-6px); }
+    .card h4 { font-size: 22px; margin: 0 0 10px; font-weight: 600; }
+    .item { font-size: 15px; color: #444; margin: 6px 0; }
+    .badge { padding: 7px 14px; border-radius: 30px; display: inline-block; font-weight: bold; margin-top: 8px; }
+    .approved { background: #d4ffe2; color: #137a21; }
+    .rejected { background: #ffd4d4; color: #a10000; }
+    .pending { background: #fff0c2; color: #8c6500; }
+    .completed { background: #dce4ff; color: #003087; }
+    .card button { margin-top: 10px; margin-right: 6px; padding: 8px 16px; border: none; border-radius: 8px; color: white; font-weight: bold; cursor: pointer; }
+    .approve { background: #28a745; }
+    .reject { background: #dc3545; }
+    .complete { background: #007bff; }
+    .popup-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.5); display: none; justify-content: center; align-items: center; z-index: 999; }
+    .popup { background: white; width: 360px; padding: 25px; border-radius: 16px; }
+    textarea { width: 100%; padding: 10px; border-radius: 8px; margin-top: 10px; display: none; }
+    .popup-buttons { margin-top: 12px; display: flex; justify-content: flex-end; gap: 10px; }
+    .cancel { background: #ccc; }
+    .confirm { background: #2575fc; color: white; }
+    .feedback-box { background: #e2f0d9; padding: 10px; border-left: 4px solid #4CAF50; border-radius: 10px; margin-top: 10px; font-size: 14px; }
+  </style>
 </head>
+
 <body>
 
-<div class="shape s1"></div>
-<div class="shape s2"></div>
+  <div class="shape s1"></div>
+  <div class="shape s2"></div>
 
-<header>
-  <h2>👨‍⚕️ Doctor Dashboard</h2>
-  <div>
-    <button id="logoutBtn">Logout</button>
-    <button><a href="profile-dashboard.html" class="btn">My Profile</a></button>
-  </div>
-</header>
+  <header>
+    <h2>👨‍⚕️ Doctor Dashboard</h2>
+    <div>
+      <button id="logoutBtn">Logout</button>
+      <button><a href="profile-dashboard.html" style="text-decoration:none; color:#2575fc;">My Profile</a></button>
+    </div>
+  </header>
 
-<div class="dashboard">
-  <div class="summary-box">
-    <h3>Appointments Overview</h3>
-    <p style="margin-top:6px; color:#555">Manage patient appointments efficiently</p>
-  </div>
-
-  <div id="appts">
+  <div class="dashboard">
+    <div class="summary-box">
+      <h3>Appointments Overview</h3>
+      <p style="margin-top:6px; color:#555">Manage patient appointments efficiently</p>
+    </div>
     <div class="grid" id="apptGrid"></div>
   </div>
-</div>
 
-<div class="popup-overlay" id="popupOverlay">
-  <div class="popup">
-    <h3 id="popupTitle">Confirm Action</h3>
-    <p id="popupMsg">Are you sure?</p>
-    <textarea id="rejectMsg" placeholder="Reason for rejection..."></textarea>
-
-    <div class="popup-buttons">
-      <button class="cancel" id="cancelBtn">Cancel</button>
-      <button class="confirm" id="confirmBtn">Confirm</button>
+  <div class="popup-overlay" id="popupOverlay">
+    <div class="popup">
+      <h3 id="popupTitle">Confirm Action</h3>
+      <p id="popupMsg">Are you sure?</p>
+      <textarea id="rejectMsg" placeholder="Reason for rejection..."></textarea>
+      <div class="popup-buttons">
+        <button class="cancel" id="cancelBtn">Cancel</button>
+        <button class="confirm" id="confirmBtn">Confirm</button>
+      </div>
     </div>
   </div>
-</div>
 
-<script>
-  let actionId = null;
-  let actionType = null;
-  
-  // ---------------- POPUP ----------------
-  function openPopup(id, type) {
-    actionId = id;
-    actionType = type;
-    document.getElementById("popupOverlay").style.display = "flex";
-    if (type === "rejected") {
-      document.getElementById("popupTitle").innerText = "Reject Appointment?";
-      document.getElementById("popupMsg").innerText = "Please enter a message for the patient.";
-      document.getElementById("rejectMsg").style.display = "block";
-    } else {
-      document.getElementById("popupTitle").innerText = "Confirm Action";
-      document.getElementById("popupMsg").innerText = `Mark this appointment as ${type}?`;
-      document.getElementById("rejectMsg").style.display = "none";
+  <script>
+    let actionId = null;
+    let actionType = null;
+
+    function openPopup(id, type) {
+      actionId = id;
+      actionType = type;
+      const overlay = document.getElementById("popupOverlay");
+      const rejectTextarea = document.getElementById("rejectMsg");
+      overlay.style.display = "flex";
+      if (type === "rejected") {
+        document.getElementById("popupTitle").innerText = "Reject Appointment?";
+        document.getElementById("popupMsg").innerText = "Please enter a message for the patient.";
+        rejectTextarea.style.display = "block";
+      } else {
+        document.getElementById("popupTitle").innerText = "Confirm Action";
+        document.getElementById("popupMsg").innerText = `Mark this appointment as ${type}?`;
+        rejectTextarea.style.display = "none";
+      }
     }
-  }
-  
-  document.getElementById("cancelBtn").onclick = () => {
-    document.getElementById("popupOverlay").style.display = "none";
-  };
-  
-  document.getElementById("confirmBtn").onclick = async () => {
-    let body = { status: actionType };
-    if (actionType === "rejected") body.doctorMessage = document.getElementById("rejectMsg").value;
-  
-    await fetch(`/api/appointments/${actionId}/status`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body)
-    });
-  
-    document.getElementById("popupOverlay").style.display = "none";
-    loadAppts();
-  };
-  
-  // ---------------- LOAD APPOINTMENTS ----------------
-  async function loadAppts() {
-    const res = await fetch('/api/appointments');
-    const grid = document.getElementById("apptGrid");
-  
-    if (!res.ok) {
-      grid.innerHTML = "<p>Please login as Doctor</p>";
-      return;
-    }
-  
-    const js = await res.json();
-    grid.innerHTML = "";
-  
-    js.appointments.forEach(a => {
-      grid.innerHTML += `
-        <div class="card">
-          <h4>👤 ${a.patient.name}</h4>
-          <div class="item"><strong>Date:</strong> ${a.date}</div>
-          <div class="item"><strong>Time:</strong> ${a.time}</div>
-          <div class="item"><strong>Reason:</strong> ${a.reason || "-"}</div>
-          <span class="badge ${a.status}">${a.status.toUpperCase()}</span>
-  
-          <button style="background:#6a11cb;" onclick="viewPatient('${a.patient._id}')">🧑 Patient Details</button>
-  
-          <div>
-            <button class="approve" onclick="openPopup('${a._id}','approved')">Approve</button>
-            <button class="reject" onclick="openPopup('${a._id}','rejected')">Reject</button>
-            <button class="complete" onclick="openPopup('${a._id}','completed')">Complete</button>
-          </div>
+
+    document.getElementById("cancelBtn").onclick = () => {
+      document.getElementById("popupOverlay").style.display = "none";
+    };
+
+    document.getElementById("confirmBtn").onclick = async () => {
+      const body = { status: actionType };
+      if (actionType === "rejected") body.doctorMessage = document.getElementById("rejectMsg").value;
+
+      const res = await fetch(`/api/appointments/${actionId}/status`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body)
+      });
+
+      if (res.ok) loadAppts();
+      document.getElementById("popupOverlay").style.display = "none";
+    };
+
+    async function loadAppts() {
+      const res = await fetch('/api/appointments');
+      const grid = document.getElementById("apptGrid");
+
+      if (!res.ok) {
+        grid.innerHTML = "<p>Please login as Doctor</p>";
+        return;
+      }
+
+      const js = await res.json();
+      grid.innerHTML = "";
+
+      js.appointments.forEach(a => {
+        let feedbackHtml = "";
+        if (a.feedback) {
+          feedbackHtml = `<div class="feedback-box"><strong>Feedback:</strong> ${a.feedback.comment} <br><small>Rating: ${a.feedback.rating}/5</small></div>`;
+        }
+
+        grid.innerHTML += `
+      <div class="card">
+        <h4>👤 ${a.patient.name}</h4>
+        <div class="item"><strong>Date:</strong> ${a.date}</div>
+        <div class="item"><strong>Time:</strong> ${a.time}</div>
+        <div class="item"><strong>Reason:</strong> ${a.reason || "-"}</div>
+        <span class="badge ${a.status}">${a.status.toUpperCase()}</span>
+
+        <button style="background:#6a11cb;" onclick="viewPatient('${a.patient._id}')">🧑 Patient Details</button>
+
+        <div>
+          <button class="approve" onclick="openPopup('${a._id}','approved')">Approve</button>
+          <button class="reject" onclick="openPopup('${a._id}','rejected')">Reject</button>
+          <button class="complete" onclick="openPopup('${a._id}','completed')">Complete</button>
         </div>
-      `;
-    });
-  }
-  
-  // --------------- PATIENT DETAILS POPUP ----------------
-  async function viewPatient(id) {
-    const res = await fetch(`/api/appointments/patient/${id}`);
-    const js = await res.json();
-  
-    alert(`
-  Patient Name: ${js.patient.name}
-  Email: ${js.patient.email}
-  Phone: ${js.patient.phone || "N/A"}
-  Age: ${js.patient.age || "N/A"}
-  Gender: ${js.patient.gender || "N/A"}
-  Symptoms: ${js.patient.symptoms || "N/A"}
-    `);
-  }
-  
-  // --------------- LOGOUT ----------------
-  document.getElementById("logoutBtn").onclick = async () => {
-    await fetch("/api/auth/logout", { method: "POST" });
-    window.location.href = "/";
-  };
-  
-  loadAppts();
+
+        ${feedbackHtml}
+      </div>
+    `;
+      });
+    }
+
+    async function viewPatient(id) {
+      const res = await fetch(`/api/appointments/patient/${id}`);
+      if (!res.ok) return alert("Patient not found");
+      const js = await res.json();
+      alert(`
+Patient Name: ${js.patient.name}
+Email: ${js.patient.email}
+Phone: ${js.patient.phone || "N/A"}
+Age: ${js.patient.age || "N/A"}
+Gender: ${js.patient.gender || "N/A"}
+      `);
+    }
+
+    document.getElementById("logoutBtn").onclick = async () => {
+      await fetch("/api/auth/logout", { method: "POST" });
+      window.location.href = "/";
+    };
+
+    loadAppts();
   </script>
-  
 
 </body>
 </html>
-
-
