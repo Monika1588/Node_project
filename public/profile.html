@@ -66,6 +66,14 @@
         transform: translateY(-2px);
     }
 
+    #removePhotoBtn {
+        background: #ff4d4d;
+        margin-top: 10px;
+    }
+    #removePhotoBtn:hover {
+        background: #ff1a1a;
+    }
+
     #msg {
         margin-top: 15px;
         text-align: center;
@@ -76,6 +84,16 @@
 
     .success { color: #00ff9d; }
     .error { color: #ff4d4d; }
+
+    .profile-photo {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        object-fit: cover;
+        display: block;
+        margin: 0 auto 10px auto;
+        border: 3px solid #00ff9d;
+    }
 </style>
 </head>
 
@@ -84,8 +102,15 @@
 <div class="card">
     <h2>My Profile</h2>
 
-    <form id="profileForm">
+    <!-- Profile Photo -->
+    <img id="profilePhoto" class="profile-photo"
+         src="https://cdn-icons-png.flaticon.com/512/147/147144.png" alt="Profile Photo">
 
+    <input type="file" id="photoInput" accept="image/*">
+    <button type="button" id="uploadPhotoBtn">Upload Photo</button>
+    <button type="button" id="removePhotoBtn">Remove Photo</button> <!-- NEW BUTTON -->
+
+    <form id="profileForm">
         <input type="text" name="name" placeholder="Full Name" required>
         <input type="email" name="email" placeholder="Email" required>
 
@@ -113,12 +138,11 @@
     <div id="msg"></div>
 </div>
 
-
-<!-- JS Code -->
 <script>
+
 // Load profile data
 async function loadProfile() {
-    const res = await fetch('/api/profile/me');
+    const res = await fetch('/api/profile/me', { credentials: 'include' });
     const js = await res.json();
 
     if (!js.user) return;
@@ -131,43 +155,79 @@ async function loadProfile() {
     f.specialization.value = js.user.specialization || '';
     f.age.value = js.user.age || '';
     f.gender.value = js.user.gender || '';
+
+    if (js.user.photo) {
+        document.getElementById('profilePhoto').src = js.user.photo;
+    }
 }
 loadProfile();
 
-// Submit form
+
+// Submit profile update
 document.getElementById('profileForm').onsubmit = async e => {
     e.preventDefault();
-
     const f = e.target;
-    const formData = new FormData(f);
-    const body = Object.fromEntries(formData.entries());
+    const body = Object.fromEntries(new FormData(f).entries());
 
-    // Password validation
     if (body.newPassword || body.confirmPassword || body.oldPassword) {
-
-        if (!body.oldPassword) {
-            return showMsg("Please enter old password!", false);
-        }
-
-        if (!body.newPassword || !body.confirmPassword) {
+        if (!body.oldPassword) return showMsg("Please enter old password!", false);
+        if (!body.newPassword || !body.confirmPassword)
             return showMsg("Please enter new password & confirm it!", false);
-        }
-
-        if (body.newPassword !== body.confirmPassword) {
+        if (body.newPassword !== body.confirmPassword)
             return showMsg("New password & confirm password do not match!", false);
-        }
     }
 
     const res = await fetch('/api/profile/update', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
+        body: JSON.stringify(body),
+        credentials: 'include'
+    });
+
+    const js = await res.json();
+    showMsg(js.success ? "✔ Profile Updated Successfully!" : "✖ " + js.message, js.success);
+};
+
+
+// Upload photo
+document.getElementById('uploadPhotoBtn').onclick = async () => {
+    const input = document.getElementById('photoInput');
+    if (!input.files.length) return showMsg("Select a photo first!", false);
+
+    const fd = new FormData();
+    fd.append("photo", input.files[0]);
+
+    const res = await fetch('/api/profile/photo', {
+        method: 'POST',
+        body: fd,
+        credentials: 'include'
+    });
+
+    const js = await res.json();
+    if (js.success) {
+        document.getElementById('profilePhoto').src = js.photo + "?" + Date.now();
+        showMsg("✔ Photo uploaded successfully!", true);
+    } else {
+        showMsg("✖ " + js.message, false);
+    }
+};
+
+
+// ⭐ REMOVE PHOTO — NEW FEATURE
+document.getElementById('removePhotoBtn').onclick = async () => {
+    const res = await fetch('/api/profile/photo/remove', {
+        method: 'DELETE',
+        credentials: 'include'
     });
 
     const js = await res.json();
 
     if (js.success) {
-        showMsg("✔ Profile Updated Successfully!", true);
+        // Reset to default image
+        document.getElementById('profilePhoto').src =
+            "https://cdn-icons-png.flaticon.com/512/147/147144.png";
+
+        showMsg("✔ Photo removed successfully!", true);
     } else {
         showMsg("✖ " + js.message, false);
     }

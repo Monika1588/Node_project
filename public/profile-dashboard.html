@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>My Profile</title>
+
+<style>
+    body {
+        font-family: Poppins, sans-serif;
+        background: linear-gradient(135deg, #6a11cb, #2575fc);
+        height: 100vh;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .card {
+        width: 420px;
+        padding: 30px;
+        background: rgba(255,255,255,0.15);
+        border-radius: 20px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        backdrop-filter: blur(12px);
+        color: white;
+        text-align: center;
+        animation: fadeIn 0.7s ease;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .profile-photo {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        border: 3px solid #00ff9d;
+        object-fit: cover;
+        margin-bottom: 15px;
+    }
+
+    .info {
+        font-size: 16px;
+        margin: 8px 0;
+        font-weight: 500;
+    }
+
+    button {
+        margin-top: 15px;
+        padding: 12px;
+        width: 100%;
+        background: #00ff9d;
+        border: none;
+        color: #222;
+        font-size: 16px;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: 0.3s;
+        font-weight: 600;
+    }
+
+    button:hover {
+        background: #00e68c;
+        transform: translateY(-2px);
+    }
+</style>
+</head>
+
+<body>
+
+<div class="card">
+    <img id="photo" class="profile-photo"
+         src="https://cdn-icons-png.flaticon.com/512/147/147144.png">
+
+    <h2 id="name">Loading...</h2>
+
+    <div class="info" id="email"></div>
+    <div class="info" id="phone"></div>
+    <div class="info" id="age"></div>
+    <div class="info" id="gender"></div>
+    <div class="info" id="specialization"></div>
+
+    <button onclick="window.location.href='profile.html'">
+        Update Profile
+    </button>
+</div>
+
+<script>
+async function loadProfile() {
+    const res = await fetch('/api/profile/me', { credentials: 'include' });
+    const js = await res.json();
+
+    if (!js.user) return;
+
+    const u = js.user;
+
+    document.getElementById("name").innerText = u.name || '';
+    document.getElementById("email").innerText = "Email: " + u.email;
+    document.getElementById("phone").innerText = "Phone: " + (u.phone || 'N/A');
+    document.getElementById("age").innerText = "Age: " + (u.age || 'N/A');
+    document.getElementById("gender").innerText = "Gender: " + (u.gender || 'N/A');
+
+    if (u.specialization)
+        document.getElementById("specialization").innerText =
+            "Specialization: " + u.specialization;
+
+    if (u.photo)
+        document.getElementById("photo").src = u.photo;
+}
+
+loadProfile();
+</script>
+
+</body>
+</html>

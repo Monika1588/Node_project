@@ -4,6 +4,7 @@ const session = require("express-session");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const path = require("path");
+const multer = require("multer"); // For profile photo uploads
 
 // Routes
 const authRoutes = require("./routes/auth");
@@ -50,7 +51,48 @@ async function startServer() {
       next();
     });
 
+    // ----------------------
+    // MULTER CONFIG (profile photo uploads)
+    // ----------------------
+    const storage = multer.diskStorage({
+      destination: function (req, file, cb) {
+        cb(null, path.join(__dirname, "uploads")); // uploads folder
+      },
+      filename: function (req, file, cb) {
+        const ext = path.extname(file.originalname);
+        // use userId (assumes req.session.userId is set after login)
+        cb(null, `${req.session.userId || Date.now()}${ext}`);
+      },
+    });
+    const upload = multer({ storage: storage });
+
+    // Serve uploads folder publicly
+    app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+    // ----------------------
+    // PROFILE PHOTO UPLOAD ROUTE
+    // ----------------------
+    app.post("/api/profile/photo", upload.single("photo"), async (req, res) => {
+      try {
+        if (!req.session.userId) return res.status(401).json({ success: false, message: "Not logged in" });
+        
+        const User = require("./models/User"); // Your user model
+        const user = await User.findById(req.session.userId);
+        if (!user) return res.status(404).json({ success: false, message: "User not found" });
+
+        user.photo = `/uploads/${req.file.filename}`;
+        await user.save();
+
+        res.json({ success: true, photo: user.photo });
+      } catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false, message: "Upload failed" });
+      }
+    });
+
+    // ----------------------
     // ROUTES
+    // ----------------------
     app.use("/api/auth", authRoutes);          // Register/Login
     app.use("/api/appointments", apptRoutes);  // Appointment CRUD
     app.use("/api/profile", profileRoutes);    // Profile management
