@@ -1,17 +1,14 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <meta charset="utf-8" />
-  <title>Patient Dashboard</title>
-
+  <meta charset="UTF-8">
+  <title>Patient Dashboard | HealthCare+</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-
   <style>
     :root {
       --accent: #2575fc;
-      --accent2: #6a11cb;
-      --bg: #eef3ff;
       --card: #ffffff;
       --muted: #6b7280;
       --sidebar: #1e2a47;
@@ -19,11 +16,11 @@
 
     * {
       box-sizing: border-box;
-      transition: all 0.25s ease;
+      margin: 0;
+      padding: 0;
     }
 
     body {
-      margin: 0;
       font-family: "Poppins", sans-serif;
       color: #111827;
       background: linear-gradient(-45deg, #e3ebff, #d4e2ff, #eaf1ff, #cddaff);
@@ -44,7 +41,7 @@
     .wrapper {
       display: flex;
       min-height: 100vh;
-      animation: fadeIn 0.8s ease;
+      animation: fadeIn .8s ease;
     }
 
     @keyframes fadeIn {
@@ -55,7 +52,7 @@
 
       to {
         opacity: 1;
-        transform: translateY(0);
+        transform: none;
       }
     }
 
@@ -63,31 +60,16 @@
     .sidebar {
       width: 240px;
       background: var(--sidebar);
-      color: white;
+      color: #fff;
       padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
       position: fixed;
       top: 0;
       left: 0;
       bottom: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-      box-shadow: 4px 0 18px rgba(0, 0, 0, 0.12);
-      transform: translateX(-50px);
-      opacity: 0;
-      animation: sidebarSlide 0.9s ease forwards;
-    }
-
-    @keyframes sidebarSlide {
-      from {
-        opacity: 0;
-        transform: translateX(-50px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateX(0);
-      }
+      box-shadow: 4px 0 18px rgba(0, 0, 0, .12);
     }
 
     .brand {
@@ -95,7 +77,6 @@
       font-weight: 600;
       text-align: center;
       margin-bottom: 8px;
-      letter-spacing: 0.5px;
     }
 
     .profile {
@@ -105,20 +86,7 @@
       gap: 8px;
       padding: 12px;
       border-radius: 10px;
-      background: rgba(255, 255, 255, 0.05);
-      animation: popIn 0.8s ease forwards;
-    }
-
-    @keyframes popIn {
-      from {
-        transform: scale(0.95);
-        opacity: 0;
-      }
-
-      to {
-        transform: scale(1);
-        opacity: 1;
-      }
+      background: rgba(255, 255, 255, .05);
     }
 
     .profile img {
@@ -126,15 +94,9 @@
       height: 72px;
       border-radius: 50%;
       object-fit: cover;
-      border: 2px solid rgba(255, 255, 255, 0.12);
-      transition: transform .3s;
+      border: 2px solid rgba(255, 255, 255, .12);
     }
 
-    .profile img:hover {
-      transform: scale(1.07);
-    }
-
-    /* Nav */
     .nav {
       display: flex;
       flex-direction: column;
@@ -151,13 +113,12 @@
       align-items: center;
       gap: 8px;
       font-weight: 500;
-      background: transparent;
-      transition: 0.3s;
+      transition: all .2s;
     }
 
     .nav a:hover {
-      background: rgba(255, 255, 255, 0.1);
-      transform: translateX(8px);
+      background: rgba(255, 255, 255, .06);
+      transform: translateX(6px);
     }
 
     .logoutBtn {
@@ -172,11 +133,10 @@
     }
 
     .logoutBtn:hover {
-      filter: brightness(.92);
-      transform: scale(1.03);
+      filter: brightness(.95);
     }
 
-    /* Main Content */
+    /* Content */
     .content {
       margin-left: 260px;
       padding: 28px;
@@ -187,33 +147,17 @@
       background: var(--card);
       padding: 22px;
       border-radius: 14px;
-      box-shadow: 0 8px 20px rgba(2, 6, 23, 0.08);
+      box-shadow: 0 8px 20px rgba(2, 6, 23, .08);
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      gap: 16px;
-      animation: fadeDown 0.8s ease;
+      align-items: center;
     }
 
-    @keyframes fadeDown {
-      from {
-        opacity: 0;
-        transform: translateY(-15px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    /* Filters */
     .filters {
       display: flex;
       gap: 12px;
       margin-top: 18px;
       flex-wrap: wrap;
-      animation: fadeIn 1s ease;
     }
 
     .filters input,
@@ -221,39 +165,25 @@
       padding: 10px 12px;
       border-radius: 10px;
       border: 1px solid #d1d5db;
-      background: white;
-      font-size: 14px;
       min-width: 160px;
-      outline: none;
     }
 
-    .filters input:focus,
-    .filters select:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 8px rgba(37, 117, 252, 0.4);
-    }
-
-    /* Doctor Cards */
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
       gap: 16px;
       margin-top: 20px;
-      animation: fadeIn 1.2s ease;
     }
 
     .card {
       background: var(--card);
       padding: 18px;
       border-radius: 12px;
-      box-shadow: 0 8px 18px rgba(2, 6, 23, 0.06);
+      box-shadow: 0 8px 18px rgba(2, 6, 23, .06);
       text-align: center;
-      transition: transform .25s, box-shadow .25s;
-    }
-
-    .card:hover {
-      transform: translateY(-6px) scale(1.02);
-      box-shadow: 0 10px 24px rgba(2, 6, 23, 0.12);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
     .card img {
@@ -262,28 +192,43 @@
       border-radius: 50%;
       object-fit: cover;
       border: 3px solid var(--accent);
-      transition: transform .3s;
     }
 
-    .card img:hover {
-      transform: scale(1.08) rotate(2deg);
+    .card h3 {
+      margin: 10px 0 6px;
+      font-size: 18px;
     }
 
-    .card button {
-      margin-top: 12px;
-      background: var(--accent);
-      color: white;
+    .card p {
+      margin: 6px 0;
+      color: #444;
+    }
+
+    .card .actions {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
       padding: 8px 12px;
       border-radius: 8px;
       border: none;
       cursor: pointer;
       font-weight: 600;
-      transition: 0.3s;
     }
 
-    .card button:hover {
-      background: #1b5ed1;
-      transform: scale(1.05);
+    .btn-book {
+      background: var(--accent);
+      color: white;
+    }
+
+    .btn-view {
+      background: #e6eefc;
+      color: var(--accent);
+      border: 1px solid rgba(37, 117, 252, .12);
     }
 
     .center {
@@ -298,27 +243,44 @@
     .modal {
       display: none;
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.5);
+      inset: 0;
+      background: rgba(0, 0, 0, .5);
       justify-content: center;
       align-items: center;
       z-index: 1000;
+    }
+
+    .modal[open] {
+      display: flex;
     }
 
     .modal-content {
       background: white;
       padding: 20px;
       border-radius: 10px;
-      max-width: 400px;
-      width: 90%;
+      max-width: 540px;
+      width: 94%;
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 14px;
+      align-items: start;
       position: relative;
     }
 
+    .modal-content img {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
     .modal-content h3 {
-      margin-top: 0;
+      margin: 0 0 6px;
+    }
+
+    .modal-content .meta p {
+      margin: 6px 0;
+      color: #333;
     }
 
     .close-modal {
@@ -326,174 +288,207 @@
       top: 10px;
       right: 10px;
       cursor: pointer;
-      font-weight: bold;
+      background: transparent;
+      border: none;
+      font-size: 20px;
     }
 
-    @media (max-width:800px) {
+    @media(max-width:800px) {
       .sidebar {
-        display: none;
+        display: none
       }
 
       .content {
         margin-left: 0;
-        padding: 16px;
+        padding: 16px
+      }
+
+      .modal-content {
+        grid-template-columns: 1fr
       }
     }
   </style>
 </head>
 
 <body>
-
   <div class="wrapper">
-    <!-- Sidebar -->
-    <aside class="sidebar" id="sidebar">
+    <aside class="sidebar">
       <div class="brand">🏥 HealthCare+</div>
       <div class="profile">
-        <img id="userPhoto" src="https://cdn-icons-png.flaticon.com/512/147/147144.png" alt="user">
+        <img id="userPhoto" src="https://cdn-icons-png.flaticon.com/512/147/147144.png" alt="user photo">
         <h4 id="userName">Loading...</h4>
         <p id="userEmail">—</p>
       </div>
-
       <nav class="nav">
-        <a href="/patient.html">Dashboard</a>
+        <a href="/patient-dashboard.html">Dashboard</a>
         <a href="/book.html">📅 Book Appointment</a>
         <a href="/history.html">📝 My Appointments</a>
         <a href="/profile-dashboard.html">👤 My Profile</a>
       </nav>
-
       <button class="logoutBtn" id="logoutBtn">🚪 Logout</button>
     </aside>
 
-    <!-- Main Content -->
     <main class="content">
       <div class="welcome">
-        <div class="left">
+        <div>
           <h2 id="welcomeText">Welcome, Patient 👋</h2>
           <p id="welcomeSub">Your dashboard for appointments & health services.</p>
         </div>
-        <div class="right note" id="statusNote"></div>
+        <div id="statusNote" aria-live="polite"></div>
       </div>
 
-      <!-- Filters -->
-      <div class="filters">
+      <div class="filters" role="region" aria-label="Doctor filters">
         <input id="searchName" type="text" placeholder="Search doctor by name">
         <select id="filterSpecialization">
           <option value="">All Specializations</option>
         </select>
-        <select id="filterSlot">
-          <option value="">Any Slot</option>
-          <option value="morning">Morning</option>
-          <option value="afternoon">Afternoon</option>
-          <option value="evening">Evening</option>
-        </select>
-        <input id="searchSymptom" type="text" placeholder="Symptom (e.g., fever)">
       </div>
 
-      <!-- Doctor Grid -->
       <h3 style="margin-top:18px">Available Doctors</h3>
-      <div id="doctorGrid" class="grid"></div>
+      <div id="doctorGrid" class="grid" aria-live="polite"></div>
       <div id="emptyMsg" class="center" style="display:none">No doctors found.</div>
     </main>
   </div>
 
-  <!-- Doctor Details Modal -->
-  <div class="modal" id="doctorModal">
+  <!-- Doctor Modal -->
+  <div class="modal" id="doctorModal" role="dialog" aria-modal="true" aria-hidden="true">
     <div class="modal-content">
-      <span class="close-modal" id="closeModal">×</span>
-      <img id="modalPhoto" src=""
-        style="width:100px;height:100px;border-radius:50%;object-fit:cover;margin-bottom:12px;">
-      <h3 id="modalName"></h3>
-      <p><strong>Specialization:</strong> <span id="modalSpec"></span></p>
-      <p><strong>Available Slots:</strong> <span id="modalSlots"></span></p>
-      <p><strong>Symptoms:</strong> <span id="modalSymptoms"></span></p>
+      <button class="close-modal" id="closeModal" aria-label="Close">×</button>
+      <img id="modalPhoto" src="https://cdn-icons-png.flaticon.com/512/3774/3774299.png" alt="doctor photo">
+      <div class="meta">
+        <h3 id="modalName">Doctor Name</h3>
+        <p><strong>Email:</strong> <span id="modalEmail">—</span></p>
+        <p><strong>Phone:</strong> <span id="modalPhone">—</span></p>
+        <p><strong>Age:</strong> <span id="modalAge">—</span></p>
+        <p><strong>Gender:</strong> <span id="modalGender">—</span></p>
+        <p><strong>Specialization:</strong> <span id="modalSpec">—</span></p>
+      </div>
     </div>
   </div>
 
   <script>
     const doctorGrid = document.getElementById('doctorGrid');
     const emptyMsg = document.getElementById('emptyMsg');
+    const closeModalBtn = document.getElementById('closeModal');
+    const modal = document.getElementById('doctorModal');
     let doctorsData = [];
 
-    // Load user session
+    const escapeHtml = text => text == null ? '' : String(text).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+
+    // Show doctor modal
+    function showModalForDoctor(doc) {
+      if (!doc) return;
+      document.getElementById('modalPhoto').src = doc.photo || 'https://cdn-icons-png.flaticon.com/512/3774/3774299.png';
+      document.getElementById('modalName').innerText = doc.name || '—';
+      document.getElementById('modalEmail').innerText = doc.email || '—';
+      document.getElementById('modalPhone').innerText = doc.phone || '—';
+      document.getElementById('modalAge').innerText = doc.age ?? '—';
+      document.getElementById('modalGender').innerText = doc.gender || '—';
+      document.getElementById('modalSpec').innerText = doc.specialization || 'General';
+      modal.setAttribute('aria-hidden', 'false'); modal.open = true; modal.style.display = 'flex';
+      closeModalBtn.focus();
+    }
+    const closeModal = () => { modal.setAttribute('aria-hidden', 'true'); modal.open = false; modal.style.display = 'none'; };
+    closeModalBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && modal.style.display === 'flex') closeModal(); });
+
+    // Load user
     async function loadUser() {
       try {
         const res = await fetch('/api/auth/me', { credentials: 'include' });
         if (!res.ok) { window.location.href = '/login.html'; return; }
         const { user } = await res.json();
-        if (user) {
-          document.getElementById('userName').innerText = user.name || 'Patient';
-          document.getElementById('userEmail').innerText = user.email || '';
-          document.getElementById('welcomeText').innerText = `Welcome, ${user.name || 'Patient'} 👋`;
-          if (user.photo) document.getElementById('userPhoto').src = user.photo;
-        }
-      } catch (err) { console.error(err); window.location.href = '/login.html'; }
+        if (!user) { window.location.href = '/login.html'; return; }
+        document.getElementById('userName').innerText = user.name || 'Patient';
+        document.getElementById('userEmail').innerText = user.email || '';
+        document.getElementById('welcomeText').innerText = `Welcome, ${user.name || 'Patient'} 👋`;
+        if (user.photo) document.getElementById('userPhoto').src = user.photo;
+      } catch (err) { console.error('Failed to load user', err); }
     }
+
+    // Sample doctors
+    const sampleDoctors = [
+      { _id: '1', name: 'Dr. Priya Singh', email: 'priya.singh@example.com', phone: '+91-9876543210', age: 38, gender: 'Female', specialization: 'Cardiologist', photo: 'https://randomuser.me/api/portraits/women/68.jpg' },
+      { _id: '2', name: 'Dr. Rohit Mehra', email: 'rohit.mehra@example.com', phone: '+91-9123456780', age: 45, gender: 'Male', specialization: 'Dentist', photo: 'https://randomuser.me/api/portraits/men/32.jpg' }
+    ];
 
     // Load doctors
     async function loadDoctors() {
       try {
         const res = await fetch('/api/appointments/doctors', { credentials: 'include' });
-        if (!res.ok) { document.getElementById('statusNote').innerText = 'Error loading doctors.'; return; }
-        const js = await res.json();
-        doctorsData = js.doctors || [];
-        populateSpecializations();
-        renderDoctors(doctorsData);
-      } catch (err) { console.error(err); document.getElementById('statusNote').innerText = 'Failed to load doctors.'; }
+        if (!res.ok) throw new Error('API unavailable');
+        const { doctors } = await res.json();
+        doctorsData = Array.isArray(doctors) && doctors.length ? doctors.map(normalizeDoctor) : sampleDoctors;
+      } catch (err) {
+        console.warn('Using sample doctors', err);
+        doctorsData = sampleDoctors;
+        document.getElementById('statusNote').innerText = 'Showing sample doctors (API unavailable).';
+      }
+      populateSpecializations();
+      renderDoctors(doctorsData);
     }
 
-    // Populate specialization select
+    function normalizeDoctor(d) {
+      return {
+        _id: d._id || d.id || Math.random().toString(36).slice(2),
+        name: d.name || '—',
+        email: d.email || '',
+        phone: d.phone || '',
+        age: d.age ?? '',
+        gender: d.gender || '',
+        specialization: d.specialization || '',
+        photo: d.photo || ''
+      };
+    }
+
+    // Populate specialization filter
     function populateSpecializations() {
       const select = document.getElementById('filterSpecialization');
       select.innerHTML = '<option value="">All Specializations</option>';
-      const specs = doctorsData.map(d => d.specialization).filter(Boolean).map(s => s.trim())
-        .filter((v, i, a) => a.indexOf(v) === i);
-      specs.forEach(s => {
-        const o = document.createElement('option'); o.value = s; o.innerText = s; select.appendChild(o);
-      });
+      const specs = [...new Set(doctorsData.map(d => d.specialization).filter(Boolean))];
+      specs.forEach(s => select.appendChild(Object.assign(document.createElement('option'), { value: s, innerText: s })));
     }
 
     // Render doctors
     function renderDoctors(list) {
       doctorGrid.innerHTML = '';
-      if (!Array.isArray(list) || list.length === 0) { emptyMsg.style.display = 'block'; return; }
+      if (!list.length) { emptyMsg.style.display = 'block'; return; }
       emptyMsg.style.display = 'none';
-
       list.forEach(d => {
-        const photo = d.photo || 'https://cdn-icons-png.flaticon.com/512/3774/3774299.png';
-        const specialization = d.specialization || 'General';
-        const docCard = document.createElement('div'); docCard.className = 'card';
-        docCard.innerHTML = `
-      <img src="${photo}" alt="${escapeHtml(d.name)}">
+        const card = document.createElement('div'); card.className = 'card';
+        card.innerHTML = `
+      <img src="${escapeHtml(d.photo || 'https://cdn-icons-png.flaticon.com/512/3774/3774299.png')}" alt="${escapeHtml(d.name)}">
       <h3>${escapeHtml(d.name)}</h3>
-      <p>Specialization: ${escapeHtml(specialization)}</p>
-      <button class="bookBtn" data-id="${d._id}" data-name="${escapeHtml(d.name)}">Book Appointment</button>
-      <button class="viewBtn" data-id="${d._id}">View Details</button>
+      <p>Specialization: ${escapeHtml(d.specialization || 'General')}</p>
+      <div class="actions">
+        <button class="btn btn-book" data-id="${escapeHtml(d._id)}">Book Appointment</button>
+        <button class="btn btn-view" data-id="${escapeHtml(d._id)}">View Details</button>
+      </div>
     `;
-        // Book appointment
-        docCard.querySelector('.bookBtn').addEventListener('click', e => {
-          const id = e.currentTarget.dataset.id;
-          const name = e.currentTarget.dataset.name;
-          localStorage.setItem('book_doctorId', id);
-          localStorage.setItem('book_doctorName', name);
-          window.location.href = '/book.html';
-        });
-        // View details
-        docCard.querySelector('.viewBtn').addEventListener('click', e => {
-          const doctor = doctorsData.find(doc => doc._id === e.currentTarget.dataset.id);
-          if (!doctor) return;
-          document.getElementById('modalPhoto').src = doctor.photo || photo;
-          document.getElementById('modalName').innerText = doctor.name;
-          document.getElementById('modalSpec').innerText = doctor.specialization || 'General';
-          document.getElementById('modalSlots').innerText = (Array.isArray(doctor.availableSlots) ? doctor.availableSlots.join(', ') : doctor.availableSlots) || '—';
-          document.getElementById('modalSymptoms').innerText = (Array.isArray(doctor.symptoms) ? doctor.symptoms.join(', ') : doctor.symptoms) || '—';
-          document.getElementById('doctorModal').style.display = 'flex';
-        });
-        doctorGrid.appendChild(docCard);
+        card.querySelector('.btn-book').addEventListener('click', () => { localStorage.setItem('book_doctorId', d._id); localStorage.setItem('book_doctorName', d.name); window.location.href = '/book.html'; });
+        card.querySelector('.btn-view').addEventListener('click', () => showModalForDoctor(d));
+        doctorGrid.appendChild(card);
       });
     }
 
-    // Escape HTML helper
-    function escapeHtml(text) { if (text == null) return ''; return String(text).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;'); }
+    // Filter doctors
+    function filterDoctors() {
+      const name = document.getElementById('searchName').value.toLowerCase().trim();
+      const spec = document.getElementById('filterSpecialization').value;
+      const filtered = doctorsData.filter(d => {
+        if (name && !d.name.toLowerCase().includes(name)) return false;
+        if (spec && d.specialization !== spec) return false;
+        return true;
+      });
+      renderDoctors(filtered);
+    }
+    function debounce(fn, wait = 180) { let t; return (...args) => { clearTimeout(t); t = setTimeout(() => fn.apply(this, args), wait); }; }
+    ['searchName', 'filterSpecialization'].forEach(id => {
+      const el = document.getElementById(id);
+      el.addEventListener('input', debounce(filterDoctors));
+      el.addEventListener('change', debounce(filterDoctors));
+    });
 
     // Logout
     document.getElementById('logoutBtn').addEventListener('click', async () => {
@@ -501,50 +496,7 @@
       window.location.href = '/';
     });
 
-    // Filter doctors
-    function normalizeSymptomsField(field) {
-      if (!field) return [];
-      if (Array.isArray(field)) return field.map(s => String(s).toLowerCase().trim()).filter(Boolean);
-      if (typeof field === 'string') return field.split(/[,;|]/).map(s => s.toLowerCase().trim()).filter(Boolean);
-      return [String(field).toLowerCase().trim()];
-    }
-    function filterDoctors() {
-      const name = document.getElementById('searchName').value.trim().toLowerCase();
-      const spec = document.getElementById('filterSpecialization').value;
-      const slot = document.getElementById('filterSlot').value;
-      const symptomInput = document.getElementById('searchSymptom').value.trim().toLowerCase();
-
-      const filtered = doctorsData.filter(d => {
-        if (name && !(d.name || '').toLowerCase().includes(name)) return false;
-        if (spec && (d.specialization || '') !== spec) return false;
-        if (slot) {
-          const slots = Array.isArray(d.availableSlots) ? d.availableSlots : ((d.availableSlots || '').toString().split(/[,;|]/).map(s => s.trim()));
-          if (!slots.some(s => s.toLowerCase() === slot)) return false;
-        }
-        if (symptomInput) {
-          const docSymptoms = normalizeSymptomsField(d.symptoms);
-          if (!docSymptoms.some(s => s.includes(symptomInput))) return false;
-        }
-        return true;
-      });
-      renderDoctors(filtered);
-    }
-
-    // Attach filter listeners
-    ['searchName', 'filterSpecialization', 'filterSlot', 'searchSymptom'].forEach(id => {
-      const el = document.getElementById(id);
-      if (!el) return;
-      el.addEventListener('input', debounce(filterDoctors, 180));
-    });
-
-    // Debounce
-    function debounce(fn, wait) { let t; return function (...args) { clearTimeout(t); t = setTimeout(() => fn.apply(this, args), wait); }; }
-
-    // Modal close
-    document.getElementById('closeModal').addEventListener('click', () => { document.getElementById('doctorModal').style.display = 'none'; });
-    document.getElementById('doctorModal').addEventListener('click', e => { if (e.target.id === 'doctorModal') e.currentTarget.style.display = 'none'; });
-
-    // Initialize
+    // Init
     (async function init() { await loadUser(); await loadDoctors(); })();
   </script>
 </body>
