@@ -13,7 +13,8 @@ const apptRoutes = require("./routes/appointments");
 const profileRoutes = require("./routes/profile");
 
 // MongoDB
-const MONGO_URL = "mongodb://127.0.0.1:27017/hospitalDB";
+const MONGO_URL = "mongodb+srv://vermamonika3733_db_userr:mongo2347@cluster0.cyb6dls.mongodb.net/hospital_appointment?retryWrites=true&w=majority";
+
 
 async function startServer() {
   try {

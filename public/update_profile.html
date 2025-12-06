@@ -235,7 +235,6 @@
 
 <body>
 
-<!-- BUBBLES -->
 <div class="bubble"></div>
 <div class="bubble"></div>
 <div class="bubble"></div>
@@ -243,7 +242,6 @@
 <div class="bubble"></div>
 <div class="bubble"></div>
 
-<!-- SUCCESS POPUP -->
 <div id="successPopup">
     <div class="popup-content">
         <div class="checkmark-circle">
@@ -327,7 +325,7 @@
 </div>
 
 <script>
-    let originalData = {}; // store original values to detect changes
+    let originalData = {}; 
     
     // LOAD PROFILE
     async function loadProfile() {
@@ -454,14 +452,12 @@
         const box = document.getElementById("msg");
     
         if (success) {
-            // Show popup for success
             const popup = document.getElementById("successPopup");
             popup.classList.add("show");
             setTimeout(() => popup.classList.remove("show"), 1800);
     
-            box.style.display = "none"; // hide text errors on success
+            box.style.display = "none"; 
         } else {
-            // Show small text message for errors & "no changes"
             box.style.display = "block";
             box.className = "error";
             box.innerText = text;

@@ -11,7 +11,7 @@ function requireAuth(req, res, next) {
   next();
 }
 
-// GET ALL DOCTORS (for patient to choose)
+// GET ALL DOCTORS 
 router.get('/doctors', async (req, res) => {
   try {
     const doctors = await User.find({ role: 'doctor' }).select('-passwordHash');
@@ -67,7 +67,7 @@ router.post('/', requireAuth, async (req, res) => {
   }
 });
 
-// GET APPOINTMENTS (Patient / Doctor)
+// GET APPOINTMENTS 
 router.get('/', requireAuth, async (req, res) => {
   try {
     let filter = {};
@@ -93,7 +93,7 @@ router.get('/', requireAuth, async (req, res) => {
   }
 });
 
-// VIEW DOCTOR DETAILS (Patient clicks "About Doctor")
+// VIEW DOCTOR DETAILS 
 router.get('/doctor/:id', requireAuth, async (req, res) => {
   try {
     const doctor = await User.findById(req.params.id).select('-passwordHash');
@@ -110,7 +110,7 @@ router.get('/doctor/:id', requireAuth, async (req, res) => {
   }
 });
 
-// VIEW PATIENT DETAILS (Doctor clicks "Patient Details")
+// VIEW PATIENT DETAILS 
 router.get('/patient/:id', requireAuth, async (req, res) => {
   try {
 

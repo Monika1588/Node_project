@@ -11,42 +11,226 @@
       background: #eef2ff;
       overflow-x: hidden;
     }
-    .shape { position: absolute; border-radius: 50%; filter: blur(8px); opacity: 0.4; animation: float 7s infinite ease-in-out; }
-    .s1 { width: 180px; height: 180px; background: #6a11cb; top: 10%; left: -50px; }
-    .s2 { width: 220px; height: 220px; background: #2575fc; top: 60%; right: -70px; animation-delay: 2s; }
-    @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-40px); } 100% { transform: translateY(0); } }
+
+    .shape {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(8px);
+      opacity: 0.4;
+      animation: float 7s infinite ease-in-out;
+    }
+
+    .s1 {
+      width: 180px;
+      height: 180px;
+      background: #6a11cb;
+      top: 10%;
+      left: -50px;
+    }
+
+    .s2 {
+      width: 220px;
+      height: 220px;
+      background: #2575fc;
+      top: 60%;
+      right: -70px;
+      animation-delay: 2s;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(0px);
+      }
+
+      50% {
+        transform: translateY(-40px);
+      }
+
+      100% {
+        transform: translateY(0);
+      }
+    }
 
     header {
       background: linear-gradient(135deg, #6a11cb, #2575fc);
-      padding: 25px 45px; color: white; display: flex; justify-content: space-between; align-items: center; position: relative; overflow: hidden;
+      padding: 25px 45px;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
     }
-    header h2 { margin: 0; font-size: 30px; font-weight: 600; }
-    header button { background: white; color: #2575fc; border: none; padding: 10px 20px; border-radius: 12px; cursor: pointer; font-weight: bold; box-shadow: 0 5px 12px rgba(0, 0, 0, 0.15); transition: 0.3s ease; }
-    header button:hover { transform: scale(1.07); }
 
-    .dashboard { max-width: 1100px; margin: 50px auto; position: relative; z-index: 2; }
-    .summary-box { background: white; padding: 30px; border-radius: 25px; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15); text-align: center; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-top: 25px; }
-    .card { background: white; padding: 22px; border-radius: 18px; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12); position: relative; transition: 0.3s ease; }
-    .card:hover { transform: translateY(-6px); }
-    .card h4 { font-size: 22px; margin: 0 0 10px; font-weight: 600; }
-    .item { font-size: 15px; color: #444; margin: 6px 0; }
-    .badge { padding: 7px 14px; border-radius: 30px; display: inline-block; font-weight: bold; margin-top: 8px; }
-    .approved { background: #d4ffe2; color: #137a21; }
-    .rejected { background: #ffd4d4; color: #a10000; }
-    .pending { background: #fff0c2; color: #8c6500; }
-    .completed { background: #dce4ff; color: #003087; }
-    .card button { margin-top: 10px; margin-right: 6px; padding: 8px 16px; border: none; border-radius: 8px; color: white; font-weight: bold; cursor: pointer; }
-    .approve { background: #28a745; }
-    .reject { background: #dc3545; }
-    .complete { background: #007bff; }
-    .popup-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.5); display: none; justify-content: center; align-items: center; z-index: 999; }
-    .popup { background: white; width: 360px; padding: 25px; border-radius: 16px; }
-    textarea { width: 100%; padding: 10px; border-radius: 8px; margin-top: 10px; display: none; }
-    .popup-buttons { margin-top: 12px; display: flex; justify-content: flex-end; gap: 10px; }
-    .cancel { background: #ccc; }
-    .confirm { background: #2575fc; color: white; }
-    .feedback-box { background: #e2f0d9; padding: 10px; border-left: 4px solid #4CAF50; border-radius: 10px; margin-top: 10px; font-size: 14px; }
+    header h2 {
+      margin: 0;
+      font-size: 30px;
+      font-weight: 600;
+    }
+
+    header button {
+      background: white;
+      color: #2575fc;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: bold;
+      box-shadow: 0 5px 12px rgba(0, 0, 0, 0.15);
+      transition: 0.3s ease;
+    }
+
+    header button:hover {
+      transform: scale(1.07);
+    }
+
+    .dashboard {
+      max-width: 1100px;
+      margin: 50px auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .summary-box {
+      background: white;
+      padding: 30px;
+      border-radius: 25px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+      text-align: center;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+      margin-top: 25px;
+    }
+
+    .card {
+      background: white;
+      padding: 22px;
+      border-radius: 18px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+      position: relative;
+      transition: 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+    }
+
+    .card h4 {
+      font-size: 22px;
+      margin: 0 0 10px;
+      font-weight: 600;
+    }
+
+    .item {
+      font-size: 15px;
+      color: #444;
+      margin: 6px 0;
+    }
+
+    .badge {
+      padding: 7px 14px;
+      border-radius: 30px;
+      display: inline-block;
+      font-weight: bold;
+      margin-top: 8px;
+    }
+
+    .approved {
+      background: #d4ffe2;
+      color: #137a21;
+    }
+
+    .rejected {
+      background: #ffd4d4;
+      color: #a10000;
+    }
+
+    .pending {
+      background: #fff0c2;
+      color: #8c6500;
+    }
+
+    .completed {
+      background: #dce4ff;
+      color: #003087;
+    }
+
+    .card button {
+      margin-top: 10px;
+      margin-right: 6px;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .approve {
+      background: #28a745;
+    }
+
+    .reject {
+      background: #dc3545;
+    }
+
+    .complete {
+      background: #007bff;
+    }
+
+    .popup-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+
+    .popup {
+      background: white;
+      width: 360px;
+      padding: 25px;
+      border-radius: 16px;
+    }
+
+    textarea {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      margin-top: 10px;
+      display: none;
+    }
+
+    .popup-buttons {
+      margin-top: 12px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .cancel {
+      background: #ccc;
+    }
+
+    .confirm {
+      background: #2575fc;
+      color: white;
+    }
+
+    .feedback-box {
+      background: #e2f0d9;
+      padding: 10px;
+      border-left: 4px solid #4CAF50;
+      border-radius: 10px;
+      margin-top: 10px;
+      font-size: 14px;
+    }
   </style>
 </head>
 
@@ -184,4 +368,5 @@ Gender: ${js.patient.gender || "N/A"}
   </script>
 
 </body>
+
 </html>

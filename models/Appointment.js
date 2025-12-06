@@ -28,16 +28,6 @@ const appointmentSchema = new mongoose.Schema({
     default: ""
   },
 
-  patientNotes: {
-    type: String,
-    default: ""
-  },
-
-  symptoms: {
-    type: String,
-    default: ""
-  },
-
   status: {
     type: String,
     enum: ["pending", "approved", "rejected", "completed"],

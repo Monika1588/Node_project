@@ -1,4 +1,3 @@
-// routes/profile.js
 const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
@@ -30,7 +29,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({
   storage,
-  limits: { fileSize: 2 * 1024 * 1024 }, // 2MB limit
+  limits: { fileSize: 2 * 1024 * 1024 }, 
   fileFilter: (req, file, cb) => {
     if (!file.mimetype.startsWith('image/')) {
       cb(new Error('Only image files are allowed!'));
