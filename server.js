@@ -6,21 +6,22 @@ const cookieParser = require("cookie-parser");
 const path = require("path");
 const multer = require("multer");
 const fs = require("fs");
+require("dotenv").config(); 
 
-// Routes
+// Routes 
 const authRoutes = require("./routes/auth");
 const apptRoutes = require("./routes/appointments");
 const profileRoutes = require("./routes/profile");
 
-// MongoDB
-const MONGO_URL = "mongodb+srv://vermamonika3733_db_userr:mongo2347@cluster0.cyb6dls.mongodb.net/hospital_appointment?retryWrites=true&w=majority";
-
+// MongoDB URL from .env
+const MONGO_URL = process.env.MONGO_URL;
 
 async function startServer() {
   try {
+    // Connect to MongoDB
     await mongoose.connect(MONGO_URL);
     console.log("✅ MongoDB Connected");
-
+    
     const app = express();
 
     // Middlewares
@@ -28,9 +29,10 @@ async function startServer() {
     app.use(bodyParser.urlencoded({ extended: true }));
     app.use(cookieParser());
 
+    // Session
     app.use(
       session({
-        secret: "supersecretkey",
+        secret: process.env.SESSION_SECRET,
         resave: false,
         saveUninitialized: false,
         cookie: { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 },
@@ -51,18 +53,16 @@ async function startServer() {
       next();
     });
 
-
     // MULTER CONFIG
     const storage = multer.diskStorage({
-      destination: function (req, file, cb) {
+      destination: (req, file, cb) => {
         cb(null, path.join(__dirname, "uploads"));
       },
-      filename: function (req, file, cb) {
+      filename: (req, file, cb) => {
         const ext = path.extname(file.originalname);
         cb(null, `${req.session.userId}_${Date.now()}${ext}`);
       },
     });
-
     const upload = multer({ storage });
 
     // Serve uploads folder
@@ -74,13 +74,10 @@ async function startServer() {
     app.post("/api/profile/photo", upload.single("photo"), async (req, res) => {
       try {
         if (!req.session.userId)
-          return res
-            .status(401)
-            .json({ success: false, message: "Not logged in" });
+          return res.status(401).json({ success: false, message: "Not logged in" });
 
         const user = await User.findById(req.session.userId);
-        if (!user)
-          return res.json({ success: false, message: "User not found" });
+        if (!user) return res.json({ success: false, message: "User not found" });
 
         // Delete old photo if exists
         if (user.photo) {
@@ -102,13 +99,10 @@ async function startServer() {
     app.delete("/api/profile/photo/remove", async (req, res) => {
       try {
         if (!req.session.userId)
-          return res
-            .status(401)
-            .json({ success: false, message: "Not logged in" });
+          return res.status(401).json({ success: false, message: "Not logged in" });
 
         const user = await User.findById(req.session.userId);
-        if (!user)
-          return res.json({ success: false, message: "User not found" });
+        if (!user) return res.json({ success: false, message: "User not found" });
 
         // Delete file
         if (user.photo) {
