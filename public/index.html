@@ -19,10 +19,16 @@
 
     body {
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      background:
+        radial-gradient(circle 150px at 30% 30%, rgba(255, 255, 255, 0.25), transparent 70%),
+        radial-gradient(circle 200px at 70% 60%, rgba(255, 255, 255, 0.18), transparent 70%),
+        radial-gradient(circle 120px at 50% 90%, rgba(255, 255, 255, 0.1), transparent 70%),
+        linear-gradient(135deg, #1e3c72, #2a5298);
+      background-attachment: fixed;
       color: #fff;
       overflow-x: hidden;
     }
+
 
     a {
       text-decoration: none;
@@ -433,6 +439,7 @@
 </head>
 
 <body>
+
   <!-- Header -->
   <header>
     <h2>🏥 HealthCarePlus</h2>
@@ -712,17 +719,20 @@
   <div class="feature-card">
     <i class="fa-solid fa-user-doctor"></i>
     <h3>Doctor Dashboard</h3>
-    <p>Manage schedules, view appointment requests, approve or reject, and track patient interactions efficiently.</p>
+    <p>Doctors can view appointment requests, approve or reject them, check patient details, and manage consultations
+      easily from their dashboard.</p>
   </div>
   <div class="feature-card">
     <i class="fa-solid fa-hospital-user"></i>
     <h3>Patient Portal</h3>
-    <p>Book appointments, view doctors, track appointment history, and manage personal profiles easily.</p>
+    <p>Patients can browse doctors, view full details, book appointments, track their history, and update their profile
+      at any time.</p>
   </div>
   <div class="feature-card">
     <i class="fa-solid fa-calendar-check"></i>
     <h3>Appointment Management</h3>
-    <p>Book, approve, reject, and complete appointments in real-time with automated status updates.</p>
+    <p>Real-time booking with approval, rejection, completion status, search, filters, and instant updates for both
+      patients and doctors.</p>
   </div>
   <div class="feature-card">
     <i class="fa-solid fa-lock"></i>
@@ -730,15 +740,17 @@
     <p>Encrypted authentication ensures data safety for both patients and doctors.</p>
   </div>
   <div class="feature-card">
+    <i class="fa-solid fa-user-pen"></i>
+    <h3>Profile Management</h3>
+    <p>Both patients and doctors can update their personal information, upload photos, and manage their account anytime.
+    </p>
+  </div>
+  <div class="feature-card">
     <i class="fa-solid fa-database"></i>
     <h3>MongoDB Atlas Storage</h3>
     <p>All user profiles, appointments, and history are securely stored and accessible anytime.</p>
   </div>
-  <div class="feature-card">
-    <i class="fa-solid fa-user-pen"></i>
-    <h3>Profile Management</h3>
-    <p>Edit personal details, update photos, and switch themes for a seamless experience.</p>
-  </div>
+
 </div>
 
 <!-- Footer -->
