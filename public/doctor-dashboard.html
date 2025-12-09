@@ -1,156 +1,191 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <meta charset="utf-8" />
-  <title>Doctor Dashboard</title>
+  <meta charset="UTF-8">
+  <title>Doctor Dashboard | Internship Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
-    body {
+    * {
+      box-sizing: border-box;
       margin: 0;
-      font-family: "Poppins", sans-serif;
-      background: #eef2ff;
-      overflow-x: hidden;
+      padding: 0;
     }
 
-    .shape {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(8px);
-      opacity: 0.4;
-      animation: float 7s infinite ease-in-out;
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(-45deg, #6a11cb, #2575fc, #49a09d, #f4f6fa);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      color: #333;
+      min-height: 100vh;
+      padding: 20px;
+      transition: background 0.3s, color 0.3s;
     }
 
-    .s1 {
-      width: 180px;
-      height: 180px;
-      background: #6a11cb;
-      top: 10%;
-      left: -50px;
-    }
-
-    .s2 {
-      width: 220px;
-      height: 220px;
-      background: #2575fc;
-      top: 60%;
-      right: -70px;
-      animation-delay: 2s;
-    }
-
-    @keyframes float {
+    @keyframes gradientBG {
       0% {
-        transform: translateY(0px);
+        background-position: 0% 50%;
       }
 
       50% {
-        transform: translateY(-40px);
+        background-position: 100% 50%;
       }
 
       100% {
-        transform: translateY(0);
+        background-position: 0% 50%;
       }
     }
 
+    body.dark-mode {
+      background: #121212;
+      color: #e0e0e0;
+    }
+
     header {
-      background: linear-gradient(135deg, #6a11cb, #2575fc);
-      padding: 25px 45px;
-      color: white;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      padding: 20px 30px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      position: relative;
-      overflow: hidden;
+      border-radius: 15px;
+      margin-bottom: 25px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
     }
 
     header h2 {
-      margin: 0;
-      font-size: 30px;
+      font-size: 28px;
       font-weight: 600;
+      color: #fff;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
     }
 
-    header button {
-      background: white;
+    header div button {
+      background: #fff;
       color: #2575fc;
       border: none;
-      padding: 10px 20px;
+      padding: 8px 16px;
+      margin-left: 10px;
       border-radius: 12px;
+      font-weight: 500;
       cursor: pointer;
-      font-weight: bold;
-      box-shadow: 0 5px 12px rgba(0, 0, 0, 0.15);
-      transition: 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      transition: 0.3s;
     }
 
-    header button:hover {
-      transform: scale(1.07);
+    header div button:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
     }
 
     .dashboard {
-      max-width: 1100px;
-      margin: 50px auto;
-      position: relative;
-      z-index: 2;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .summary-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 20px;
     }
 
     .summary-box {
-      background: white;
-      padding: 30px;
-      border-radius: 25px;
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(8px);
+      padding: 20px;
+      border-radius: 15px;
+      flex: 1 1 200px;
       text-align: center;
+      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.08);
+      transition: 0.3s;
+    }
+
+    .summary-box:hover {
+      transform: translateY(-3px);
+    }
+
+    .summary-box h3 {
+      font-size: 22px;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .summary-box p {
+      font-size: 14px;
+      color: #555;
+    }
+
+    body.dark-mode .summary-box {
+      background: #1e1e1e;
+      color: #e0e0e0;
     }
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: 25px;
-      margin-top: 25px;
     }
 
     .card {
-      background: white;
-      padding: 22px;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(6px);
       border-radius: 18px;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+      padding: 25px;
+      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
       position: relative;
-      transition: 0.3s ease;
+      overflow: hidden;
     }
 
     .card:hover {
-      transform: translateY(-6px);
+      transform: translateY(-5px);
+      box-shadow: 0 18px 35px rgba(0, 0, 0, 0.15);
+    }
+
+    body.dark-mode .card {
+      background: #1e1e1e;
+      color: #e0e0e0;
     }
 
     .card h4 {
-      font-size: 22px;
-      margin: 0 0 10px;
+      font-size: 20px;
+      margin-bottom: 10px;
       font-weight: 600;
     }
 
     .item {
-      font-size: 15px;
+      font-size: 14px;
       color: #444;
-      margin: 6px 0;
+      margin: 5px 0;
+    }
+
+    body.dark-mode .item {
+      color: #ccc;
     }
 
     .badge {
-      padding: 7px 14px;
-      border-radius: 30px;
-      display: inline-block;
-      font-weight: bold;
+      padding: 6px 14px;
+      border-radius: 25px;
+      font-weight: 600;
       margin-top: 8px;
+      font-size: 12px;
+      display: inline-block;
     }
 
     .approved {
-      background: #d4ffe2;
+      background: #d1f7dc;
       color: #137a21;
     }
 
     .rejected {
-      background: #ffd4d4;
+      background: #ffdede;
       color: #a10000;
     }
 
     .pending {
-      background: #fff0c2;
+      background: #fff4c2;
       color: #8c6500;
     }
 
@@ -159,27 +194,79 @@
       color: #003087;
     }
 
+    .status-ring {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      color: #555;
+      margin-bottom: 10px;
+    }
+
+    .feedback-box {
+      background: #e2f0d9;
+      padding: 10px;
+      border-left: 4px solid #4CAF50;
+      border-radius: 10px;
+      margin-top: 12px;
+      font-size: 13px;
+    }
+
+    body.dark-mode .feedback-box {
+      background: #333;
+      border-left-color: #90caf9;
+    }
+
     .card button {
-      margin-top: 10px;
-      margin-right: 6px;
+      margin-top: 12px;
+      margin-right: 8px;
       padding: 8px 16px;
       border: none;
-      border-radius: 8px;
-      color: white;
-      font-weight: bold;
+      border-radius: 10px;
+      font-weight: 500;
       cursor: pointer;
+      font-size: 13px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .card button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
     }
 
     .approve {
       background: #28a745;
+      color: #fff;
     }
 
     .reject {
       background: #dc3545;
+      color: #fff;
     }
 
     .complete {
       background: #007bff;
+      color: #fff;
+    }
+
+    .search-filter {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: space-between;
+      margin-bottom: 15px;
+    }
+
+    .search-filter input,
+    .search-filter select {
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+      width: 200px;
     }
 
     .popup-overlay {
@@ -193,65 +280,191 @@
     }
 
     .popup {
-      background: white;
-      width: 360px;
+      background: #fff;
+      width: 90%;
+      max-width: 380px;
       padding: 25px;
-      border-radius: 16px;
+      border-radius: 15px;
+      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+      text-align: center;
     }
 
     textarea {
       width: 100%;
       padding: 10px;
       border-radius: 8px;
-      margin-top: 10px;
+      margin-top: 12px;
       display: none;
+      border: 1px solid #ccc;
+      font-size: 14px;
     }
 
     .popup-buttons {
-      margin-top: 12px;
       display: flex;
       justify-content: flex-end;
       gap: 10px;
+      margin-top: 15px;
     }
 
     .cancel {
       background: #ccc;
+      color: #333;
     }
 
     .confirm {
-      background: #2575fc;
-      color: white;
+      background: #49a09d;
+      color: #fff;
     }
 
-    .feedback-box {
-      background: #e2f0d9;
-      padding: 10px;
-      border-left: 4px solid #4CAF50;
-      border-radius: 10px;
-      margin-top: 10px;
-      font-size: 14px;
+    @media(max-width:600px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      header div {
+        margin-top: 10px;
+      }
     }
+
+@media (max-width: 600px) {
+
+body {
+  padding: 10px;
+}
+
+header {
+  padding: 15px;
+  text-align: center;
+}
+
+header h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+header div button {
+  padding: 6px 10px;
+  font-size: 12px;
+  margin: 3px;
+}
+
+.summary-container {
+  gap: 10px;
+}
+
+.summary-box {
+  padding: 12px;
+}
+
+.summary-box h3 {
+  font-size: 16px;
+}
+
+.summary-box p {
+  font-size: 13px;
+}
+
+.grid {
+  grid-template-columns: 1fr; 
+  gap: 15px;
+}
+
+.card {
+  padding: 18px;
+  border-radius: 15px;
+}
+
+.card h4 {
+  font-size: 18px;
+}
+
+.item {
+  font-size: 13px;
+}
+
+.status-ring {
+  width: 40px;
+  height: 40px;
+  font-size: 12px;
+}
+
+.card button {
+  width: 100%; 
+  margin-top: 8px;
+}
+
+.card div button {
+  width: auto;
+}
+
+.search-filter {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.search-filter input,
+.search-filter select,
+#exportBtn {
+  width: 100%;
+}
+
+.popup {
+  width: 95%;
+  padding: 18px;
+}
+}
+
   </style>
 </head>
 
 <body>
-
-  <div class="shape s1"></div>
-  <div class="shape s2"></div>
-
   <header>
     <h2>👨‍⚕️ Doctor Dashboard</h2>
     <div>
+      <button id="darkModeBtn">🌙 Dark Mode</button>
+      <button><a href="/">Home</a></button>
+      <button><a href="doctor-profile-dashboard.html">My Profile</a></button>
       <button id="logoutBtn">Logout</button>
-      <button><a href="profile-dashboard.html" style="text-decoration:none; color:#2575fc;">My Profile</a></button>
+      
     </div>
   </header>
 
   <div class="dashboard">
-    <div class="summary-box">
-      <h3>Appointments Overview</h3>
-      <p style="margin-top:6px; color:#555">Manage patient appointments efficiently</p>
+    <!-- Summary -->
+    <div class="summary-container">
+      <div class="summary-box">
+        <h3>Total Appointments</h3>
+        <p id="totalAppts">0</p>
+      </div>
+      <div class="summary-box">
+        <h3>Pending</h3>
+        <p id="pendingAppts">0</p>
+      </div>
+      <div class="summary-box">
+        <h3>Approved</h3>
+        <p id="approvedAppts">0</p>
+      </div>
+      <div class="summary-box">
+        <h3>Completed</h3>
+        <p id="completedAppts">0</p>
+      </div>
     </div>
+
+    <!-- Search & Filter -->
+    <div class="search-filter">
+      <input type="text" id="searchInput" placeholder="Search patient...">
+      <select id="statusFilter">
+        <option value="">All Status</option>
+        <option value="pending">Pending</option>
+        <option value="approved">Approved</option>
+        <option value="rejected">Rejected</option>
+        <option value="completed">Completed</option>
+      </select>
+      <button id="exportBtn">Export CSV</button>
+    </div>
+
+    <!-- Appointment Grid -->
     <div class="grid" id="apptGrid"></div>
   </div>
 
@@ -268,105 +481,109 @@
   </div>
 
   <script>
-    let actionId = null;
-    let actionType = null;
+    let actionId = null, actionType = null, appointments = [];
 
+    // Dark Mode toggle
+    document.getElementById("darkModeBtn").onclick = () => document.body.classList.toggle("dark-mode");
+
+    // Popup functions
     function openPopup(id, type) {
-      actionId = id;
-      actionType = type;
+      actionId = id; actionType = type;
       const overlay = document.getElementById("popupOverlay");
-      const rejectTextarea = document.getElementById("rejectMsg");
+      const reject = document.getElementById("rejectMsg");
       overlay.style.display = "flex";
       if (type === "rejected") {
         document.getElementById("popupTitle").innerText = "Reject Appointment?";
         document.getElementById("popupMsg").innerText = "Please enter a message for the patient.";
-        rejectTextarea.style.display = "block";
+        reject.style.display = "block";
       } else {
         document.getElementById("popupTitle").innerText = "Confirm Action";
         document.getElementById("popupMsg").innerText = `Mark this appointment as ${type}?`;
-        rejectTextarea.style.display = "none";
+        reject.style.display = "none";
       }
     }
-
-    document.getElementById("cancelBtn").onclick = () => {
-      document.getElementById("popupOverlay").style.display = "none";
-    };
+    document.getElementById("cancelBtn").onclick = () => document.getElementById("popupOverlay").style.display = "none";
 
     document.getElementById("confirmBtn").onclick = async () => {
       const body = { status: actionType };
       if (actionType === "rejected") body.doctorMessage = document.getElementById("rejectMsg").value;
-
-      const res = await fetch(`/api/appointments/${actionId}/status`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body)
-      });
-
+      const res = await fetch(`/api/appointments/${actionId}/status`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
       if (res.ok) loadAppts();
       document.getElementById("popupOverlay").style.display = "none";
-    };
+    }
 
     async function loadAppts() {
       const res = await fetch('/api/appointments');
+      if (!res.ok) { document.getElementById("apptGrid").innerHTML = "<p>Please login as Doctor</p>"; return; }
+      const js = await res.json(); appointments = js.appointments;
+
+      // Update summary
+      document.getElementById("totalAppts").innerText = appointments.length;
+      document.getElementById("pendingAppts").innerText = appointments.filter(a => a.status === "pending").length;
+      document.getElementById("approvedAppts").innerText = appointments.filter(a => a.status === "approved").length;
+      document.getElementById("completedAppts").innerText = appointments.filter(a => a.status === "completed").length;
+
+      renderAppointments();
+    }
+
+    function renderAppointments() {
       const grid = document.getElementById("apptGrid");
-
-      if (!res.ok) {
-        grid.innerHTML = "<p>Please login as Doctor</p>";
-        return;
-      }
-
-      const js = await res.json();
+      const searchVal = document.getElementById("searchInput").value.toLowerCase();
+      const statusVal = document.getElementById("statusFilter").value;
       grid.innerHTML = "";
 
-      js.appointments.forEach(a => {
-        let feedbackHtml = "";
-        if (a.feedback) {
-          feedbackHtml = `<div class="feedback-box"><strong>Feedback:</strong> ${a.feedback.comment} <br><small>Rating: ${a.feedback.rating}/5</small></div>`;
-        }
-
-        grid.innerHTML += `
-      <div class="card">
-        <h4>👤 ${a.patient.name}</h4>
-        <div class="item"><strong>Date:</strong> ${a.date}</div>
-        <div class="item"><strong>Time:</strong> ${a.time}</div>
-        <div class="item"><strong>Reason:</strong> ${a.reason || "-"}</div>
-        <span class="badge ${a.status}">${a.status.toUpperCase()}</span>
-
-        <button style="background:#6a11cb;" onclick="viewPatient('${a.patient._id}')">🧑 Patient Details</button>
-
-        <div>
-          <button class="approve" onclick="openPopup('${a._id}','approved')">Approve</button>
-          <button class="reject" onclick="openPopup('${a._id}','rejected')">Reject</button>
-          <button class="complete" onclick="openPopup('${a._id}','completed')">Complete</button>
-        </div>
-
-        ${feedbackHtml}
-      </div>
-    `;
-      });
+      appointments.filter(a => a.patient.name.toLowerCase().includes(searchVal) && (statusVal === "" || a.status === statusVal))
+        .forEach(a => {
+          let feedbackHtml = "";
+          if (a.feedback) feedbackHtml = `<div class="feedback-box"><strong>Feedback:</strong> ${a.feedback.comment}<br><small>Rating: ${a.feedback.rating}/5</small></div>`;
+          let percent = 0; if (a.status === "approved") percent = 70; else if (a.status === "completed") percent = 100; else if (a.status === "pending") percent = 40;
+          grid.innerHTML += `
+          <div class="card">
+            <div class="status-ring" style="background:conic-gradient(#28a745 0% ${percent}%, #ddd ${percent}% 100%);">${percent}%</div>
+            <h4>👤 ${a.patient.name}</h4>
+            <div class="item"><strong>Date:</strong> ${a.date}</div>
+            <div class="item"><strong>Time:</strong> ${a.time}</div>
+            <div class="item"><strong>Reason:</strong> ${a.reason || "-"}</div>
+            <span class="badge ${a.status}">${a.status.toUpperCase()}</span>
+            <button style="background:#5f2c82;" onclick="viewPatient('${a.patient._id}')">🧑 Patient Details</button>
+            <div>
+              <button class="approve" onclick="openPopup('${a._id}','approved')">Approve</button>
+              <button class="reject" onclick="openPopup('${a._id}','rejected')">Reject</button>
+              <button class="complete" onclick="openPopup('${a._id}','completed')">Complete</button>
+            </div>
+            ${feedbackHtml}
+          </div>`;
+        });
     }
 
     async function viewPatient(id) {
       const res = await fetch(`/api/appointments/patient/${id}`);
       if (!res.ok) return alert("Patient not found");
       const js = await res.json();
-      alert(`
-Patient Name: ${js.patient.name}
-Email: ${js.patient.email}
-Phone: ${js.patient.phone || "N/A"}
-Age: ${js.patient.age || "N/A"}
-Gender: ${js.patient.gender || "N/A"}
-      `);
+      alert(`Patient Name: ${js.patient.name}\nEmail: ${js.patient.email}\nPhone: ${js.patient.phone || "N/A"}\nAge: ${js.patient.age || "N/A"}\nGender: ${js.patient.gender || "N/A"}`);
     }
 
+    // Logout
     document.getElementById("logoutBtn").onclick = async () => {
       await fetch("/api/auth/logout", { method: "POST" });
       window.location.href = "/";
-    };
+    }
+
+    // Search & Filter Events
+    document.getElementById("searchInput").addEventListener("input", renderAppointments);
+    document.getElementById("statusFilter").addEventListener("change", renderAppointments);
+
+    // Export CSV
+    document.getElementById("exportBtn").onclick = () => {
+      let csv = "Patient,Date,Time,Reason,Status\n";
+      appointments.forEach(a => { csv += `${a.patient.name},${a.date},${a.time},${a.reason || "-"},${a.status}\n`; });
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url; a.download = "appointments.csv"; a.click(); window.URL.revokeObjectURL(url);
+    }
 
     loadAppts();
   </script>
-
 </body>
 
 </html>

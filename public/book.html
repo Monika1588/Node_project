@@ -1,165 +1,290 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<title>Book Appointment</title>
+<meta charset="UTF-8">
+<title>Book Appointment | Healthcare+</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
 <style>
-  body {
-    margin: 0;
-    font-family: 'Poppins', sans-serif;
-    background: #eef2ff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-  }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
 
-  .container {
-    background: white;
-    padding: 40px 35px;
-    border-radius: 20px;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
-    width: 100%;
-    max-width: 450px;
-    position: relative;
-    animation: fadeInUp 0.8s ease;
-  }
+body {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  background: linear-gradient(135deg, #e3ebee, #e0f8ff);
+  overflow: hidden;
+  padding: 40px 20px;
+  position: relative;
+}
 
-  h2 {
-    text-align: center;
-    margin-bottom: 25px;
-    font-size: 28px;
-    color: #333;
-  }
 
-  p a {
-    text-decoration: none;
-    color: #2575fc;
-    font-weight: 600;
-    margin-bottom: 20px;
-    display: inline-block;
-  }
+.bubble {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(0, 188, 212, 0.15);
+  animation: float 6s ease-in-out infinite alternate;
+  pointer-events: none;
+  z-index: 0;
+}
 
-  label {
-    font-weight: 600;
-    margin-top: 10px;
-    display: block;
-    color: #555;
-  }
+.bubble:nth-child(1) { width: 120px; height: 120px; top: 20%; left: 10%; animation-duration: 7s; }
+.bubble:nth-child(2) { width: 70px; height: 70px; top: 50%; left: 80%; animation-duration: 5s; }
+.bubble:nth-child(3) { width: 140px; height: 140px; top: 70%; left: 30%; animation-duration: 9s; }
+.bubble:nth-child(4) { width: 90px; height: 90px; top: 10%; left: 60%; animation-duration: 6s; }
+.bubble:nth-child(5) { width: 60px; height: 60px; top: 40%; left: 50%; animation-duration: 8s; }
 
-  #docName {
-    font-weight: bold;
-    color: #2575fc;
-  }
+.container {
+  width: 100%;
+  max-width: 480px;
+  margin-top: 20px;
+  padding: 36px 30px;
+  position: relative;
 
-  input, textarea {
-    width: 100%;
-    padding: 12px 15px;
-    margin-top: 8px;
-    border-radius: 12px;
-    border: 1px solid #ccc;
-    font-size: 15px;
-    transition: 0.3s;
-    outline: none;
-  }
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(20px);
 
-  input:focus, textarea:focus {
-    border-color: #2575fc;
-    box-shadow: 0 0 8px rgba(37,117,252,0.3);
-  }
+  border-radius: 20px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  z-index: 1;
+  transition: transform 0.3s ease;
+}
 
-  textarea {
-    resize: vertical;
-    min-height: 80px;
-  }
+.container:hover {
+  transform: translateY(-5px);
+}
 
-  button {
-    width: 100%;
-    padding: 14px;
-    margin-top: 20px;
-    border: none;
-    border-radius: 15px;
-    background: linear-gradient(135deg, #6a11cb, #2575fc);
-    color: white;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.3s;
-  }
+.floating-blur {
+  position: absolute;
+  top: -60px;
+  right: -60px;
+  width: 180px;
+  height: 180px;
+  background: #00bcd4;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.4;
+  z-index: 0;
+}
 
-  button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(37,117,252,0.4);
-  }
+.title {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 700;
+  color: #004e64;
+  position: relative;
+  z-index: 1;
+}
 
-  #msg {
-    margin-top: 15px;
-    text-align: center;
-    font-weight: 600;
-    color: #dc3545;
-  }
+.subtitle {
+  text-align: center;
+  font-size: 14px;
+  color: #006778;
+  margin-top: 6px;
+  margin-bottom: 22px;
+  position: relative;
+  z-index: 1;
+}
 
-  /* Floating doctor icon */
-  .doctor-icon {
-    position: absolute;
-    top: -40px;
-    right: -40px;
-    width: 100px;
-    height: 100px;
-    background: url('https://cdn-icons-png.flaticon.com/512/387/387561.png') no-repeat center/contain;
-    opacity: 0.15;
-    transform: rotate(-15deg);
-  }
+.title-line {
+  width: 55px;
+  height: 3px;
+  background: rgba(0, 78, 100, 0.5);
+  border-radius: 6px;
+  margin: 10px auto 20px;
+  position: relative;
+  z-index: 1;
+}
 
-  @keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+.back-link {
+  font-size: 14px;
+  color: #007a8a;
+  text-decoration: none;
+  display: inline-block;
+  margin-bottom: 18px;
+  transition: 0.2s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.back-link:hover {
+  color: #004e64;
+}
+
+label {
+  display: block;
+  margin: 12px 0 6px;
+  font-size: 15px;
+  color: #004e64;
+  font-weight: 500;
+  position: relative;
+  z-index: 1;
+}
+
+input, textarea, select {
+  width: 100%;
+  padding: 13px;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 78, 100, 0.35);
+  background: rgba(255, 255, 255, 0.18);
+  color: #004e64;
+  font-size: 14px;
+  outline: none;
+  transition: 0.25s ease;
+  position: relative;
+  z-index: 1;
+}
+
+input::placeholder, textarea::placeholder {
+  color: rgba(0, 78, 100, 0.6);
+}
+
+input:focus, textarea:focus, select:focus {
+  border-color: #00bcd4;
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.doc-badge {
+  background: rgba(0, 188, 212, 0.12);
+  border-left: 4px solid #00bcd4;
+  padding: 10px 12px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  color: #004e64;
+  font-weight: 500;
+  font-size: 14px;
+  margin-bottom: 12px;
+  position: relative;
+  z-index: 1;
+}
+
+.doc-badge span {
+  margin-left: 8px;
+}
+
+button {
+  width: 100%;
+  padding: 14px;
+  margin-top: 28px;
+  border: none;
+  border-radius: 12px;
+  background: #00bcd4;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 188, 212, 0.25);
+}
+
+button:active {
+  transform: scale(0.97);
+}
+
+#msg {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 14px;
+  color: #d00000;
+  font-weight: 600;
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 480px) {
+  .container { padding: 28px 20px; }
+  .title { font-size: 22px; }
+}
+@keyframes float {
+  0% { transform: translateY(0) scale(1); opacity: 0.7; }
+  50% { transform: translateY(-30px) scale(1.1); opacity: 0.9; }
+  100% { transform: translateY(-60px) scale(1); opacity: 0.7; }
+}
 </style>
 </head>
+
 <body>
 
-<div class="container">
-  <div class="doctor-icon"></div>
+<div class="bubble"></div>
+<div class="bubble"></div>
+<div class="bubble"></div>
+<div class="bubble"></div>
+<div class="bubble"></div>
 
-  <h2>📅 Book Appointment</h2>
-  <p><a href="/patient-dashboard.html">← Back to Dashboard</a></p>
+<div class="container">
+
+  <div class="floating-blur"></div>
+
+  <a href="/patient-dashboard.html" class="back-link">← Back to Dashboard</a>
+
+  <h2 class="title">Book Appointment</h2>
+  <div class="title-line"></div>
+  <p class="subtitle">Fill the details to schedule your visit</p>
 
   <form id="bookForm">
-    <label>Doctor: <span id="docName"></span></label>
+    <label>Selected Doctor</label>
+    <div class="doc-badge">
+      👩‍⚕️ <span id="docName">Loading...</span>
+    </div>
+
+    <label>Appointment Date</label>
     <input type="date" name="date" required>
+
+    <label>Preferred Time</label>
     <input type="time" name="time" required>
-    <textarea name="reason" placeholder="Reason (optional)"></textarea>
+
+    <label>Reason (Optional)</label>
+    <textarea name="reason" placeholder="Describe your symptoms..."></textarea>
+
     <button type="submit">Request Appointment</button>
   </form>
 
   <div id="msg"></div>
+
 </div>
 
 <script>
-const docId = localStorage.getItem('book_doctorId');
-const docName = localStorage.getItem('book_doctorName');
-document.getElementById('docName').innerText = docName || 'Please select from dashboard';
+const docId = localStorage.getItem("book_doctorId");
+const docName = localStorage.getItem("book_doctorName");
+document.getElementById("docName").innerText = docName || "No doctor selected";
 
-document.getElementById('bookForm').onsubmit = async e => {
+document.getElementById("bookForm").onsubmit = async e => {
   e.preventDefault();
-  if (!docId) { 
-    document.getElementById('msg').innerText = 'No doctor selected'; 
-    return; 
+
+  if (!docId) {
+    document.getElementById("msg").innerText = "No doctor selected!";
+    return;
   }
+
   const fd = new FormData(e.target);
   const body = Object.fromEntries(fd.entries());
   body.doctorId = docId;
 
-  const res = await fetch('/api/appointments', { 
-    method:'POST', 
-    headers:{ 'Content-Type':'application/json'}, 
-    body: JSON.stringify(body) 
+  const res = await fetch("/api/appointments", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body)
   });
 
-  const js = await res.json();
-  document.getElementById('msg').innerText = js.message || JSON.stringify(js);
-  if (res.ok) window.location.href = '/history.html';
+  const json = await res.json();
+  document.getElementById("msg").innerText = json.message || "Response received";
+
+  if (res.ok) window.location.href = "/history.html";
 };
 </script>
 

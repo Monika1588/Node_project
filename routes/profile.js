@@ -112,13 +112,11 @@ router.post('/photo', requireAuth, upload.single('photo'), async (req, res) => {
     const user = await User.findById(req.session.userId);
     if (!user) return res.status(404).json({ message: 'User not found' });
 
-    // If a previous photo exists, delete it
     if (user.photo) {
       const oldPath = path.join(__dirname, '../public', user.photo);
       if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath);
     }
 
-    // Save new photo path
     user.photo = '/uploads/' + req.file.filename;
     await user.save();
 
@@ -136,12 +134,10 @@ router.delete('/photo/remove', requireAuth, async (req, res) => {
     const user = await User.findById(req.session.userId);
     if (!user) return res.status(404).json({ message: 'User not found' });
 
-    // If no photo saved
     if (!user.photo) {
       return res.json({ success: true, message: "No photo to remove" });
     }
 
-    // Delete file
     const filePath = path.join(__dirname, '../public', user.photo);
     if (fs.existsSync(filePath)) {
       fs.unlinkSync(filePath);

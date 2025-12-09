@@ -1,145 +1,234 @@
 <!doctype html>
 <html lang="en">
+
 <head>
-<meta charset="utf-8" />
-<title>My Appointments | HealthCarePlus</title>
+  <meta charset="utf-8" />
+  <title>My Appointments | HealthCare+</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-  body {
-    margin: 0;
-    padding: 0;
-    font-family: "Poppins", sans-serif;
-    background: url("data:image/jpeg;base64,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") 
-      no-repeat center center/cover;
-    min-height: 100vh;
-  }
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #e3ebee, #e0f8ff);
+      min-height: 100vh;
+      position: relative;
+    }
 
-  .container {
-    max-width: 850px;
-    margin: 40px auto;
-    padding: 25px;
-    background: #d6d2d2;      
-    border-radius: 20px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.25);
-    color: #000;             
-    animation: fadeIn 0.8s ease;
-  }
+    @keyframes float {
+      0% { transform: translateY(0) scale(1); opacity: 0.7; }
+      50% { transform: translateY(-30px) scale(1.1); opacity: 0.9; }
+      100% { transform: translateY(-60px) scale(1); opacity: 0.7; }
+    }
 
-  h2 {
-    text-align: center;
-    font-size: 32px;
-    margin-bottom: 15px;
-    color: #000;
-  }
+    .bubble {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(0, 188, 212, 0.15);
+      animation: float 6s ease-in-out infinite alternate;
+      pointer-events: none;
+      z-index: 0;
+    }
 
-  a {
-    text-decoration: none;
-    color: #2575fc;
-    font-weight: 600;
-  }
+    .bubble:nth-child(1) { width: 120px; height: 120px; top: 10%; left: 5%; animation-duration: 7s; }
+    .bubble:nth-child(2) { width: 70px; height: 70px; top: 40%; left: 80%; animation-duration: 5s; }
+    .bubble:nth-child(3) { width: 140px; height: 140px; top: 70%; left: 30%; animation-duration: 9s; }
+    .bubble:nth-child(4) { width: 90px; height: 90px; top: 20%; left: 60%; animation-duration: 6s; }
+    .bubble:nth-child(5) { width: 60px; height: 60px; top: 50%; left: 50%; animation-duration: 8s; }
 
-  .card {
-    background: #f7f7f7;   
-    padding: 20px;
-    border-radius: 15px;
-    margin-bottom: 18px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.20);
-    animation: fadeInUp 0.7s ease;
-    color: #000;
-  }
+    .container {
+      width: 90%;
+      max-width: 900px;
+      margin: 20px auto;
+      padding: 30px 25px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 20px;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+      color: #004e64;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
 
-  .status {
-    padding: 5px 12px;
-    border-radius: 10px;
-    font-weight: 600;
-    font-size: 13px;
-    display: inline-block;
-    margin-top: 8px;
-    letter-spacing: 0.5px;
-  }
+    .floating-blur {
+      position: absolute;
+      top: -80px;
+      right: -80px;
+      width: 200px;
+      height: 200px;
+      background: #00bcd4;
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: 0.4;
+      z-index: 0;
+    }
 
-  .pending   { background: #fff3cd; color: #856404; }
-  .approved  { background: #d4edda; color: #155724; }
-  .rejected  { background: #f8d7da; color: #721c24; }
-  .completed { background: #d1ecf1; color: #0c5460; }
+    h2 {
+      text-align: center;
+      font-size: 28px;
+      margin-bottom: 20px;
+      color: #004e64;
+      position: relative;
+      z-index: 1;
+    }
 
-  .reject-box {
-    background: #ffe1e1;
-    padding: 12px;
-    border-left: 4px solid #ff4d4d;
-    border-radius: 10px;
-    margin-top: 10px;
-    color: #000;
-  }
+    a {
+      text-decoration: none;
+      color: #007a8a;
+      font-weight: 600;
+      display: inline-block;
+      margin-bottom: 20px;
+      position: relative;
+      z-index: 1;
+    }
 
-  strong {
-    color: #000;
-  }
+    .card {
+      background: rgba(255, 255, 255, 0.18);
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 20px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+      font-size: 15px;
+      position: relative;
+      z-index: 1;
+      color: #004e64;
+    }
 
-  @keyframes fadeIn {
-    from {opacity:0; transform: translateY(20px);}
-    to {opacity:1; transform: translateY(0);}
-  }
+    .card strong {
+      color: #004e64;
+    }
 
-  @keyframes fadeInUp {
-    from {opacity:0; transform: translateY(15px);}
-    to {opacity:1; transform: translateY(0);}
-  }
-</style>
+    .status {
+      padding: 5px 12px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 13px;
+      display: inline-block;
+      margin-top: 8px;
+      letter-spacing: 0.5px;
+    }
+
+    .pending {
+      background: #fff3cd;
+      color: #856404;
+    }
+
+    .approved {
+      background: #d4edda;
+      color: #155724;
+    }
+
+    .rejected {
+      background: #f8d7da;
+      color: #721c24;
+    }
+
+    .completed {
+      background: #d1ecf1;
+      color: #0c5460;
+    }
+
+    .reject-box {
+      background: rgba(255, 77, 77, 0.15);
+      border-left: 4px solid #ff4d4d;
+      padding: 12px;
+      border-radius: 10px;
+      margin-top: 12px;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        margin: 10px;
+        padding: 20px;
+        width: 94%;
+      }
+
+      h2 {
+        font-size: 24px;
+      }
+
+      .card {
+        padding: 16px;
+        font-size: 14px;
+      }
+
+      .status {
+        font-size: 12px;
+        padding: 4px 10px;
+      }
+
+      .reject-box {
+        font-size: 13px;
+        padding: 10px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
+  <div class="bubble"></div>
+  <div class="bubble"></div>
+  <div class="bubble"></div>
+  <div class="bubble"></div>
+  <div class="bubble"></div>
+
   <div class="container">
+    <div class="floating-blur"></div>
+
     <h2>📅 My Appointments</h2>
-    <p><a href="/dashboard.html">← Back to Dashboard</a></p>
+    <p><a href="/patient-dashboard.html">← Back to Dashboard</a></p>
 
     <div id="list"></div>
   </div>
 
-<script>
-async function load() {
-  const res = await fetch('/api/appointments');
+  <script>
+    async function load() {
+      const res = await fetch('/api/appointments');
 
-  if (!res.ok) {
-    document.getElementById('list').innerHTML =
-      "<p style='color: red; text-align:center;'>Please login to continue.</p>";
-    return;
-  }
+      if (!res.ok) {
+        document.getElementById('list').innerHTML =
+          "<p style='color: red; text-align:center;'>Please login to continue.</p>";
+        return;
+      }
 
-  const js = await res.json();
-  const wrap = document.getElementById('list');
-  wrap.innerHTML = '';
+      const js = await res.json();
+      const wrap = document.getElementById('list');
+      wrap.innerHTML = '';
 
-  js.appointments.forEach(a => {
-    const el = document.createElement('div');
-    el.className = 'card';
+      js.appointments.forEach(a => {
+        const el = document.createElement('div');
+        el.className = 'card';
 
-    let statusBadge =
-      `<span class="status ${a.status}">${a.status.toUpperCase()}</span>`;
+        let statusBadge =
+          `<span class="status ${a.status}">${a.status.toUpperCase()}</span>`;
 
-    let rejectMessage = "";
-    if (a.status === "rejected" && a.doctorMessage) {
-      rejectMessage = `
-        <div class="reject-box">
-          <strong>Doctor’s Message:</strong><br> ${a.doctorMessage}
-        </div>
-      `;
+        let rejectMessage = "";
+        if (a.status === "rejected" && a.doctorMessage) {
+          rejectMessage = `
+          <div class="reject-box">
+            <strong>Doctor’s Message:</strong><br> ${a.doctorMessage}
+          </div>
+        `;
+        }
+
+        el.innerHTML = `
+          <strong>Doctor:</strong> ${a.doctor.name} (${a.doctor.specialization || "-"}) <br>
+          <strong>Date:</strong> ${a.date} ${a.time} <br>
+          <strong>Reason:</strong> ${a.reason || "-"} <br>
+          ${statusBadge}
+          ${rejectMessage}
+        `;
+
+        wrap.appendChild(el);
+      });
     }
-
-    el.innerHTML = `
-      <strong>Doctor:</strong> ${a.doctor.name} (${a.doctor.specialization || "-"}) <br>
-      <strong>Date:</strong> ${a.date} ${a.time} <br>
-      <strong>Reason:</strong> ${a.reason || "-"} <br>
-      ${statusBadge}
-      ${rejectMessage}
-    `;
-
-    wrap.appendChild(el);
-  });
-}
-load();
-</script>
+    load();
+  </script>
 
 </body>
+
 </html>

@@ -8,12 +8,10 @@ router.get("/", async (req, res) => {
 
         let filter = { role: "doctor" };
 
-        //Search by doctor name
         if (name) {
             filter.name = { $regex: name, $options: "i" };
         }
 
-        // Filter by specialization
         if (spec) {
             filter.specialization = spec;
         }

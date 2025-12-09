@@ -1,170 +1,439 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="utf-8" />
-<title>Hospital Appointment System | HealthCarePlus</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HealthCarePlus | Smart Hospital Management</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    integrity="sha512-oBmh5Zs3+d0O8tV4u9N7r05Z1l6xTpMF7KAGdW9eB8mQeRSZonC0gFf1W1NmqH4Al4Yf+cVBCYFjUqQ60cJ0Ag=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      scroll-behavior: smooth;
+    }
 
-<style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #6a11cb, #2575fc);
-    overflow-x: hidden;
-    color: #fff;
-  }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      color: #fff;
+      overflow-x: hidden;
+    }
 
-  .bg-circle {
-    position: absolute;
-    border-radius: 50%;
-    opacity: 0.15;
-    animation: float 12s infinite linear;
-    background: #fff;
-    z-index: 0;
-  }
-  .circle1 { width: 300px; height: 300px; top: -50px; left: -50px; animation-delay: 0s; }
-  .circle2 { width: 200px; height: 200px; bottom: -50px; right: -60px; animation-delay: 3s; }
-  .circle3 { width: 150px; height: 150px; top: 100px; right: -70px; animation-delay: 6s; }
-  .circle4 { width: 180px; height: 180px; bottom: 50px; left: -80px; animation-delay: 9s; }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
 
-  @keyframes float {
-    0% { transform: translateY(0px) translateX(0px);}
-    50% { transform: translateY(-40px) translateX(30px);}
-    100% { transform: translateY(0px) translateX(0px);}
-  }
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(12px);
+      padding: 15px 50px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      transition: 0.3s;
+    }
 
-  header {
-    position: relative;
-    z-index: 10;
-    background: rgba(0,0,0,0.2);
-    backdrop-filter: blur(12px);
-    padding: 20px 50px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-  }
-  header h2 { font-size: 28px; color: #fff; }
-  header nav a {
-    color: #fff;
-    margin-left: 20px;
-    font-weight: 500;
-    text-decoration: none;
-    transition: 0.3s;
-  }
-  header nav a:hover { color: #ffdd59; }
+    header h2 {
+      font-size: 28px;
+      font-weight: 600;
+    }
 
-  .hero {
-    max-width: 1100px;
-    margin: 80px auto 40px auto;
-    text-align: center;
-    position: relative;
-    z-index: 10;
-  }
-  .hero h1 {
-    font-size: 42px;
-    margin-bottom: 15px;
-    line-height: 1.2;
-    text-shadow: 0 5px 15px rgba(0,0,0,0.4);
-  }
-  .hero p {
-    font-size: 18px;
-    margin-bottom: 30px;
-    color: #e0e0e0;
-  }
+    header nav a {
+      color: #fff;
+      margin-left: 25px;
+      font-weight: 500;
+      position: relative;
+      transition: 0.3s;
+    }
 
-  .hero-images {
-    display: flex;
-    gap: 15px;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-bottom: 30px;
-  }
-  .hero-images img {
-    width: 18%;
-    border-radius: 20px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-    transition: transform 0.4s, box-shadow 0.4s;
-  }
-  .hero-images img:hover {
-    transform: scale(1.05) rotate(2deg);
-    box-shadow: 0 15px 35px rgba(0,0,0,0.5);
-  }
+    header nav a::after {
+      content: '';
+      position: absolute;
+      width: 0%;
+      height: 2px;
+      bottom: -4px;
+      left: 0;
+      background-color: #ffdd59;
+      transition: 0.3s;
+    }
 
-  .cta-buttons a {
-    padding: 14px 26px;
-    background: linear-gradient(135deg, #ff7b00, #ffdd59);
-    color: #1b1b1b;
-    font-weight: 600;
-    text-decoration: none;
-    border-radius: 15px;
-    margin: 10px;
-    display: inline-block;
-    transition: 0.3s;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-  }
-  .cta-buttons a:hover {
-    transform: translateY(-3px) scale(1.05);
-    box-shadow: 0 12px 30px rgba(0,0,0,0.4);
-  }
+    header nav a:hover::after {
+      width: 100%;
+    }
 
-  #features { margin-top: 60px; text-align:center; font-size:36px; color:#fff; }
-  .features {
-    max-width: 1000px;
-    margin: 30px auto 60px auto;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 25px;
-    z-index: 10;
-  }
-  .feature-card {
-    background: rgba(255,255,255,0.1);
-    backdrop-filter: blur(15px);
-    padding: 25px 20px;
-    border-radius: 20px;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.25);
-    text-align: center;
-    transition: transform 0.4s, box-shadow 0.4s;
-  }
-  .feature-card:hover {
-    transform: translateY(-10px) scale(1.05);
-    box-shadow: 0 15px 45px rgba(0,0,0,0.35);
-  }
-  .feature-card h3 { font-size: 22px; margin-bottom: 12px; }
-  .feature-card p { color: #f0f0f0; font-size: 15px; }
+    header nav a:hover {
+      color: #ffdd59;
+    }
 
-  footer {
-    background: rgba(0,0,0,0.25);
-    backdrop-filter: blur(12px);
-    padding: 50px 20px;
-    border-top-left-radius: 25px;
-    border-top-right-radius: 25px;
-    text-align: center;
-    color: #fff;
-    z-index: 10;
-    position: relative;
-  }
-  footer h3 { color: #ffdd59; margin-bottom: 15px; }
-  footer .links a {
-    color: #fff;
-    margin: 0 12px;
-    text-decoration: none;
-    transition: 0.3s;
-  }
-  footer .links a:hover { color: #ffdd59; }
-  footer p { margin-top: 10px; color: #ddd; }
-</style>
+    .hero {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 100px auto 60px auto;
+      padding: 0 20px;
+      position: relative;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+
+    .hero-text {
+      flex: 1;
+      min-width: 280px;
+    }
+
+    .hero-text h1 {
+      font-size: 48px;
+      line-height: 1.2;
+      margin-bottom: 20px;
+      text-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+    }
+
+    .hero-text p {
+      font-size: 18px;
+      margin-bottom: 30px;
+      color: #e0e0e0;
+    }
+
+    .cta-buttons a {
+      padding: 14px 30px;
+      background: linear-gradient(135deg, #ff7b00, #ffdd59);
+      color: #1b1b1b;
+      font-weight: 600;
+      border-radius: 15px;
+      margin: 10px 10px 10px 0;
+      display: inline-block;
+      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .cta-buttons a:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    .hero-image {
+      flex: 1;
+      min-width: 300px;
+      display: flex;
+      justify-content: center;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .hero-image img {
+      max-width: 100%;
+      border-radius: 20px;
+      box-shadow: 0 15px 45px rgba(0, 0, 0, 0.25);
+    }
+
+    .steps-section {
+      margin: 80px 20px;
+      text-align: center;
+    }
+
+    .steps-section h2 {
+      font-size: 36px;
+      margin-bottom: 40px;
+    }
+
+    .steps {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+    }
+
+    .step-card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(15px);
+      padding: 25px;
+      border-radius: 20px;
+      width: 220px;
+      transition: transform 0.4s, box-shadow 0.4s;
+    }
+
+    .step-card:hover {
+      transform: translateY(-10px) scale(1.05);
+      box-shadow: 0 15px 45px rgba(0, 0, 0, 0.35);
+    }
+
+    .step-card h3 {
+      font-size: 20px;
+      margin-bottom: 12px;
+      color: #ffdd59;
+    }
+
+    .step-card p {
+      font-size: 14px;
+      color: #f0f0f0;
+    }
+
+    .slideshow-container {
+      position: relative;
+      width: 900px;
+      height: 500px;
+      margin: 50px auto;
+      overflow: hidden;
+      border-radius: 25px;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(20px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .slide {
+      display: none;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      padding: 40px;
+      box-sizing: border-box;
+      text-align: center;
+      color: #fff;
+      transition: opacity 0.7s ease-in-out;
+    }
+
+    .slide img {
+      max-width: 300px;
+      max-height: 250px;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+      margin-bottom: 20px;
+      transition: transform 0.5s;
+    }
+
+    .slide img:hover {
+      transform: scale(1.05);
+    }
+
+    .slide h3 {
+      font-size: 28px;
+      margin-bottom: 15px;
+      color: #ffdd59;
+      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+    }
+
+    .slide p {
+      font-size: 18px;
+      color: #e0e0e0;
+      line-height: 1.5;
+    }
+
+    .prev,
+    .next {
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 30px;
+      font-weight: bold;
+      padding: 10px 15px;
+      background: rgba(0, 0, 0, 0.4);
+      color: #fff;
+      border-radius: 50%;
+      user-select: none;
+      transition: background 0.3s;
+      z-index: 10;
+    }
+
+    .prev:hover,
+    .next:hover {
+      background: rgba(0, 0, 0, 0.7);
+    }
+
+    .prev {
+      left: 20px;
+    }
+
+    .next {
+      right: 20px;
+    }
+
+    .dots-container {
+      text-align: center;
+    }
+
+    .dot {
+      height: 14px;
+      width: 14px;
+      margin: 0 6px;
+      background-color: rgba(255, 255, 255, 0.5);
+      border-radius: 50%;
+      display: inline-block;
+      cursor: pointer;
+    }
+
+    .dot.active {
+      background-color: #ffdd59;
+      box-shadow: 0 0 8px #ffdd59;
+    }
+
+    .steps-section>div:last-child {
+      position: relative;
+      top: 15px;
+      text-align: center;
+    }
+
+    .pause-btn {
+      cursor: pointer;
+      color: #ffdd59;
+      font-weight: bold;
+      padding: 8px 20px;
+      border-radius: 20px;
+      background: rgba(0, 0, 0, 0.3);
+      transition: background 0.3s;
+    }
+
+    .pause-btn:hover {
+      background: rgba(0, 0, 0, 0.5);
+    }
+
+
+
+    #features {
+      text-align: center;
+      font-size: 36px;
+      margin-top: 60px;
+    }
+
+    .features {
+      max-width: 1000px;
+      margin: 30px auto 80px auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 25px;
+      padding: 0 20px;
+    }
+
+    .feature-card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(15px);
+      padding: 25px 20px;
+      border-radius: 20px;
+      text-align: center;
+      transition: transform 0.4s, box-shadow 0.4s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-10px) scale(1.05);
+      box-shadow: 0 15px 45px rgba(0, 0, 0, 0.35);
+    }
+
+    .feature-card h3 {
+      font-size: 22px;
+      margin-bottom: 12px;
+    }
+
+    .feature-card p {
+      font-size: 15px;
+      color: #f0f0f0;
+    }
+
+    .feature-card i {
+      font-size: 40px;
+      margin-bottom: 12px;
+      color: #ffdd59;
+    }
+
+    footer {
+      background: rgba(0, 0, 0, 0.25);
+      backdrop-filter: blur(12px);
+      padding: 50px 20px;
+      border-top-left-radius: 25px;
+      border-top-right-radius: 25px;
+      text-align: center;
+      color: #fff;
+    }
+
+    footer h3 {
+      color: #ffdd59;
+      margin-bottom: 15px;
+    }
+
+    footer .links a {
+      color: #fff;
+      margin: 0 12px;
+      transition: 0.3s;
+    }
+
+    footer .links a:hover {
+      color: #ffdd59;
+    }
+
+    footer p {
+      margin-top: 10px;
+      color: #ddd;
+    }
+
+
+    @keyframes float {
+      0% {
+        transform: translateY(0px);
+      }
+
+      50% {
+        transform: translateY(-20px);
+      }
+
+      100% {
+        transform: translateY(0px);
+      }
+    }
+
+    @media screen and (max-width: 1000px) {
+      .slideshow-container {
+        width: 95%;
+        height: 400px;
+      }
+
+      .slide img {
+        max-width: 200px;
+        max-height: 200px;
+      }
+
+      .slide h3 {
+        font-size: 22px;
+      }
+
+      .slide p {
+        font-size: 16px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .hero-text h1 {
+        font-size: 36px;
+      }
+
+      .steps,
+      .testimonial-cards,
+      .features {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
 </head>
 
 <body>
-  <div class="bg-circle circle1"></div>
-  <div class="bg-circle circle2"></div>
-  <div class="bg-circle circle3"></div>
-  <div class="bg-circle circle4"></div>
-
-  <!-- HEADER -->
+  <!-- Header -->
   <header>
     <h2>🏥 HealthCarePlus</h2>
     <nav>
@@ -176,65 +445,376 @@
     </nav>
   </header>
 
-  <!-- HERO -->
-  <div class="hero">
-    <h1>Hospital Appointment & Management System</h1>
-    <p>Smart, secure, and efficient digital healthcare platform for patients and doctors.</p>
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-text">
+      <h1>Hospital Appointment Management</h1>
+      <p>Easily book appointments, keep track of your health data, and connect securely with your doctor.</p>
+      <div class="cta-buttons">
+        <a href="/register.html">Create Account</a>
+        <a href="/login.html">Login</a>
+      </div>
+    </div>
+    <div class="hero-image">
+      <img
+        src="https://thumbs.dreamstime.com/b/d-style-cute-cartoon-character-female-doctor-against-bright-color-background-306267187.jpg"
+        alt="Dashboard Illustration">
+    </div>
+  </section>
 
-    <div class="hero-images">
-      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbNj5Z6tiAnmo4cKdmZowjbGUuoeraAmMu9g&s">
-      <img src="https://media.istockphoto.com/id/1429541180/photo/appointment-consulting-doctor-visit-on-mobile-app-at-home-telemedicine.jpg?s=612x612&w=0&k=20&c=TcOB5dbcnDZbf2s_3tuL-Mlwat1PIcwjpky-KCvARcA=">
-      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSXmxMS7sqmpWnYGo-I0UyXEm_9eIXhHogk0Q&s">
-      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOt_uQ5vNbbtG6-FVLwScowPjHVidEMxW9Iw&s">
-      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS04sqsNUDDby60PjPBUAjisYhKVX_eoLuz-w&s">
+  <!-- Patients Section -->
+  <section class="steps-section" id="patients">
+    <h2>How It Works for Patients</h2>
+    <div class="steps">
+      <div class="step-card">
+        <h3>1️⃣ User Registration & Login</h3>
+      </div>
+      <div class="step-card">
+        <h3>2️⃣ Appointment Booking & Management</h3>
+      </div>
+      <div class="step-card">
+        <h3>3️⃣ Profile & Data Management</h3>
+      </div>
+      <div class="step-card">
+        <h3>4️⃣ Secure Data Storage with MongoDB Atlas</h3>
+      </div>
     </div>
 
-    <div class="cta-buttons">
-      <a href="/register.html">Create Account</a>
-      <a href="/login.html">Login</a>
+    <!-- Patient Slideshow -->
+    <div class="slideshow-container" id="patient-slideshow">
+      <div class="slide">
+        <img src="/images/p-registration.png" alt="Profile Setup">
+        <h3>1️⃣ Register Your Account</h3>
+        <p>Create your doctor account by entering your name, email, password, and specialization. Once registered, you
+          can log in anytime.</p>
+      </div>
+
+      <div class="slide">
+        <img src="/images/p-login.png" alt="Login">
+        <h3>2️⃣ Login to Your Account</h3>
+        <p>Access your dashboard by signing in with your registered email and password.</p>
+      </div>
+
+      <div class="slide">
+        <img src="/images/p-dashboard.png" alt="Dashboard">
+        <h3>3️⃣ View Your Profile</h3>
+        <p>Check your name, email, and photo to confirm that your account is correctly loaded.</p>
+      </div>
+
+      <div class="slide">
+        <img src="/images/p-dashboard.png" alt="Doctors List">
+        <h3>4️⃣ Browse Doctors</h3>
+        <p>Scroll through the list of available doctors with their specialization and details.</p>
+      </div>
+
+      <div class="slide">
+        <img src="/images/p-dashboard.png" alt="Search">
+        <h3>5️⃣ Search & Filter</h3>
+        <p>Quickly find doctors by name or specialization using the search and filter options.</p>
+      </div>
+
+      <div class="slide">
+        <img src="/images/d-details.png" alt="Doctor Details">
+        <h3>6️⃣ View Doctor Details</h3>
+        <p>Click “View Details” to see full information like email, phone, age, and specialization.</p>
+      </div>
+
+      <div class="slide">
+        <img src="/images/p-book.a.png" alt="Book">
+        <h3>7️⃣ Book an Appointment</h3>
+        <p>Choose a doctor → select date & time → submit the form to confirm your appointment.</p>
+      </div>
+
+      <div class="slide">
+        <img src="/images/p-history.png" alt="History">
+        <h3>8️⃣ Check Appointment History</h3>
+        <p>Track all your past and upcoming appointments in one place.</p>
+      </div>
+
+      <div class="slide">
+        <img src="/images/p-profile.png" alt="Profile">
+        <h3>9️⃣ Profile Section</h3>
+        <p>View all your filled details here.</p>
+      </div>
+
+      <div class="slide">
+        <img src="/images/p-update.png" alt="Update">
+        <h3>🔟 Update Your Profile</h3>
+        <p>Edit your personal details anytime through the “My Profile” section.</p>
+      </div>
+
+      <div class="slide">
+        <img src="/images/p-dark.png" alt="Dark Mode">
+        <h3>1️⃣1️⃣ Toggle Dark Mode</h3>
+        <p>Switch between Light and Dark themes for a comfortable viewing experience.</p>
+      </div>
+      <div class="slide">
+        <img src="/images/mongo.png" alt="MongoDB Atlas">
+        <h3>1️⃣2️⃣ Data Stored in MongoDB</h3>
+        <p>All your profile info, appointments, and history are securely stored in MongoDB Atlas, ensuring your data is
+          safe and always accessible.</p>
+      </div>
+
+      <div class="slide">
+        <img src="/images/p-logout.png" alt="Logout">
+        <h3>1️⃣3️⃣ Logout Safely</h3>
+        <p>Click the logout button to exit your account.</p>
+      </div>
+
+      <a class="prev" onclick="changeSlide(-1, 'patient')">&#10094;</a>
+      <a class="next" onclick="changeSlide(1, 'patient')">&#10095;</a>
     </div>
+
+    <div class="dots-container" id="patient-dots">
+      <span class="dot" onclick="currentSlide(1, 'patient')"></span>
+      <span class="dot" onclick="currentSlide(2, 'patient')"></span>
+      <span class="dot" onclick="currentSlide(3, 'patient')"></span>
+      <span class="dot" onclick="currentSlide(4, 'patient')"></span>
+    </div>
+
+    <div style="text-align:center;">
+      <span class="pause-btn" onclick="toggleSlideshow('patient')">Pause Slideshow</span>
+    </div>
+  </section>
+
+  <!-- Doctors Section -->
+  <section class="steps-section" id="doctors">
+    <h2>How It Works for Doctors</h2>
+    <div class="steps">
+      <div class="step-card">
+        <h3>1️⃣ Account Setup & Login</h3>
+      </div>
+      <div class="step-card">
+        <h3>2️⃣ View & Manage Appointments</h3>
+      </div>
+      <div class="step-card">
+        <h3>3️⃣ Patient Interaction & Updates</h3>
+      </div>
+      <div class="step-card">
+        <h3>4️⃣ Profile Management & Secure Data</h3>
+      </div>
+    </div>
+
+    <!-- Doctor Slideshow -->
+    <div class="slideshow-container" id="doctor-slideshow">
+
+      <div class="slide">
+        <img src="/images/d-registration.png" alt="Register">
+        <h3>1️⃣ Register Your Account</h3>
+        <p>Create your doctor account by entering your name, email, password, and specialization. Once registered, you
+          can log in anytime.</p>
+      </div>
+
+      <div class="slide">
+        <img src="/images/d-login.png" alt="Login">
+        <h3>2️⃣ Login to Your Dashboard</h3>
+        <p>Log in using your registered email and password to access your doctor dashboard.</p>
+      </div>
+
+      <div class="slide">
+        <img src="/images/d-dashboard.png" alt="Dashboard">
+        <h3>3️⃣ View Dashboard</h3>
+        <p>See all appointment requests — new, approved, rejected, and completed.</p>
+      </div>
+
+      <div class="slide">
+        <img src="/images/p-details.png" alt="Patient Info">
+        <h3>4️⃣ View Patient Information</h3>
+        <p>Click on any appointment to view patient details such as name, age, and issue.</p>
+      </div>
+
+      <div class="slide">
+        <img src="/images/d-approved.png" alt="Approve">
+        <h3>5️⃣ Approve Appointments</h3>
+        <p>Approve appointments that fit your schedule with one click.</p>
+      </div>
+
+      <div class="slide">
+        <img src="/images/d-rejected.png" alt="Reject">
+        <h3>6️⃣ Reject Appointments</h3>
+        <p>The doctor can reject unsuitable appointments and also send a rejection reason to the patient.</p>
+      </div>
+
+      <div class="slide">
+        <img src="/images/d-completed.png" alt="Completed">
+        <h3>7️⃣ Complete Consultations</h3>
+        <p>After meeting the patient, mark the appointment as “Completed” to keep records updated.</p>
+      </div>
+
+      <div class="slide">
+        <img src="/images/d-search.png" alt="Search">
+        <h3>8️⃣ Search Patients Easily</h3>
+        <p>Use the search bar to quickly find patients by name.</p>
+      </div>
+
+      <div class="slide">
+        <img src="/images/d-filter.png" alt="Filter">
+        <h3>9️⃣ Filter Appointments by Status</h3>
+        <p>Filter appointments by pending, approved, rejected, or completed.</p>
+      </div>
+
+      <div class="slide">
+        <img src="/images/d-csv.png" alt="CSV">
+        <h3>🔟 Export Appointments to CSV</h3>
+        <p>Download all appointment details in a CSV file with one click for offline record-keeping.</p>
+      </div>
+
+      <div class="slide">
+        <img src="/images/d-dark.png" alt="Dark mode">
+        <h3>1️⃣1️⃣ Switch to Dark Mode</h3>
+        <p>Toggle dark mode for a comfortable viewing experience during night shifts.</p>
+      </div>
+
+      <div class="slide">
+        <img src="/images/d-profile.png" alt="Profile">
+        <h3>1️⃣2️⃣ Profile Section</h3>
+        <p>View all your filled profile details here.</p>
+      </div>
+
+      <div class="slide">
+        <img src="/images/d-update.png" alt="Update">
+        <h3>1️⃣3️⃣ Update Your Profile</h3>
+        <p>Edit your details anytime through the “My Profile” section.</p>
+      </div>
+      <div class="slide">
+        <img src="/images/mongo.png" alt="MongoDB Atlas">
+        <h3>1️⃣4️⃣ Data Stored in MongoDB</h3>
+        <p>All your profile info, appointments, and history are securely stored in MongoDB Atlas, ensuring your data is
+          safe and always accessible.</p>
+      </div>
+      <div class="slide">
+        <img src="/images/d-logout.png" alt="Logout">
+        <h3>1️⃣5️⃣ Logout</h3>
+        <p>Click the logout button to exit your account.</p>
+      </div>
+
+      <a class="prev" onclick="changeSlide(-1, 'doctor')">&#10094;</a>
+      <a class="next" onclick="changeSlide(1, 'doctor')">&#10095;</a>
+    </div>
+
+    <div class="dots-container" id="doctor-dots">
+      <span class="dot" onclick="currentSlide(1, 'doctor')"></span>
+      <span class="dot" onclick="currentSlide(2, 'doctor')"></span>
+      <span class="dot" onclick="currentSlide(3, 'doctor')"></span>
+      <span class="dot" onclick="currentSlide(4, 'doctor')"></span>
+    </div>
+
+    <div style="text-align:center;">
+      <span class="pause-btn" onclick="toggleSlideshow('doctor')">Pause Slideshow</span>
+    </div>
+  </section>
+</body>
+
+
+<!-- Features -->
+<h2 id="features">Key Features</h2>
+<div class="features">
+  <div class="feature-card">
+    <i class="fa-solid fa-user-doctor"></i>
+    <h3>Doctor Dashboard</h3>
+    <p>Manage schedules, view appointment requests, approve or reject, and track patient interactions efficiently.</p>
   </div>
-
-  <!-- FEATURES -->
-  <h2 id="features">✨ Key Features</h2>
-  <div class="features">
-    <div class="feature-card">
-      <h3>👨‍⚕️ Doctor Dashboard</h3>
-      <p>Approve/reject appointments, manage schedules.</p>
-    </div>
-    <div class="feature-card">
-      <h3>🩺 Patient Portal</h3>
-      <p>Book appointments, view medical history.</p>
-    </div>
-    <div class="feature-card">
-      <h3>📅 Smart Scheduling</h3>
-      <p>Real-time availability & automated reminders.</p>
-    </div>
-    <div class="feature-card">
-      <h3>🔒 Secure Login</h3>
-      <p>Advanced encrypted authentication.</p>
-    </div>
-    <div class="feature-card">
-      <h3>📊 Hospital Management</h3>
-      <p>Doctors, patients & reports — all in one place.</p>
-    </div>
+  <div class="feature-card">
+    <i class="fa-solid fa-hospital-user"></i>
+    <h3>Patient Portal</h3>
+    <p>Book appointments, view doctors, track appointment history, and manage personal profiles easily.</p>
   </div>
+  <div class="feature-card">
+    <i class="fa-solid fa-calendar-check"></i>
+    <h3>Appointment Management</h3>
+    <p>Book, approve, reject, and complete appointments in real-time with automated status updates.</p>
+  </div>
+  <div class="feature-card">
+    <i class="fa-solid fa-lock"></i>
+    <h3>Secure Login</h3>
+    <p>Encrypted authentication ensures data safety for both patients and doctors.</p>
+  </div>
+  <div class="feature-card">
+    <i class="fa-solid fa-database"></i>
+    <h3>MongoDB Atlas Storage</h3>
+    <p>All user profiles, appointments, and history are securely stored and accessible anytime.</p>
+  </div>
+  <div class="feature-card">
+    <i class="fa-solid fa-user-pen"></i>
+    <h3>Profile Management</h3>
+    <p>Edit personal details, update photos, and switch themes for a seamless experience.</p>
+  </div>
+</div>
 
-  <!-- FOOTER -->
-  <footer id="contact">
-    <h3>HealthCarePlus</h3>
-    <p>Your trusted partner in digital hospital automation.</p>
-    <div class="links">
-      <a href="/">Home</a>
-      <a href="/register.html">Register</a>
-      <a href="/login.html">Login</a>
-      <a href="#features">Features</a>
-      <a href="#contact">Contact</a>
-    </div>  
-    <p>📞 +91 98765 43210 | 📩 support@hospital.com</p>
-    <p style="color:#ccc; margin-top:10px;">© 2025 HealthCarePlus — All Rights Reserved.</p>
-  </footer>
+<!-- Footer -->
+<footer id="contact">
+  <h3>HealthCarePlus</h3>
+  <p>Your trusted partner in digital hospital automation.</p>
+  <div class="links">
+    <a href="/">Home</a>
+    <a href="/register.html">Register</a>
+    <a href="/login.html">Login</a>
+    <a href="#features">Features</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <p>📞 +91 98765 43210 | 📩 support@hospital.com</p>
+  <p style="color:#ccc; margin-top:10px;">© 2025 HealthCarePlus — All Rights Reserved.</p>
+</footer>
+
+
+<!-- JS -->
+<script>
+  let slideIndex = { patient: 1, doctor: 1 };
+  let slideInterval = { patient: null, doctor: null };
+  let isPlaying = { patient: true, doctor: true };
+
+  function showSlides(n, type) {
+    let slides = document.querySelectorAll(`#${type}-slideshow .slide`);
+    let dotsContainer = document.getElementById(`${type}-dots`);
+
+    if (dotsContainer.children.length !== slides.length) {
+      dotsContainer.innerHTML = '';
+      slides.forEach((_, i) => {
+        let dot = document.createElement('span');
+        dot.className = 'dot';
+        dot.onclick = () => currentSlide(i + 1, type);
+        dotsContainer.appendChild(dot);
+      });
+    }
+
+    if (n > slides.length) { slideIndex[type] = 1 }
+    if (n < 1) { slideIndex[type] = slides.length }
+
+    slides.forEach(slide => slide.style.display = 'none');
+    slides[slideIndex[type] - 1].style.display = 'block';
+
+    let dots = dotsContainer.children;
+    for (let i = 0; i < dots.length; i++) dots[i].classList.remove('active');
+    dots[slideIndex[type] - 1].classList.add('active');
+  }
+
+  function changeSlide(n, type) {
+    showSlides(slideIndex[type] += n, type);
+  }
+
+  function currentSlide(n, type) {
+    showSlides(slideIndex[type] = n, type);
+  }
+
+  function autoSlide(type) {
+    slideInterval[type] = setInterval(() => {
+      if (isPlaying[type]) changeSlide(1, type);
+    }, 5000);
+  }
+
+  function toggleSlideshow(type) {
+    isPlaying[type] = !isPlaying[type];
+    const btn = document.querySelector(`#${type}-dots ~ div .pause-btn`);
+    btn.textContent = isPlaying[type] ? 'Pause Slideshow' : 'Play Slideshow';
+  }
+
+  ['patient', 'doctor'].forEach(type => {
+    showSlides(slideIndex[type], type);
+    autoSlide(type);
+  });
+</script>
+
 
 </body>
+
 </html>
-  

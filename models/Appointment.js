@@ -41,7 +41,6 @@ const appointmentSchema = new mongoose.Schema({
 
 }, { timestamps: true });
 
-// Update status 
 appointmentSchema.methods.updateStatus = function (newStatus) {
   const allowed = ["pending", "approved", "rejected", "completed"];
   if (!allowed.includes(newStatus)) throw new Error("Invalid status");

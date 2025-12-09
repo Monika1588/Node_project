@@ -15,7 +15,6 @@
             overflow-x: hidden;
         }
 
-        /* SIDEBAR */
         .sidebar {
             height: 100%;
             width: 250px;
@@ -47,7 +46,6 @@
             background: rgba(0, 238, 255, 0.1);
         }
 
-        /* HAMBURGER BUTTON */
         .hamburger {
             position: fixed;
             top: 18px;
@@ -58,7 +56,6 @@
             z-index: 1100;
         }
 
-        /* BUBBLES */
         .bubble {
             position: absolute;
             bottom: -100px;
@@ -123,7 +120,7 @@
             animation-duration: 8s;
         }
 
-        /* PROFILE CARD */
+
         .card {
             max-width: 420px;
             width: 90%;
@@ -138,30 +135,32 @@
             z-index: 5;
             position: relative;
         }
-        .btn-view {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 12px 20px;
-    background: #00eaff20;          /* semi-transparent glow */
-    color: #00eaff;                 /* bright cyan text */
-    border: 2px solid #00eaff;      /* matching border */
-    border-radius: 15px;
-    font-weight: 600;
-    font-size: 14px;
-    text-decoration: none;           /* remove underline */
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 0 10px rgba(0, 238, 255, 0.3);
-    backdrop-filter: blur(8px);
-}
 
-.btn-view:hover {
-    background: #00eaff;             /* solid cyan background on hover */
-    color: #1b1b2f;                  /* dark text for contrast */
-    transform: translateY(-2px);
-    box-shadow: 0 0 20px rgba(0, 238, 255, 0.6);
-}
+        .btn-view {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            background: #00eaff20;
+            color: #00eaff;
+            border: 2px solid #00eaff;
+            border-radius: 15px;
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(0, 238, 255, 0.3);
+            backdrop-filter: blur(8px);
+        }
+
+        .btn-view:hover {
+            background: #00eaff;
+            color: #1b1b2f;
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px rgba(0, 238, 255, 0.6);
+        }
+
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -217,7 +216,6 @@
             background: #00d6e0;
         }
 
-        /* MOBILE FIXES */
         @media screen and (max-width: 480px) {
             h2 {
                 font-size: 22px;
@@ -237,8 +235,6 @@
 
 <body>
 
-
-    <!-- BUBBLES -->
     <div class="bubble"></div>
     <div class="bubble"></div>
     <div class="bubble"></div>
@@ -246,7 +242,6 @@
     <div class="bubble"></div>
     <div class="bubble"></div>
 
-    <!-- PROFILE CARD -->
     <div class="card">
         <img id="photo" class="profile-photo" src="https://cdn-icons-png.flaticon.com/512/147/147144.png">
 
@@ -257,13 +252,14 @@
         <div class="info"><span class="label">Age:</span> <span id="age"></span></div>
         <div class="info"><span class="label">Gender:</span> <span id="gender"></span></div>
 
+
         <div class="info" id="specializationBox" style="display:none;">
             <span class="label">Specialization:</span> <span id="specialization"></span>
         </div>
 
-        <button onclick="window.location.href='update_profile.html'">✏️ Update Profile</button><br><br>
+        <button onclick="window.location.href='update-patient-profile.html'">✏️ Update Profile</button><br><br>
         <a href="/patient-dashboard.html" class="btn btn-view">← Back</a>
-        
+
     </div>
 
     <script>

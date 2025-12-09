@@ -17,7 +17,7 @@ const profileRoutes = require("./routes/profile");
 const MONGO_URL = process.env.MONGO_URL;
 
 async function startServer() {
-  try {
+  try { 
     // Connect to MongoDB
     await mongoose.connect(MONGO_URL);
     console.log("✅ MongoDB Connected");
