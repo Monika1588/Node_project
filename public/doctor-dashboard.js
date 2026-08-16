@@ -4,9 +4,9 @@ let appointments = [];
 
 
 
-/* ============================
+/* 
    DARK MODE
-============================ */
+ */
 
 
 const darkBtn = document.getElementById("darkModeBtn");
@@ -14,191 +14,165 @@ const darkBtn = document.getElementById("darkModeBtn");
 
 darkBtn.addEventListener("click", () => {
 
-    document.body.classList.toggle("dark-mode");
+   document.body.classList.toggle("dark-mode");
 
 
-    const icon = darkBtn.querySelector("i");
+   const icon = darkBtn.querySelector("i");
 
 
-    if(document.body.classList.contains("dark-mode")){
+   if (document.body.classList.contains("dark-mode")) {
 
-        icon.className = "fa-solid fa-sun";
-        darkBtn.innerHTML = `<i class="fa-solid fa-sun"></i> Light Mode`;
+      icon.className = "fa-solid fa-sun";
+      darkBtn.innerHTML = `<i class="fa-solid fa-sun"></i> Light Mode`;
 
-    }
-    else{
+   }
+   else {
 
-        darkBtn.innerHTML = `<i class="fa-solid fa-moon"></i> Dark Mode`;
+      darkBtn.innerHTML = `<i class="fa-solid fa-moon"></i> Dark Mode`;
 
-    }
+   }
 
 });
 
-
-
-
-
-
-
-/* ============================
+/* 
    POPUP MANAGEMENT
-============================ */
+*/
 
 
-function openPopup(id,type){
+function openPopup(id, type) {
 
-    actionId=id;
-    actionType=type;
-
-
-    const overlay=document.getElementById("popupOverlay");
-    const title=document.getElementById("popupTitle");
-    const msg=document.getElementById("popupMsg");
-    const reject=document.getElementById("rejectMsg");
+   actionId = id;
+   actionType = type;
 
 
-    overlay.style.display="flex";
+   const overlay = document.getElementById("popupOverlay");
+   const title = document.getElementById("popupTitle");
+   const msg = document.getElementById("popupMsg");
+   const reject = document.getElementById("rejectMsg");
+
+
+   overlay.style.display = "flex";
 
 
 
-    if(type==="rejected"){
+   if (type === "rejected") {
 
 
-        title.innerText="Reject Appointment?";
+      title.innerText = "Reject Appointment?";
 
-        msg.innerText="Please provide rejection reason.";
+      msg.innerText = "Please provide rejection reason.";
 
-        reject.style.display="block";
-
-
-    }
-    else{
+      reject.style.display = "block";
 
 
-        title.innerText="Confirm Action";
-
-        msg.innerText=
-        `Mark this appointment as ${type}?`;
-
-        reject.style.display="none";
+   }
+   else {
 
 
-    }
+      title.innerText = "Confirm Action";
+
+      msg.innerText =
+         `Mark this appointment as ${type}?`;
+
+      reject.style.display = "none";
+
+
+   }
 
 }
-
-
-
 
 
 document
-.getElementById("cancelBtn")
-.onclick=()=>{
+   .getElementById("cancelBtn")
+   .onclick = () => {
 
-document.getElementById("popupOverlay").style.display="none";
+      document.getElementById("popupOverlay").style.display = "none";
 
-};
-
-
-
-
-
-
+   };
 
 document
-.getElementById("confirmBtn")
-.onclick=async()=>{
+   .getElementById("confirmBtn")
+   .onclick = async () => {
 
 
-try{
+      try {
 
 
-let body={
+         let body = {
 
-status:actionType
+            status: actionType
 
-};
+         };
 
+         if (actionType === "rejected") {
 
+            body.doctorMessage =
+               document.getElementById("rejectMsg").value;
 
-if(actionType==="rejected"){
-
-body.doctorMessage=
-document.getElementById("rejectMsg").value;
-
-}
+         }
 
 
+         const response =
+            await fetch(`/api/appointments/${actionId}/status`, {
 
+               method: "POST",
 
-const response =
-await fetch(`/api/appointments/${actionId}/status`,{
+               headers: {
 
-method:"POST",
+                  "Content-Type": "application/json"
 
-headers:{
+               },
 
-"Content-Type":"application/json"
+               body: JSON.stringify(body)
 
-},
-
-body:JSON.stringify(body)
-
-});
+            });
 
 
 
-if(response.ok){
+         if (response.ok) {
 
-loadAppointments();
+            loadAppointments();
 
-}
-
-
-
-}
-catch(error){
-
-console.error(error);
-
-}
+         }
 
 
 
-document.getElementById("popupOverlay").style.display="none";
+      }
+      catch (error) {
 
+         console.error(error);
 
-};
-
-
-
-
-
+      }
 
 
 
+      document.getElementById("popupOverlay").style.display = "none";
 
-/* ============================
+
+   };
+
+
+/* 
    LOAD APPOINTMENTS
-============================ */
+ */
 
 
-async function loadAppointments(){
+async function loadAppointments() {
 
 
-try{
+   try {
 
 
-const res =
-await fetch("/api/appointments");
+      const res =
+         await fetch("/api/appointments");
 
 
 
-if(!res.ok){
+      if (!res.ok) {
 
-document.getElementById("apptGrid").innerHTML=
+         document.getElementById("apptGrid").innerHTML =
 
-`
+            `
 <div class="empty-state">
 
 <h3>Please login as Doctor</h3>
@@ -206,38 +180,38 @@ document.getElementById("apptGrid").innerHTML=
 </div>
 `;
 
-return;
+         return;
 
-}
-
-
-
-
-const data=await res.json();
-
-
-appointments=data.appointments || [];
+      }
 
 
 
-updateSummary();
+
+      const data = await res.json();
 
 
-renderAppointments();
+      appointments = data.appointments || [];
 
 
 
-}
-
-catch(error){
+      updateSummary();
 
 
-console.error(error);
+      renderAppointments();
 
 
-document.getElementById("apptGrid").innerHTML=
 
-`
+   }
+
+   catch (error) {
+
+
+      console.error(error);
+
+
+      document.getElementById("apptGrid").innerHTML =
+
+         `
 <div class="empty-state">
 
 <h3>
@@ -248,133 +222,117 @@ Unable to load appointments
 
 `;
 
-}
+   }
 
 
 
 }
 
-
-
-
-
-
-
-
-/* ============================
+/* 
    SUMMARY UPDATE
-============================ */
+ */
 
 
-function updateSummary(){
+function updateSummary() {
 
 
-document.getElementById("totalAppts")
-.innerText=appointments.length;
-
-
-
-document.getElementById("pendingAppts")
-.innerText=
-
-appointments.filter(
-a=>a.status==="pending"
-).length;
+   document.getElementById("totalAppts")
+      .innerText = appointments.length;
 
 
 
-document.getElementById("approvedAppts")
-.innerText=
+   document.getElementById("pendingAppts")
+      .innerText =
 
-appointments.filter(
-a=>a.status==="approved"
-).length;
+      appointments.filter(
+         a => a.status === "pending"
+      ).length;
 
 
 
-document.getElementById("completedAppts")
-.innerText=
+   document.getElementById("approvedAppts")
+      .innerText =
 
-appointments.filter(
-a=>a.status==="completed"
-).length;
+      appointments.filter(
+         a => a.status === "approved"
+      ).length;
+
+
+
+   document.getElementById("completedAppts")
+      .innerText =
+
+      appointments.filter(
+         a => a.status === "completed"
+      ).length;
 
 
 }
 
-
-
-
-
-
-
-
-
-/* ============================
+/* 
    RENDER APPOINTMENTS
-============================ */
+ */
+
+function renderAppointments() {
 
 
-function renderAppointments(){
-
-
-const grid=
-document.getElementById("apptGrid");
-
-
-
-const search=
-document
-.getElementById("searchInput")
-.value
-.toLowerCase();
+   const grid =
+      document.getElementById("apptGrid");
 
 
 
-const status=
-document
-.getElementById("statusFilter")
-.value;
+   const search =
+      document
+         .getElementById("searchInput")
+         .value
+         .toLowerCase();
 
 
 
-grid.innerHTML="";
+   const status =
+      document
+         .getElementById("statusFilter")
+         .value;
 
 
 
-const filtered=
-appointments.filter(a=>{
-
-
-const name=
-a.patient.name
-.toLowerCase()
-.includes(search);
+   grid.innerHTML = "";
 
 
 
-const matchStatus=
-status===""
-||
-a.status===status;
+   const filtered =
+      appointments.filter(a => {
+
+
+         const name =
+            a.patient.name
+               .toLowerCase()
+               .includes(search);
 
 
 
-return name && matchStatus;
-
-
-});
-
-
+         const matchStatus =
+            status === ""
+            ||
+            a.status === status;
 
 
 
-if(filtered.length===0){
+         return name && matchStatus;
 
 
-grid.innerHTML=
+      });
 
-`
+
+
+
+
+   if (filtered.length === 0) {
+
+
+      grid.innerHTML =
+
+         `
 <div class="empty-state">
 
 <i class="fa-solid fa-calendar-xmark"></i>
@@ -387,40 +345,40 @@ No appointments found
 
 `;
 
-return;
+      return;
 
-}
-
-
+   }
 
 
 
 
 
-filtered.forEach(a=>{
 
 
-let progress=0;
+   filtered.forEach(a => {
 
 
-if(a.status==="pending")
-progress=40;
+      let progress = 0;
 
 
-if(a.status==="approved")
-progress=70;
+      if (a.status === "pending")
+         progress = 40;
 
 
-if(a.status==="completed")
-progress=100;
+      if (a.status === "approved")
+         progress = 70;
+
+
+      if (a.status === "completed")
+         progress = 100;
 
 
 
 
 
-grid.innerHTML +=
+      grid.innerHTML +=
 
-`
+         `
 
 <div class="card">
 
@@ -437,10 +395,6 @@ ${progress}%
 
 </div>
 
-
-
-
-
 <h3>
 
 <i class="fa-solid fa-user"></i>
@@ -448,10 +402,6 @@ ${progress}%
 ${a.patient.name}
 
 </h3>
-
-
-
-
 
 <p>
 <strong>Date:</strong>
@@ -471,17 +421,11 @@ ${a.reason || "-"}
 </p>
 
 
-
-
-
 <span class="badge ${a.status}">
 
 ${a.status.toUpperCase()}
 
 </span>
-
-
-
 
 
 <button 
@@ -493,10 +437,6 @@ onclick="viewPatient('${a.patient._id}')">
 Patient Details
 
 </button>
-
-
-
-
 
 
 <div class="action-buttons">
@@ -541,10 +481,9 @@ Complete
 
 
 
-${
-a.feedback ?
+${a.feedback ?
 
-`
+            `
 
 <div class="feedback-box">
 
@@ -565,10 +504,10 @@ ${a.feedback.rating}/5
 </div>
 
 `
-:
-""
+            :
+            ""
 
-}
+         }
 
 
 </div>
@@ -577,7 +516,7 @@ ${a.feedback.rating}/5
 
 
 
-});
+   });
 
 
 
@@ -597,35 +536,35 @@ ${a.feedback.rating}/5
 ============================ */
 
 
-async function viewPatient(id){
+async function viewPatient(id) {
 
 
-try{
+   try {
 
 
-const res =
-await fetch(`/api/appointments/patient/${id}`);
-
-
-
-if(!res.ok){
-
-alert("Patient not found");
-
-return;
-
-}
+      const res =
+         await fetch(`/api/appointments/patient/${id}`);
 
 
 
-const data=
-await res.json();
+      if (!res.ok) {
+
+         alert("Patient not found");
+
+         return;
+
+      }
 
 
 
-alert(
+      const data =
+         await res.json();
 
-`
+
+
+      alert(
+
+         `
 Patient Name:
 ${data.patient.name}
 
@@ -647,17 +586,17 @@ ${data.patient.gender || "N/A"}
 
 `
 
-);
+      );
 
 
 
-}
+   }
 
-catch(error){
+   catch (error) {
 
-console.error(error);
+      console.error(error);
 
-}
+   }
 
 
 }
@@ -676,30 +615,21 @@ console.error(error);
 
 
 document
-.getElementById("logoutBtn")
-.onclick=async()=>{
+   .getElementById("logoutBtn")
+   .onclick = async () => {
 
 
-await fetch("/api/auth/logout",{
+      await fetch("/api/auth/logout", {
 
-method:"POST"
+         method: "POST"
 
-});
-
-
-window.location.href="/";
+      });
 
 
-};
+      window.location.href = "/";
 
 
-
-
-
-
-
-
-
+   };
 
 /* ============================
    SEARCH + FILTER
@@ -707,28 +637,20 @@ window.location.href="/";
 
 
 document
-.getElementById("searchInput")
-.addEventListener(
-"input",
-renderAppointments
-);
+   .getElementById("searchInput")
+   .addEventListener(
+      "input",
+      renderAppointments
+   );
 
 
 
 document
-.getElementById("statusFilter")
-.addEventListener(
-"change",
-renderAppointments
-);
-
-
-
-
-
-
-
-
+   .getElementById("statusFilter")
+   .addEventListener(
+      "change",
+      renderAppointments
+   );
 
 /* ============================
    EXPORT CSV
@@ -736,69 +658,63 @@ renderAppointments
 
 
 document
-.getElementById("exportBtn")
-.onclick=()=>{
+   .getElementById("exportBtn")
+   .onclick = () => {
 
 
-let csv=
+      let csv =
 
-"Patient,Date,Time,Reason,Status\n";
-
-
-
-appointments.forEach(a=>{
-
-
-csv +=
-
-`${a.patient.name},${a.date},${a.time},${a.reason || "-"},${a.status}\n`;
+         "Patient,Date,Time,Reason,Status\n";
 
 
 
-});
+      appointments.forEach(a => {
+
+
+         csv +=
+
+            `${a.patient.name},${a.date},${a.time},${a.reason || "-"},${a.status}\n`;
 
 
 
-
-const blob =
-new Blob(
-[csv],
-{
-type:"text/csv"
-}
-);
-
-
-
-const url=
-URL.createObjectURL(blob);
-
-
-
-const link=
-document.createElement("a");
-
-
-
-link.href=url;
-
-link.download="appointments.csv";
-
-link.click();
-
-
-
-URL.revokeObjectURL(url);
-
-
-
-};
+      });
 
 
 
 
+      const blob =
+         new Blob(
+            [csv],
+            {
+               type: "text/csv"
+            }
+         );
 
 
+
+      const url =
+         URL.createObjectURL(blob);
+
+
+
+      const link =
+         document.createElement("a");
+
+
+
+      link.href = url;
+
+      link.download = "appointments.csv";
+
+      link.click();
+
+
+
+      URL.revokeObjectURL(url);
+
+
+
+   };
 
 
 /* ============================

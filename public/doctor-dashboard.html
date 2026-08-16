@@ -3,24 +3,24 @@
 
 <head>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>HealthCarePlus | Doctor Dashboard</title>
-
-
-<!-- Google Font -->
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+    <title>HealthCarePlus | Doctor Dashboard</title>
 
 
-<!-- Font Awesome -->
-<link 
-rel="stylesheet" 
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <!-- Google Font -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap"
+        rel="stylesheet">
 
 
-<!-- Dashboard CSS -->
-<link rel="stylesheet" href="doctor-dashboard.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+
+    <!-- Dashboard CSS -->
+    <link rel="stylesheet" href="doctor-dashboard.css">
 
 
 </head>
@@ -29,127 +29,155 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
 <body>
 
 
-<!-- ================= HEADER ================= -->
+    <!--  HEADER  -->
 
-<header class="top-header">
+    <header class="top-header">
 
 
-<div class="header-brand">
+        <div class="header-brand">
 
-<i class="fa-solid fa-heart-pulse"></i>
+            <i class="fa-solid fa-heart-pulse"></i>
 
-<span>
-HealthCarePlus
-</span>
+            <span>
+                HealthCarePlus
+            </span>
 
-</div>
+        </div>
 
+        <div class="header-actions">
 
 
-<div class="header-actions">
+            <button id="darkModeBtn" class="header-btn">
 
+                <i class="fa-solid fa-moon"></i>
 
-<button id="darkModeBtn" class="header-btn">
+                Dark Mode
 
-<i class="fa-solid fa-moon"></i>
+            </button>
 
-Dark Mode
+            <a href="/" class="header-btn">
 
-</button>
+                <i class="fa-solid fa-house"></i>
 
+                Home
 
+            </a>
 
+            <a href="doctor-profile-dashboard.html" class="header-btn">
 
-<a href="/" class="header-btn">
+                <i class="fa-solid fa-user-doctor"></i>
 
-<i class="fa-solid fa-house"></i>
+                My Profile
 
-Home
+            </a>
 
-</a>
+            <button id="logoutBtn" class="logout-btn">
 
+                <i class="fa-solid fa-right-from-bracket"></i>
 
+                Logout
 
+            </button>
 
+        </div>
 
-<a href="doctor-profile-dashboard.html" class="header-btn">
+    </header>
 
-<i class="fa-solid fa-user-doctor"></i>
+    <!-- MAIN DASHBOARD  -->
 
-My Profile
+    <main class="dashboard-container">
 
-</a>
 
+        <!-- Dashboard Heading -->
 
+        <section class="page-heading">
 
 
+            <div>
 
-<button id="logoutBtn" class="logout-btn">
 
-<i class="fa-solid fa-right-from-bracket"></i>
+                <h1>
+                    Doctor Dashboard
+                </h1>
 
-Logout
 
-</button>
+                <p>
+                    Manage patient appointments, consultations and healthcare services.
+                </p>
 
 
+            </div>
 
-</div>
+            <div class="doctor-status">
 
+                <i class="fa-solid fa-circle-check"></i>
 
+                Active
 
-</header>
+            </div>
 
+        </section>
 
+        <!-- ================= SUMMARY CARDS ================= -->
 
+        <section class="summary-container">
 
 
 
+            <div class="summary-box">
 
-<!-- ================= MAIN DASHBOARD ================= -->
 
-<main class="dashboard-container">
+                <div class="summary-icon blue">
 
+                    <i class="fa-solid fa-calendar-check"></i>
 
+                </div>
 
 
+                <div>
 
+                    <h3>
+                        Total Appointments
+                    </h3>
 
 
-<!-- Dashboard Heading -->
+                    <p id="totalAppts">
+                        0
+                    </p>
 
-<section class="page-heading">
 
+                </div>
 
-<div>
 
+            </div>
 
-<h1>
-Doctor Dashboard
-</h1>
 
+            <div class="summary-box">
 
-<p>
-Manage patient appointments, consultations and healthcare services.
-</p>
 
+                <div class="summary-icon orange">
 
-</div>
+                    <i class="fa-solid fa-clock"></i>
 
+                </div>
 
 
-<div class="doctor-status">
+                <div>
 
-<i class="fa-solid fa-circle-check"></i>
+                    <h3>
+                        Pending
+                    </h3>
 
-Active
 
-</div>
+                    <p id="pendingAppts">
+                        0
+                    </p>
 
 
+                </div>
 
-</section>
 
+            </div>
 
 
 
@@ -158,400 +186,234 @@ Active
 
 
 
-<!-- ================= SUMMARY CARDS ================= -->
 
-<section class="summary-container">
+            <div class="summary-box">
 
 
+                <div class="summary-icon green">
 
-<div class="summary-box">
+                    <i class="fa-solid fa-circle-check"></i>
 
+                </div>
 
-<div class="summary-icon blue">
 
-<i class="fa-solid fa-calendar-check"></i>
+                <div>
 
-</div>
+                    <h3>
+                        Approved
+                    </h3>
 
 
-<div>
+                    <p id="approvedAppts">
+                        0
+                    </p>
 
-<h3>
-Total Appointments
-</h3>
 
+                </div>
 
-<p id="totalAppts">
-0
-</p>
 
+            </div>
 
-</div>
 
 
-</div>
 
 
 
 
 
 
+            <div class="summary-box">
 
 
+                <div class="summary-icon purple">
 
-<div class="summary-box">
+                    <i class="fa-solid fa-file-medical"></i>
 
+                </div>
 
-<div class="summary-icon orange">
 
-<i class="fa-solid fa-clock"></i>
+                <div>
 
-</div>
+                    <h3>
+                        Completed
+                    </h3>
 
 
-<div>
+                    <p id="completedAppts">
+                        0
+                    </p>
 
-<h3>
-Pending
-</h3>
 
+                </div>
 
-<p id="pendingAppts">
-0
-</p>
 
+            </div>
 
-</div>
+        </section>
 
+        <!--  FILTER SECTION  -->
 
-</div>
+        <section class="filter-card">
 
 
 
+            <div class="search-box">
 
 
+                <i class="fa-solid fa-search"></i>
 
 
+                <input type="text" id="searchInput" placeholder="Search patient by name...">
 
 
-<div class="summary-box">
+            </div>
 
+            <div class="filter-right">
 
-<div class="summary-icon green">
 
-<i class="fa-solid fa-circle-check"></i>
+                <select id="statusFilter">
 
-</div>
 
+                    <option value="">
+                        All Status
+                    </option>
 
-<div>
 
-<h3>
-Approved
-</h3>
+                    <option value="pending">
+                        Pending
+                    </option>
 
 
-<p id="approvedAppts">
-0
-</p>
+                    <option value="approved">
+                        Approved
+                    </option>
 
 
-</div>
+                    <option value="rejected">
+                        Rejected
+                    </option>
 
 
-</div>
+                    <option value="completed">
+                        Completed
+                    </option>
 
 
+                </select>
 
 
+                <button id="exportBtn" class="export-btn">
 
 
+                    <i class="fa-solid fa-file-export"></i>
 
 
+                    Export CSV
 
-<div class="summary-box">
 
+                </button>
 
-<div class="summary-icon purple">
 
-<i class="fa-solid fa-file-medical"></i>
+            </div>
 
-</div>
 
 
-<div>
+        </section>
 
-<h3>
-Completed
-</h3>
 
+        <!-- APPOINTMENTS -->
 
-<p id="completedAppts">
-0
-</p>
 
+        <section class="appointments-section">
 
-</div>
 
 
-</div>
+            <div class="section-title">
 
 
+                <h2>
 
-</section>
+                    Patient Appointments
 
+                </h2>
 
 
+                <p>
 
+                    Review and manage appointment requests.
 
+                </p>
 
 
+            </div>
 
+            <div id="apptGrid" class="appointment-grid">
 
-<!-- ================= FILTER SECTION ================= -->
 
-<section class="filter-card">
+                <div class="loading">
 
+                    <i class="fa-solid fa-spinner fa-spin"></i>
 
+                    Loading appointments...
 
-<div class="search-box">
+                </div>
 
 
-<i class="fa-solid fa-search"></i>
+            </div>
 
 
-<input 
-type="text"
-id="searchInput"
-placeholder="Search patient by name...">
+        </section>
 
 
-</div>
+    </main>
 
 
+    <!-- POPUP  -->
 
 
+    <div class="popup-overlay" id="popupOverlay">
 
+        <div class="popup">
 
+            <div class="popup-icon">
 
-<div class="filter-right">
+                <i class="fa-solid fa-triangle-exclamation"></i>
 
+            </div>
 
-<select id="statusFilter">
+            <h3 id="popupTitle">
+                Confirm Action
+            </h3>
 
+            <p id="popupMsg">
+                Are you sure?
+            </p>
 
-<option value="">
-All Status
-</option>
-
-
-<option value="pending">
-Pending
-</option>
-
-
-<option value="approved">
-Approved
-</option>
-
-
-<option value="rejected">
-Rejected
-</option>
-
-
-<option value="completed">
-Completed
-</option>
-
-
-</select>
-
-
-
-
-
-
-<button id="exportBtn" class="export-btn">
-
-
-<i class="fa-solid fa-file-export"></i>
-
-
-Export CSV
-
-
-</button>
-
-
-</div>
-
-
-
-</section>
-
-
-
-
-
-
-
-
-
-
-<!-- ================= APPOINTMENTS ================= -->
-
-
-<section class="appointments-section">
-
-
-
-<div class="section-title">
-
-
-<h2>
-
-Patient Appointments
-
-</h2>
-
-
-<p>
-
-Review and manage appointment requests.
-
-</p>
-
-
-</div>
-
-
-
-
-
-<div id="apptGrid" class="appointment-grid">
-
-
-<div class="loading">
-
-<i class="fa-solid fa-spinner fa-spin"></i>
-
-Loading appointments...
-
-</div>
-
-
-</div>
-
-
-
-
-</section>
-
-
-
-
-
-</main>
-
-
-
-
-
-
-
-
-
-
-<!-- ================= POPUP ================= -->
-
-
-<div class="popup-overlay" id="popupOverlay">
-
-
-
-<div class="popup">
-
-
-
-<div class="popup-icon">
-
-<i class="fa-solid fa-triangle-exclamation"></i>
-
-</div>
-
-
-
-
-<h3 id="popupTitle">
-Confirm Action
-</h3>
-
-
-
-
-<p id="popupMsg">
-Are you sure?
-</p>
-
-
-
-
-
-
-<textarea 
-id="rejectMsg"
-placeholder="Reason for rejection...">
+            <textarea id="rejectMsg" placeholder="Reason for rejection...">
 </textarea>
 
+            <div class="popup-buttons">
 
 
+                <button class="cancel" id="cancelBtn">
 
+                    Cancel
 
+                </button>
 
+                <button class="confirm" id="confirmBtn">
 
-<div class="popup-buttons">
+                    Confirm
 
+                </button>
 
-<button 
-class="cancel"
-id="cancelBtn">
+            </div>
 
-Cancel
+        </div>
 
-</button>
+    </div>
 
-
-
-
-
-<button 
-class="confirm"
-id="confirmBtn">
-
-Confirm
-
-</button>
-
-
-
-</div>
-
-
-
-
-
-</div>
-
-
-
-</div>
-
-
-
-
-
-<script src="doctor-dashboard.js"></script>
+    <script src="doctor-dashboard.js"></script>
 
 
 </body>

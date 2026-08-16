@@ -4,9 +4,9 @@ const defaultPhoto =
 "https://cdn-icons-png.flaticon.com/512/147/147144.png";
 
 
-/* =========================
+/* 
    LOAD PROFILE
-========================= */
+*/
 
 async function loadProfile() {
 

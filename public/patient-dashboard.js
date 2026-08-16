@@ -1,7 +1,3 @@
-/* =========================
-   ELEMENTS
-========================= */
-
 
 const sidebar = document.getElementById("sidebar");
 const menuBtn = document.getElementById("menuBtn");
@@ -70,13 +66,6 @@ darkBtn.addEventListener("click",()=>{
 });
 
 
-
-
-
-
-
-
-
 /* =========================
    MOBILE SIDEBAR
 ========================= */
@@ -107,14 +96,6 @@ document.addEventListener("click",(e)=>{
 
 
 });
-
-
-
-
-
-
-
-
 
 /* =========================
    LOAD LOGGED USER
@@ -204,13 +185,6 @@ error
 }
 
 
-
-
-
-
-
-
-
 /* =========================
    LOAD REAL DOCTORS
 ========================= */
@@ -258,14 +232,8 @@ throw new Error(
 
 }
 
-
-
-
 const data =
 await response.json();
-
-
-
 
 
 doctorsData =
@@ -276,20 +244,11 @@ data.doctors.map(formatDoctor)
 [];
 
 
-
-
-
-
-
 populateSpecializations();
 
 
 
 renderDoctors(doctorsData);
-
-
-
-
 
 }
 
@@ -329,13 +288,6 @@ Please try again later.
 
 
 }
-
-
-
-
-
-
-
 
 
 /* =========================
@@ -382,13 +334,6 @@ doc.photo ||
 
 
 }
-
-
-
-
-
-
-
 
 
 /* =========================
@@ -440,14 +385,6 @@ specializationFilter.appendChild(option);
 
 }
 
-
-
-
-
-
-
-
-
 /* =========================
  DISPLAY DOCTORS
 ========================= */
@@ -473,12 +410,7 @@ return;
 
 }
 
-
-
 emptyMsg.style.display="none";
-
-
-
 
 doctors.forEach(doc=>{
 
@@ -489,10 +421,6 @@ document.createElement("div");
 
 
 card.className="card";
-
-
-
-
 
 card.innerHTML=
 `
@@ -569,12 +497,6 @@ window.location.href=
 
 });
 
-
-
-
-
-
-
 card
 .querySelector(".btn-view")
 .addEventListener(
@@ -587,12 +509,6 @@ openDoctorModal(doc);
 
 });
 
-
-
-
-
-
-
 doctorGrid.appendChild(card);
 
 
@@ -602,14 +518,6 @@ doctorGrid.appendChild(card);
 
 
 }
-
-
-
-
-
-
-
-
 
 /* =========================
  SEARCH + FILTER
@@ -629,9 +537,6 @@ searchInput.value
 
 const spec =
 specializationFilter.value;
-
-
-
 
 
 const filtered =
