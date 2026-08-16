@@ -1,0 +1,1482 @@
+/* =========================================================
+   HEALTHCAREPLUS
+   PREMIUM PROFILE EDITOR
+   SAME DESIGN SYSTEM AS DOCTOR PROFILE
+   ========================================================= */
+
+   *{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+:root{
+
+    --navy-950:#031b22;
+    --navy-900:#052832;
+    --navy-850:#07343d;
+    --navy-800:#0a414a;
+
+    --teal-700:#087477;
+    --teal-600:#0a8f8f;
+    --teal-500:#13a5a0;
+    --teal-400:#42c1bb;
+    --teal-300:#82ded8;
+
+    --page:#f3f8f8;
+
+    --surface:#ffffff;
+    --surface-soft:#f8fbfb;
+
+    --text-950:#102f35;
+    --text-900:#183d44;
+    --text-800:#294f55;
+    --text-600:#60797e;
+    --text-500:#7b9094;
+    --text-400:#9aabad;
+
+    --border:#dce8e7;
+    --border-light:#e7efee;
+
+    --success:#27896f;
+    --danger:#d95353;
+
+    --shadow-xs:
+        0 4px 12px rgba(3,28,35,.035);
+
+    --shadow-sm:
+        0 8px 22px rgba(3,28,35,.05);
+
+    --shadow-md:
+        0 18px 45px rgba(3,28,35,.075);
+
+    --shadow-lg:
+        0 30px 75px rgba(3,28,35,.11);
+
+    --ease:cubic-bezier(.22,.61,.36,1);
+}
+
+
+/* =========================================================
+   BASE
+   ========================================================= */
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+
+    min-height:100vh;
+
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    color:var(--text-950);
+
+    background:
+
+        radial-gradient(
+            circle at 88% 5%,
+            rgba(19,165,160,.075),
+            transparent 27%
+        ),
+
+        linear-gradient(
+            180deg,
+            #f8fbfb,
+            var(--page)
+        );
+
+    -webkit-font-smoothing:antialiased;
+
+    overflow-x:hidden;
+}
+
+a{
+    text-decoration:none;
+    color:inherit;
+}
+
+button,
+input,
+select{
+    font:inherit;
+}
+
+
+/* =========================================================
+   BACKGROUND DESIGN
+   ========================================================= */
+
+body::before{
+
+    content:"";
+
+    position:fixed;
+
+    width:620px;
+    height:620px;
+
+    right:-330px;
+    top:-320px;
+
+    border-radius:50%;
+
+    border:
+        1px solid
+        rgba(10,143,143,.08);
+
+    pointer-events:none;
+}
+
+body::after{
+
+    content:"";
+
+    position:fixed;
+
+    width:250px;
+    height:250px;
+
+    left:-130px;
+    bottom:-130px;
+
+    border-radius:50%;
+
+    background:
+        rgba(10,143,143,.025);
+
+    pointer-events:none;
+}
+
+
+/* =========================================================
+   PAGE
+   ========================================================= */
+
+.page{
+
+    width:
+        min(
+            calc(100% - 64px),
+            1080px
+        );
+
+    margin:auto;
+
+    position:relative;
+
+    z-index:2;
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.header{
+
+    height:72px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    border-bottom:
+        1px solid
+        rgba(220,232,231,.85);
+}
+
+
+/* Logo */
+
+.logo{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    color:
+        var(--navy-900);
+
+    font-size:18px;
+
+    font-weight:750;
+
+    letter-spacing:-.025em;
+}
+
+
+/* Back */
+
+.header > a{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    height:38px;
+
+    padding:
+        0 14px;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius:9px;
+
+    background:#fff;
+
+    color:
+        var(--text-800);
+
+    font-size:10px;
+
+    font-weight:700;
+
+    transition:.25s var(--ease);
+}
+
+.header > a:hover{
+
+    color:
+        var(--teal-700);
+
+    border-color:
+        rgba(10,143,143,.25);
+
+    background:
+        #f5fbfa;
+
+    transform:
+        translateX(-2px);
+
+    box-shadow:
+        var(--shadow-xs);
+}
+
+
+/* =========================================================
+   MAIN
+   ========================================================= */
+
+.profile-wrapper{
+
+    padding:
+        30px 90 40px;
+}
+
+
+/* =========================================================
+   MAIN CARD
+   ========================================================= */
+
+.profile-card{
+
+    position:relative;
+
+    overflow:hidden;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius:20px;
+
+    background:
+        rgba(255,255,255,.97);
+
+    box-shadow:
+        var(--shadow-lg);
+
+    animation:
+        profileEnter .5s var(--ease);
+}
+
+
+/* top accent */
+
+.profile-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+    right:0;
+    top:0;
+
+    height:3px;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--teal-700),
+            var(--teal-400),
+            var(--teal-600)
+        );
+}
+
+
+/* =========================================================
+   TITLE
+   ========================================================= */
+/* =========================================================
+   UPDATE PROFILE — DARK GREEN HEADER
+   ========================================================= */
+
+   .title-section{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    min-height:168px;
+
+    padding:
+        42px 52px;
+
+    border-bottom:0;
+
+    background:
+        linear-gradient(
+            135deg,
+            #032c34 0%,
+            #063e45 55%,
+            #084e52 100%
+        );
+
+    position:relative;
+
+    overflow:hidden;
+}
+
+
+/* subtle decorative circles */
+
+.title-section::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:360px;
+    height:360px;
+
+    right:-120px;
+    top:-205px;
+
+    border-radius:50%;
+
+    border:
+        1px solid
+        rgba(130,222,216,.10);
+
+    box-shadow:
+        0 0 0 38px rgba(130,222,216,.025),
+        0 0 0 76px rgba(130,222,216,.018);
+
+    pointer-events:none;
+}
+
+
+/* =========================================================
+   UPDATE PROFILE TITLE
+   ========================================================= */
+
+.title-section h1{
+
+    position:relative;
+
+    z-index:2;
+
+    margin:0;
+
+    color:#ffffff;
+
+    font-size:
+        clamp(30px,3vw,43px);
+
+    font-weight:650;
+
+    letter-spacing:-.055em;
+
+    line-height:1.05;
+}
+
+
+/* =========================================================
+   HEADER DESCRIPTION
+   ========================================================= */
+
+.title-section p{
+
+    position:relative;
+
+    z-index:2;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:11px;
+
+    margin:0;
+
+    color:
+        rgba(211,232,231,.72);
+
+    font-size:13px;
+
+    font-weight:500;
+
+    white-space:nowrap;
+}
+
+
+/* green dot before description */
+
+.title-section p::before{
+
+    content:"";
+
+    width:5px;
+    height:5px;
+
+    flex-shrink:0;
+
+    border-radius:50%;
+
+    background:
+        #54c8a5;
+
+    box-shadow:
+        0 0 8px
+        rgba(84,200,165,.35);
+}
+
+
+/* remove old SECURE PROFILE badge */
+
+.title-section::after{
+
+    display:none;
+}
+/* =========================================================
+   PROFILE SECURITY INDICATOR
+   ========================================================= */
+
+.title-section::after{
+
+    content:
+        "●  SECURE PROFILE";
+
+    color:
+        var(--success);
+
+    padding:
+        7px 10px;
+
+    border:
+        1px solid
+        rgba(39,137,111,.15);
+
+    border-radius:7px;
+
+    background:
+        rgba(39,137,111,.055);
+
+    font-size:8px;
+
+    font-weight:750;
+
+    letter-spacing:.1em;
+}
+
+
+/* =========================================================
+   PHOTO SECTION
+   ========================================================= */
+
+.photo-section{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:22px;
+
+    padding:
+        25px 38px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #fbfdfd,
+            #f8fbfb
+        );
+
+    border-bottom:
+        1px solid
+        var(--border-light);
+}
+
+
+/* =========================================================
+   LARGE PROFILE IMAGE
+   ========================================================= */
+
+.image-container{
+
+    position:relative;
+
+    width:116px;
+    height:116px;
+
+    flex-shrink:0;
+
+    padding:5px;
+
+    border-radius:50%;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--teal-400),
+            var(--teal-700)
+        );
+
+    box-shadow:
+        0 12px 32px
+        rgba(10,143,143,.18);
+}
+
+
+/* outer ring */
+
+.image-container::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:-7px;
+
+    border-radius:50%;
+
+    border:
+        1px solid
+        rgba(10,143,143,.16);
+}
+
+
+.image-container img{
+
+    width:100%;
+    height:100%;
+
+    display:block;
+
+    object-fit:cover;
+
+    border-radius:50%;
+
+    border:
+        5px solid
+        #fff;
+
+    background:#fff;
+}
+
+
+/* =========================================================
+   PHOTO CONTROL AREA
+   ========================================================= */
+
+.photo-section::after{
+
+    content:
+        "Profile photo • JPG, PNG or WEBP";
+
+    align-self:flex-end;
+
+    margin-left:auto;
+
+    margin-bottom:4px;
+
+    color:
+        var(--text-400);
+
+    font-size:8px;
+
+    white-space:nowrap;
+}
+
+
+/* =========================================================
+   FILE INPUT
+   ========================================================= */
+
+#photoInput{
+
+    width:250px;
+
+    height:38px;
+
+    padding:
+        4px 8px;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius:8px;
+
+    background:#fff;
+
+    color:
+        var(--text-500);
+
+    font-size:9px;
+
+    outline:none;
+
+    transition:.25s ease;
+}
+
+#photoInput:hover{
+
+    border-color:
+        rgba(10,143,143,.25);
+}
+
+
+/* REAL FILE BUTTON */
+
+#photoInput::file-selector-button{
+
+    height:29px;
+
+    margin-right:7px;
+
+    padding:
+        0 10px;
+
+    border:0;
+
+    border-radius:6px;
+
+    color:#fff;
+
+    background:
+        var(--navy-850);
+
+    font-size:9px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:.2s ease;
+}
+
+#photoInput::file-selector-button:hover{
+
+    background:
+        var(--teal-700);
+}
+
+
+/* =========================================================
+   PHOTO BUTTONS
+   CLOSE TO EACH OTHER
+   ========================================================= */
+
+.photo-actions{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:7px;
+
+    flex-shrink:0;
+}
+
+.photo-actions button{
+
+    height:38px;
+
+    padding:
+        0 13px;
+
+    border-radius:8px;
+
+    font-size:9px;
+
+    font-weight:700;
+
+    transition:
+        .22s var(--ease);
+}
+
+
+/* Upload */
+
+#uploadPhotoBtn{
+
+    color:#fff;
+
+    border:
+        1px solid
+        #075e66;
+
+    background:
+        linear-gradient(
+            135deg,
+            #08747b,
+            #075963
+        );
+
+    box-shadow:
+        0 5px 13px
+        rgba(7,104,113,.12);
+}
+
+#uploadPhotoBtn:hover{
+
+    transform:
+        translateY(-2px);
+
+    background:
+        linear-gradient(
+            135deg,
+            #13a5a0,
+            #087477
+        );
+
+    box-shadow:
+        0 8px 18px
+        rgba(10,143,143,.18);
+}
+
+
+/* Remove */
+
+#removePhotoBtn{
+
+    color:
+        var(--danger);
+
+    border:
+        1px solid
+        #efd6d6;
+
+    background:#fff;
+}
+
+#removePhotoBtn:hover{
+
+    color:#fff;
+
+    border-color:
+        var(--danger);
+
+    background:
+        var(--danger);
+
+    transform:
+        translateY(-2px);
+}
+
+
+/* =========================================================
+   FORM
+   ========================================================= */
+
+#profileForm{
+
+    padding:
+        27px 38px 30px;
+}
+
+
+/* =========================================================
+   FORM GRID
+   ========================================================= */
+
+.form-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:
+        18px;
+}
+
+
+/* =========================================================
+   INPUT GROUP
+   ========================================================= */
+
+.input-group{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:7px;
+
+    min-width:0;
+}
+
+
+/* =========================================================
+   LABEL
+   ========================================================= */
+
+.input-group label{
+
+    color:
+        var(--text-800);
+
+    font-size:9px;
+
+    font-weight:750;
+
+    letter-spacing:.025em;
+}
+
+
+/* =========================================================
+   INPUTS
+   ========================================================= */
+
+.input-group input,
+.input-group select{
+
+    width:100%;
+
+    height:47px;
+
+    padding:
+        0 13px;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius:9px;
+
+    outline:none;
+
+    color:
+        var(--text-900);
+
+    background:
+        #fbfdfd;
+
+    font-size:10.5px;
+
+    transition:
+        .23s var(--ease);
+}
+
+.input-group input:hover,
+.input-group select:hover{
+
+    background:#fff;
+
+    border-color:
+        #c8dcda;
+}
+
+.input-group input:focus,
+.input-group select:focus{
+
+    background:#fff;
+
+    border-color:
+        var(--teal-600);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(10,143,143,.09);
+
+    transform:
+        translateY(-1px);
+}
+
+
+/* =========================================================
+   PASSWORD SECTION
+   ========================================================= */
+
+.password-section{
+
+    position:relative;
+
+    margin-top:25px;
+
+    padding:
+        20px 21px 21px;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius:13px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #fbfdfd,
+            #f7fbfb
+        );
+}
+
+
+/* accent */
+
+.password-section::before{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+    top:16px;
+    bottom:16px;
+
+    width:3px;
+
+    border-radius:4px;
+
+    background:
+        linear-gradient(
+            180deg,
+            var(--teal-400),
+            var(--teal-700)
+        );
+}
+
+
+/* heading */
+
+.password-section h3{
+
+    display:flex;
+
+    align-items:center;
+
+    margin-bottom:17px;
+
+    color:
+        var(--navy-900);
+
+    font-size:11px;
+
+    font-weight:750;
+}
+
+
+/* Optional */
+
+.password-section h3::after{
+
+    content:"OPTIONAL";
+
+    margin-left:auto;
+
+    padding:
+        5px 8px;
+
+    border-radius:6px;
+
+    color:
+        var(--text-500);
+
+    background:
+        #eef5f4;
+
+    font-size:7px;
+
+    font-weight:750;
+
+    letter-spacing:.09em;
+}
+
+
+/* password grid */
+
+.password-section .form-grid{
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:16px;
+}
+
+
+/* =========================================================
+   SAVE BUTTON
+   COMPACT + PROFESSIONAL
+   ========================================================= */
+
+#submitBtn{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    width:auto;
+
+    min-width:128px;
+
+    height:42px;
+
+    margin-top:21px;
+
+    padding:
+        0 18px;
+
+    border:
+        1px solid
+        #075e66;
+
+    border-radius:8px;
+
+    color:#fff;
+
+    background:
+        linear-gradient(
+            135deg,
+            #08747b,
+            #075963
+        );
+
+    font-size:10px;
+
+    font-weight:750;
+
+    box-shadow:
+        0 6px 15px
+        rgba(7,104,113,.13);
+
+    transition:
+        .25s var(--ease);
+}
+
+#submitBtn:hover{
+
+    color:
+        #073b42;
+
+    border-color:
+        #63ccc6;
+
+    background:
+        linear-gradient(
+            135deg,
+            #83ddd7,
+            #51c6c0
+        );
+
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 9px 20px
+        rgba(20,162,158,.16);
+}
+
+#submitBtn:active{
+
+    transform:
+        scale(.98);
+}
+
+
+/* =========================================================
+   MESSAGE
+   ========================================================= */
+
+#msg{
+
+    display:none;
+
+    width:fit-content;
+
+    margin-top:15px;
+
+    padding:
+        9px 12px;
+
+    border-radius:7px;
+
+    font-size:9px;
+
+    font-weight:650;
+}
+
+#msg.success{
+
+    display:block;
+
+    color:#17644f;
+
+    background:#f0faf6;
+
+    border:
+        1px solid
+        #c8e7dd;
+}
+
+#msg.error{
+
+    display:block;
+
+    color:#a63d3d;
+
+    background:#fff5f5;
+
+    border:
+        1px solid
+        #f0d0d0;
+}
+
+
+/* =========================================================
+   SUCCESS POPUP
+   ========================================================= */
+
+#successPopup{
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:9999;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:
+        rgba(3,27,34,.48);
+
+    backdrop-filter:
+        blur(8px);
+
+    opacity:0;
+
+    visibility:hidden;
+
+    transition:.3s ease;
+}
+
+#successPopup.show{
+
+    opacity:1;
+
+    visibility:visible;
+}
+
+
+.popup-content{
+
+    width:340px;
+
+    padding:35px 28px;
+
+    text-align:center;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius:18px;
+
+    background:#fff;
+
+    box-shadow:
+        0 30px 80px
+        rgba(0,0,0,.18);
+
+    animation:
+        popupEnter .35s var(--ease);
+}
+
+.popup-content h3{
+
+    color:
+        var(--success);
+
+    font-size:14px;
+
+    font-weight:750;
+}
+
+
+/* =========================================================
+   ANIMATION
+   ========================================================= */
+
+@keyframes profileEnter{
+
+    from{
+
+        opacity:0;
+
+        transform:
+            translateY(16px)
+            scale(.985);
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:
+            translateY(0)
+            scale(1);
+    }
+}
+
+@keyframes popupEnter{
+
+    from{
+
+        opacity:0;
+
+        transform:
+            scale(.95)
+            translateY(10px);
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:
+            scale(1)
+            translateY(0);
+    }
+}
+
+
+/* =========================================================
+   SCROLLBAR
+   ========================================================= */
+
+::-webkit-scrollbar{
+    width:8px;
+}
+
+::-webkit-scrollbar-track{
+    background:#edf4f3;
+}
+
+::-webkit-scrollbar-thumb{
+
+    border-radius:20px;
+
+    background:
+        linear-gradient(
+            var(--teal-600),
+            var(--navy-850)
+        );
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media(max-width:900px){
+
+    .page{
+
+        width:
+            calc(100% - 40px);
+    }
+
+    .form-grid{
+
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+    .password-section .form-grid{
+
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+    .photo-section::after{
+
+        display:none;
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media(max-width:650px){
+
+    .page{
+
+        width:
+            calc(100% - 20px);
+    }
+
+    .header{
+
+        height:65px;
+    }
+
+    .logo{
+
+        font-size:15px;
+    }
+
+    .header > a{
+
+        font-size:9px;
+
+        padding:
+            0 9px;
+    }
+
+    .profile-wrapper{
+
+        padding:
+            15px 0 25px;
+    }
+
+    .title-section{
+
+        align-items:flex-start;
+
+        flex-direction:column;
+
+        padding:
+            24px 20px 20px;
+    }
+
+    .title-section::after{
+
+        margin-top:3px;
+    }
+
+    .photo-section{
+
+        flex-wrap:wrap;
+
+        padding:
+            22px 20px;
+
+        gap:16px;
+    }
+
+    .image-container{
+
+        width:105px;
+        height:105px;
+    }
+
+    #photoInput{
+
+        width:
+            calc(100% - 121px);
+    }
+
+    .photo-actions{
+
+        width:100%;
+    }
+
+    .photo-actions button{
+
+        flex:1;
+    }
+
+    #profileForm{
+
+        padding:
+            22px 20px 25px;
+    }
+
+    .form-grid{
+
+        grid-template-columns:1fr;
+    }
+
+    .password-section .form-grid{
+
+        grid-template-columns:1fr;
+    }
+
+    #submitBtn{
+
+        width:100%;
+    }
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+   ========================================================= */
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible{
+
+    outline:
+        3px solid
+        rgba(20,162,158,.18);
+
+    outline-offset:3px;
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media(prefers-reduced-motion:reduce){
+
+    *,
+    *::before,
+    *::after{
+
+        animation-duration:
+            .01ms !important;
+
+        transition-duration:
+            .01ms !important;
+    }
+}

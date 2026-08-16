@@ -2,745 +2,484 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <title> Patient Dashboard </title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
-  <style>
-    :root {
-      --accent: #2575fc;
-      --card: #ffffff;
-      --muted: #6b7280;
-      --sidebar: #143049;
-      --glass: rgba(255, 255, 255, 0.08);
-      --max-width: 1200px;
-    }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-body.dark-mode {
-  background: #0f172a;
-  color: #f8fafc;
-}
-
-.card {
-  background: #ffffff;
-}
-
-body.dark-mode .card {
-  background: #1e293b;
-}
+  <title>HealthCarePlus | Patient Dashboard</title>
 
 
-    html,
-    body {
-      height: 100%;
-    }
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    body {
-      font-family: "Poppins", sans-serif;
-      color: #0f1724;
-      background: linear-gradient(135deg, #e3ebee, #e0f8ff);
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
 
-    .mobile-top {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 56px;
-      background: var(--sidebar);
-      color: #fff;
-      z-index: 1200;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 14px;
-      gap: 12px;
-    }
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
-    .mobile-top .brand {
-      font-weight: 600;
-      font-size: 18px;
-    }
 
-    .menu-btn {
-      background: transparent;
-      border: none;
-      color: white;
-      font-size: 22px;
-      cursor: pointer;
-      padding: 6px;
-    }
+  <!-- Dashboard CSS -->
+  <link rel="stylesheet" href="patient-dashboard.css">
 
-    .app {
-      display: flex;
-      min-height: 100vh;
-      margin: 0 auto;
-    }
 
-    .sidebar {
-      width: 240px;
-      background: var(--sidebar);
-      color: #fff;
-      padding: 20px;
-      flex-shrink: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-      position: relative;
-      z-index: 100;
-    }
-
-    .brand {
-      font-size: 22px;
-      font-weight: 600;
-      text-align: center;
-    }
-
-    .profile {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      padding: 12px;
-      border-radius: 10px;
-      background: var(--glass);
-    }
-
-    .profile img {
-      width: 72px;
-      height: 72px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid rgba(255, 255, 255, 0.12);
-    }
-
-    .profile h4 {
-      font-size: 16px;
-    }
-
-    .profile p {
-      font-size: 13px;
-      opacity: .9;
-    }
-
-    .nav {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      margin-top: 6px;
-    }
-
-    .nav a {
-      color: white;
-      text-decoration: none;
-      padding: 10px;
-      border-radius: 8px;
-      display: flex;
-      gap: 8px;
-      align-items: center;
-      transition: all .15s ease;
-      font-weight: 500;
-    }
-
-    .nav a:hover {
-      background: rgba(255, 255, 255, 0.06);
-      transform: translateX(6px);
-    }
-
-    .logoutBtn {
-      margin-top: auto;
-      background: #ff4b5c;
-      border: none;
-      color: white;
-      padding: 10px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-    }
-
-    .logoutBtn:hover {
-      filter: brightness(.95);
-    }
-
-    .main {
-      flex: 1;
-      padding: 28px;
-      min-height: 100vh;
-    }
-
-    .container {
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    .welcome {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      background: var(--card);
-      padding: 18px;
-      border-radius: 12px;
-      box-shadow: 0 8px 20px rgba(2, 6, 23, .06);
-    }
-
-    .welcome h2 {
-      margin: 0;
-      font-size: 20px;
-    }
-
-    .welcome p {
-      margin: 0;
-      color: var(--muted);
-    }
-
-    .filters {
-      display: flex;
-      gap: 12px;
-      margin-top: 16px;
-      flex-wrap: wrap;
-    }
-
-    .filters input,
-    .filters select {
-      padding: 10px 12px;
-      border-radius: 10px;
-      border: 1px solid #e6e9ef;
-      min-width: 160px;
-    }
-
-    .grid {
-      margin-top: 18px;
-      display: grid;
-      gap: 16px;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    }
-
-    .card {
-      background: var(--card);
-      padding: 16px;
-      border-radius: 12px;
-      text-align: center;
-      box-shadow: 0 6px 16px rgba(2, 6, 23, .05);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .card img {
-      width: 84px;
-      height: 84px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 3px solid var(--accent);
-    }
-
-    .card h3 {
-      font-size: 16px;
-      margin: 6px 0 2px;
-    }
-
-    .card p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .actions {
-      display: flex;
-      gap: 8px;
-      margin-top: 8px;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-
-    .btn {
-      padding: 8px 12px;
-      border-radius: 8px;
-      border: none;
-      cursor: pointer;
-      font-weight: 600;
-    }
-
-    .btn-book {
-      background: var(--accent);
-      color: white;
-    }
-
-    .btn-view {
-      background: #eef6ff;
-      color: var(--accent);
-      border: 1px solid rgba(37, 117, 252, .12);
-    }
-
-    .center {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 30px;
-      color: var(--muted);
-    }
-
-    .modal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, .5);
-      justify-content: center;
-      align-items: center;
-      z-index: 1500;
-    }
-
-    .modal[open] {
-      display: flex;
-    }
-
-    .modal-content {
-      background: white;
-      padding: 16px;
-      border-radius: 10px;
-      width: min(720px, 94%);
-      display: grid;
-      grid-template-columns: 140px 1fr;
-      gap: 14px;
-      align-items: start;
-      position: relative;
-    }
-
-    .modal-content img {
-      width: 100%;
-      height: 140px;
-      object-fit: cover;
-      border-radius: 8px;
-    }
-
-    .modal-content h3 {
-      margin: 0 0 6px;
-    }
-
-    .modal-content .meta p {
-      margin: 6px 0;
-      color: #333;
-      font-size: 14px;
-    }
-
-    .close-modal {
-      position: absolute;
-      top: 8px;
-      right: 8px;
-      background: transparent;
-      border: none;
-      font-size: 20px;
-      cursor: pointer;
-    }
-#darkBtn {
-  padding: 10px 18px;
-  border-radius: 12px;
-  border: none;
-  cursor: pointer;
-  background: var(--card);
-  color: var(--accent);
-  font-weight: 600;
-  font-size: 14px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s ease;
-}
-
-#darkBtn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
-  opacity: 0.95;
-}
-
-body.dark-mode #darkBtn {
-  background: #1e293b;
-  color: #f8fafc;
-  box-shadow: 0 4px 16px rgba(255, 255, 255, 0.05);
-}
-
-body.dark-mode #darkBtn:hover {
-  background: #334155;
-}
-
-    @media (max-width: 900px) {
-      .welcome {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
-      }
-
-      .modal-content {
-        grid-template-columns: 1fr;
-        width: 92%;
-      }
-    }
-
-    @media (max-width: 700px) {
-      .app {
-        padding-top: 56px;
-      }
-
-      .mobile-top {
-        display: flex;
-      }
-
-      .sidebar {
-        position: fixed;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        transform: translateX(-100%);
-        transition: transform .28s ease-in-out;
-        width: 78%;
-        max-width: 320px;
-        z-index: 1300;
-        box-shadow: 8px 0 30px rgba(0, 0, 0, .25);
-      }
-
-      .sidebar.open {
-        transform: translateX(0);
-      }
-
-      .main {
-        padding: 18px;
-      }
-
-      .main .container {
-        padding-top: 8px;
-      }
-    }
-
-    @media (max-width:400px) {
-      .card img {
-        width: 72px;
-        height: 72px;
-      }
-
-      .modal-content {
-        padding: 12px;
-        gap: 10px;
-      }
-
-      .filters input,
-      .filters select {
-        min-width: 130px;
-      }
-    }
-  </style>
 </head>
+
 
 <body>
 
-  <!-- Mobile top bar -->
-  <div class="mobile-top" aria-hidden="false">
-    <div class="brand">🏥 HealthCare+</div>
-    <div>
-      <button id="menuBtn" class="menu-btn" aria-label="Open menu" aria-expanded="false">☰</button>
+
+  <!-- Mobile Header -->
+
+  <header class="mobile-top">
+
+    <div class="brand">
+      <i class="fa-solid fa-heart-pulse"></i>
+      HealthCarePlus
     </div>
-  </div>
 
-  <div class="app" role="application" aria-label="Patient dashboard application">
 
-    <!-- Sidebar -->
-    <aside class="sidebar" id="sidebar" aria-label="Primary">
-      <div class="brand">🏥 HealthCare+</div>
+    <button id="menuBtn" class="menu-btn">
+      <i class="fa-solid fa-bars"></i>
+    </button>
 
-      <div class="profile" id="profileBlock">
-        <img id="userPhoto" src="https://cdn-icons-png.flaticon.com/512/147/147144.png" alt="User photo">
-        <h4 id="userName">Loading...</h4>
-        <p id="userEmail">—</p>
+
+  </header>
+
+
+
+
+
+  <div class="app">
+
+
+
+    <!-- ================= SIDEBAR ================= -->
+
+
+    <aside class="sidebar" id="sidebar">
+
+
+      <div class="brand sidebar-brand">
+
+        <i class="fa-solid fa-heart-pulse"></i>
+
+        <span>
+          HealthCarePlus
+        </span>
+
       </div>
 
-      <nav class="nav" aria-label="Main navigation">
-        <a href="/">🏠 Home</a>
-        <a href="/patient-dashboard.html">📊 Dashboard</a>
-        <a href="/book.html">📅 Book Appointment</a>
-        <a href="/history.html">📝 My Appointments</a>
-        <a href="/patient-profile-dashboard.html">👤 My Profile</a>
-        
-        <button id="darkBtn">🌙 Dark Mode</button>
-        
 
+
+
+
+      <!-- Patient Profile -->
+
+      <div class="profile">
+
+
+        <img id="userPhoto" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Patient">
+
+
+        <h4 id="userName">
+          Loading...
+        </h4>
+
+
+        <p id="userEmail">
+          Loading...
+        </p>
+
+
+      </div>
+
+      <!-- Navigation -->
+
+      <nav class="nav">
+
+
+        <a href="/">
+          <i class="fa-solid fa-house"></i>
+          Home
+        </a>
+
+
+
+        <a href="/patient-dashboard.html" class="active">
+
+          <i class="fa-solid fa-chart-line"></i>
+
+          Dashboard
+
+        </a>
+        <a href="/book.html">
+
+          <i class="fa-solid fa-calendar-check"></i>
+
+          Appointments
+
+        </a>
+        <a href="#doctorSection">
+
+          <i class="fa-solid fa-user-doctor"></i>
+
+          Doctors
+
+        </a>
+        <a href="/history.html">
+
+          <i class="fa-solid fa-file-medical"></i>
+
+          Medical Records
+
+        </a>
+        <a href="/patient-profile-dashboard.html">
+
+          <i class="fa-solid fa-user"></i>
+
+          Profile
+
+        </a>
+        <button id="darkBtn">
+
+          <i class="fa-solid fa-moon"></i>
+
+          Dark Mode
+
+        </button>
       </nav>
-      <button class="logoutBtn" id="logoutBtn">🚪 Logout</button>
+
+      <button id="logoutBtn" class="logoutBtn">
+
+        <i class="fa-solid fa-right-from-bracket"></i>
+
+        Logout
+
+      </button>
+
     </aside>
 
-    <!-- Main content -->
-    <main class="main" id="mainContent">
+    <!-- ================= MAIN ================= -->
+    <main class="main">
       <div class="container">
-        <section class="welcome" aria-live="polite">
+        <!-- Welcome Card -->
+
+
+        <section class="welcome-card">
+
+
           <div>
-            <h2 id="welcomeText" style="color: blueviolet;">Welcome, Patient 👋</h2>
-            <p id="welcomeSub">Your dashboard for appointments & health services.</p>
+
+
+            <h1>
+
+              Welcome,
+
+              <span id="welcomeText">
+                Patient
+              </span>
+
+            </h1>
+
+
+            <p>
+              Manage your appointments and healthcare services from one place.
+            </p>
+
+
           </div>
-          <div id="statusNote" style="color:var(--muted); font-size:14px;"></div>
+
+
+
+          <div class="dashboard-status" id="statusNote">
+
+          </div>
+
+
         </section>
 
-        <div class="filters" role="region" aria-label="Doctor filters">
-          <input id="searchName" type="text" placeholder="Search doctor by name" aria-label="Search doctor by name">
-          <select id="filterSpecialization" aria-label="Filter by specialization">
-            <option value="">All Specializations</option>
-          </select>
-        </div>
-
-        <h3 style="margin-top:18px">Available Doctors</h3>
-        <div id="doctorGrid" class="grid" aria-live="polite"></div>
-        <div id="emptyMsg" class="center" style="display:none">No doctors found.</div>
-      </div>
-    </main>
-  </div>
-
-  <!-- Modal -->
-  <div class="modal" id="doctorModal" role="dialog" aria-modal="true" aria-hidden="true">
-    <div class="modal-content" role="document">
-      <button class="close-modal" id="closeModal" aria-label="Close dialog">×</button>
-      <img id="modalPhoto" src="https://cdn-icons-png.flaticon.com/512/3774/3774299.png" alt="Doctor photo">
-      <div class="meta">
-        <h3 id="modalName">Doctor Name</h3>
-        <p><strong>Email:</strong> <span id="modalEmail">—</span></p>
-        <p><strong>Phone:</strong> <span id="modalPhone">—</span></p>
-        <p><strong>Age:</strong> <span id="modalAge">—</span></p>
-        <p><strong>Gender:</strong> <span id="modalGender">—</span></p>
-        <p><strong>Specialization:</strong> <span id="modalSpec">—</span></p>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    const btn = document.getElementById("darkBtn");
-
-// Load saved mode
-if (localStorage.getItem("mode") === "dark") {
-  document.body.classList.add("dark-mode");
-  btn.textContent = "☀️ Light Mode";
-}
-
-btn.addEventListener("click", () => {
-  document.body.classList.toggle("dark-mode");
-
-  if (document.body.classList.contains("dark-mode")) {
-    btn.textContent = "☀️ Light Mode";
-    localStorage.setItem("mode", "dark");
-  } else {
-    btn.textContent = "🌙 Dark Mode";
-    localStorage.setItem("mode", "light");
-  }
-});
-
-    const sidebar = document.getElementById('sidebar');
-    const menuBtn = document.getElementById('menuBtn');
-    const doctorGrid = document.getElementById('doctorGrid');
-    const emptyMsg = document.getElementById('emptyMsg');
-    const statusNote = document.getElementById('statusNote');
-    const modal = document.getElementById('doctorModal');
-    const closeModalBtn = document.getElementById('closeModal');
-
-    let doctorsData = [];
-
-    const escapeHtml = text => {
-      if (text == null) return '';
-      return String(text)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#039;');
-    };
-
-    //Sidebar toggle for mobile
-    function openSidebar() {
-      sidebar.classList.add('open');
-      menuBtn.setAttribute('aria-expanded', 'true');
-     
-      document.body.style.overflow = 'hidden';
-    }
-    function closeSidebar() {
-      sidebar.classList.remove('open');
-      menuBtn.setAttribute('aria-expanded', 'false');
-      document.body.style.overflow = '';
-    }
-
-    menuBtn && menuBtn.addEventListener('click', () => {
-      if (sidebar.classList.contains('open')) closeSidebar(); else openSidebar();
-    });
 
 
-    document.addEventListener('click', (e) => {
-      if (window.innerWidth <= 700 && sidebar.classList.contains('open')) {
-        if (!sidebar.contains(e.target) && !menuBtn.contains(e.target)) closeSidebar();
-      }
-    });
 
 
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape') {
-        if (sidebar.classList.contains('open')) closeSidebar();
-        if (modal && modal.style.display === 'flex') closeModal();
-      }
-    });
 
-    // Modal functions 
-    function openModalForDoctor(doc) {
-      if (!doc) return;
-      document.getElementById('modalPhoto').src = doc.photo || 'https://cdn-icons-png.flaticon.com/512/3774/3774299.png';
-      document.getElementById('modalName').innerText = doc.name || '—';
-      document.getElementById('modalEmail').innerText = doc.email || '—';
-      document.getElementById('modalPhone').innerText = doc.phone || '—';
-      document.getElementById('modalAge').innerText = doc.age ?? '—';
-      document.getElementById('modalGender').innerText = doc.gender || '—';
-      document.getElementById('modalSpec').innerText = doc.specialization || 'General';
 
-      modal.setAttribute('aria-hidden', 'false');
-      modal.style.display = 'flex';
-      closeModalBtn.focus();
-    }
-    function closeModal() {
-      modal.setAttribute('aria-hidden', 'true');
-      modal.style.display = 'none';
-    }
-    closeModalBtn.addEventListener('click', closeModal);
-    modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
 
-    //Load user 
-    async function loadUser() {
-      try {
-        const res = await fetch('/api/auth/me', { credentials: 'include' });
-        if (!res.ok) { /* redirect to login */ return; }
-        const { user } = await res.json();
-        if (!user) return;
-        document.getElementById('userName').innerText = user.name || 'Patient';
-        document.getElementById('userEmail').innerText = user.email || '';
-        document.getElementById('welcomeText').innerText = `Welcome, ${user.name || 'Patient'} 👋`;
-        if (user.photo) document.getElementById('userPhoto').src = user.photo;
-      } catch (err) {
-        console.warn('Could not load user', err);
-      }
-    }
 
-    // Sample fallback doctors 
-    const sampleDoctors = [
-      { _id: 'd1', name: 'Dr. Priya Singh', email: 'priya.singh@example.com', phone: '+91-9876543210', age: 38, gender: 'Female', specialization: 'Cardiologist', photo: 'https://randomuser.me/api/portraits/women/68.jpg' },
-      { _id: 'd2', name: 'Dr. Rohit Mehra', email: 'rohit.mehra@example.com', phone: '+91-9123456780', age: 45, gender: 'Male', specialization: 'Dentist', photo: 'https://randomuser.me/api/portraits/men/32.jpg' }
-    ];
 
-    // Load doctors from API 
-    async function loadDoctors() {
-      try {
-        const res = await fetch('/api/appointments/doctors', { credentials: 'include' });
-        if (!res.ok) throw new Error('API error');
-        const data = await res.json();
-        doctorsData = Array.isArray(data.doctors) && data.doctors.length ? data.doctors.map(normalizeDoctor) : sampleDoctors;
-      } catch (err) {
-        console.warn('Falling back to sample doctors:', err);
-        doctorsData = sampleDoctors;
-        statusNote.innerText = 'Showing sample doctors (API unavailable).';
-      }
-      populateSpecializations();
-      renderDoctors(doctorsData);
-    }
 
-    function normalizeDoctor(d) {
-      return {
-        _id: d._id || d.id || Math.random().toString(36).slice(2),
-        name: d.name || '—',
-        email: d.email || '',
-        phone: d.phone || '',
-        age: d.age ?? '',
-        gender: d.gender || '',
-        specialization: d.specialization || '',
-        photo: d.photo || ''
-      };
-    }
 
-    //Populate specialization filter 
-    function populateSpecializations() {
-      const sel = document.getElementById('filterSpecialization');
-      const specs = Array.from(new Set(doctorsData.map(d => d.specialization).filter(Boolean)));
-   
-      sel.innerHTML = '<option value="">All Specializations</option>';
-      specs.forEach(s => {
-        const opt = document.createElement('option');
-        opt.value = s; opt.innerText = s;
-        sel.appendChild(opt);
-      });
-    }
 
-    //Render doctors grid 
-    function renderDoctors(list) {
-      doctorGrid.innerHTML = '';
-      if (!Array.isArray(list) || list.length === 0) {
-        emptyMsg.style.display = 'flex';
-        return;
-      }
-      emptyMsg.style.display = 'none';
-      list.forEach(d => {
-        const card = document.createElement('div'); card.className = 'card';
-        card.innerHTML = `
-          <img src="${escapeHtml(d.photo || 'https://cdn-icons-png.flaticon.com/512/3774/3774299.png')}" alt="${escapeHtml(d.name)}">
-          <h3>${escapeHtml(d.name)}</h3>
-          <p>Specialization: ${escapeHtml(d.specialization || 'General')}</p>
-          <div class="actions">
-            <button class="btn btn-book" data-id="${escapeHtml(d._id)}">Book Appointment</button>
-            <button class="btn btn-view" data-id="${escapeHtml(d._id)}">View Details</button>
+
+
+
+        <!-- Doctors Section -->
+
+
+        <section class="doctor-section" id="doctorSection">
+
+
+
+          <div class="section-header">
+
+
+            <div>
+
+              <h2>
+                Available Doctors
+              </h2>
+
+
+              <p>
+                Find and book appointments with specialists.
+              </p>
+
+
+            </div>
+
+
+
           </div>
-        `;
-       
-        card.querySelector('.btn-book').addEventListener('click', (ev) => {
-          localStorage.setItem('book_doctorId', d._id);
-          localStorage.setItem('book_doctorName', d.name);
-          window.location.href = '/book.html';
-        });
-      
-        card.querySelector('.btn-view').addEventListener('click', (ev) => openModalForDoctor(d));
-        doctorGrid.appendChild(card);
-      });
-    }
 
-    //Filtering 
-    function filterDoctors() {
-      const name = document.getElementById('searchName').value.toLowerCase().trim();
-      const spec = document.getElementById('filterSpecialization').value;
-      const filtered = doctorsData.filter(d => {
-        if (name && !d.name.toLowerCase().includes(name)) return false;
-        if (spec && d.specialization !== spec) return false;
-        return true;
-      });
-      renderDoctors(filtered);
-    }
-    function debounce(fn, wait = 180) {
-      let t;
-      return (...args) => { clearTimeout(t); t = setTimeout(() => fn.apply(this, args), wait); };
-    }
-    ['searchName', 'filterSpecialization'].forEach(id => {
-      const el = document.getElementById(id);
-      el.addEventListener('input', debounce(filterDoctors));
-      el.addEventListener('change', debounce(filterDoctors));
-    });
 
-    //Logout
-    document.getElementById('logoutBtn').addEventListener('click', async () => {
-      try { await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' }); } catch (e) { }
-      window.location.href = '/';
-    });
 
-    
-    (async function init() {
-      await loadUser();
-      await loadDoctors();
-    })();
 
-  </script>
+
+
+
+          <!-- Filters -->
+
+
+          <div class="filters">
+
+
+            <div class="search-box">
+
+
+              <i class="fa-solid fa-search"></i>
+
+
+              <input id="searchName" type="text" placeholder="Search doctor by name">
+
+
+            </div>
+
+
+
+
+
+            <select id="filterSpecialization">
+
+
+              <option value="">
+                All Specializations
+              </option>
+
+
+            </select>
+
+
+
+
+          </div>
+
+
+
+
+
+
+
+
+
+          <!-- Doctor Cards -->
+
+
+          <div id="doctorGrid" class="doctor-grid">
+
+
+            <div class="loading">
+
+
+              <i class="fa-solid fa-spinner fa-spin"></i>
+
+              Loading doctors...
+
+            </div>
+
+
+          </div>
+
+
+
+
+          <div id="emptyMsg" class="empty-state" style="display:none;">
+
+
+            <i class="fa-solid fa-user-doctor"></i>
+
+
+            <h3>
+              No Doctors Found
+            </h3>
+
+
+            <p>
+              No doctors match your search criteria.
+            </p>
+
+
+          </div>
+
+
+
+
+
+        </section>
+
+
+
+
+
+
+
+      </div>
+
+
+    </main>
+
+
+  </div>
+
+
+
+
+
+
+
+
+
+  <!-- ================= DOCTOR MODAL ================= -->
+
+
+  <div class="modal" id="doctorModal">
+
+
+    <div class="modal-content">
+
+
+      <button class="close-modal" id="closeModal">
+
+        <i class="fa-solid fa-xmark"></i>
+
+      </button>
+
+
+
+
+
+      <img id="modalPhoto" src="https://cdn-icons-png.flaticon.com/512/3774/3774299.png">
+
+
+
+
+
+
+      <div class="doctor-details">
+
+
+        <h2 id="modalName">
+          Doctor Name
+        </h2>
+
+
+        <p>
+          <i class="fa-solid fa-envelope"></i>
+
+          <span id="modalEmail">
+            -
+          </span>
+
+        </p>
+
+
+
+
+        <p>
+
+          <i class="fa-solid fa-phone"></i>
+
+          <span id="modalPhone">
+            -
+          </span>
+
+        </p>
+
+
+
+
+
+        <p>
+
+          <i class="fa-solid fa-user"></i>
+
+          <span id="modalAge">
+            -
+          </span>
+
+        </p>
+
+
+
+
+
+        <p>
+
+          <i class="fa-solid fa-venus-mars"></i>
+
+          <span id="modalGender">
+            -
+          </span>
+
+        </p>
+
+
+
+
+
+        <p>
+
+          <i class="fa-solid fa-stethoscope"></i>
+
+          <span id="modalSpec">
+            -
+          </span>
+
+        </p>
+
+
+
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+
+
+
+
+
+
+
+
+  <!-- JS -->
+
+  <script src="patient-dashboard.js"></script>
+
+
+
 </body>
 
 </html>
-
